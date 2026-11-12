@@ -167,11 +167,11 @@ export default async function HomePage() {
             return (
               <li key={category.slug}>
                 <Link href={`/ai-tools#${category.slug}`} className="tool-category-tile">
-                  <span>
+                  <span className="tool-category-copy">
                     <span className="tool-category-name block">{category.name}</span>
                     <span className="tool-category-examples mt-1 block">{tools.length ? tools.map((tool) => tool.name).join(", ") : category.description}</span>
+                    <span className="tool-category-count mt-3 block">{tools.length} {tools.length === 1 ? "tool" : "tools"}</span>
                   </span>
-                  <span className="tool-category-count">{tools.length} {tools.length === 1 ? "tool" : "tools"}</span>
                 </Link>
               </li>
             );
