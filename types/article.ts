@@ -37,6 +37,10 @@ export type GamingCategory =
 
 export interface ArticleFrontmatter {
   articleType?: string;
+  /** Optional explicit AI taxonomy topic (lib/ai-taxonomy.ts AI_TOPICS slug). */
+  aiTopic?: string;
+  /** Optional explicit format: news | guide | explainer | review | comparison. */
+  contentType?: string;
   contentOrigin?: string;
   categoryConfidence?: number;
   title: string;

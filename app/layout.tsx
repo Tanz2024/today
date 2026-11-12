@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -7,20 +8,26 @@ import ConsentManager from "@/components/privacy/ConsentManager";
 import { FEED_ALTERNATES, INDEXABLE_ROBOTS, SITE_NAME, SITE_TAGLINE, getSiteUrl } from "@/lib/seo";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import JsonLd from "@/components/seo/JsonLd";
-import { getFeaturedArticle } from "@/lib/articles";
 import ConsentAwareScripts from "@/components/privacy/ConsentAwareScripts";
 
-function articleFeature(category: Parameters<typeof getFeaturedArticle>[0]) {
-  const article = getFeaturedArticle(category);
-  if (!article) return undefined;
-  return {
-    title: article.title,
-    href: `/${article.category}/${article.slug}`,
-    image: article.image,
-    category: article.category,
-    readingTime: article.readingTime,
-  };
-}
+// Geist (SIL Open Font License) is self-hosted from app/fonts, so builds
+// never depend on a font CDN.
+const geist = localFont({
+  src: [
+    { path: "./fonts/geist-latin.woff2", weight: "100 900", style: "normal" },
+    { path: "./fonts/geist-latin-ext.woff2", weight: "100 900", style: "normal" },
+  ],
+  variable: "--font-geist",
+  display: "swap",
+  fallback: ["Helvetica Neue", "Arial", "sans-serif"],
+});
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -29,7 +36,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Culture, relationships, campus life, money, music, travel and everyday stories for a new generation.",
+    "AI news, tools, reviews and practical guides, explained clearly. Plus games, questions and community features from TodayAI.",
   applicationName: SITE_NAME,
   // No canonical or og:url here: they would be inherited by every route that
   // lacks its own metadata and point it at the homepage. Pages set their own
@@ -39,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
-    description: "Culture, relationships, university life, money, travel, gaming and everyday life.",
+    description: "AI news, tools, reviews and practical guides, explained clearly.",
   },
   twitter: { card: "summary_large_image" },
   robots: INDEXABLE_ROBOTS,
@@ -50,13 +57,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const featuredByMenu = {
-    "Culture": articleFeature("culture"),
-    "Relationships": articleFeature("relationships"),
-    "Campus": articleFeature("campus"),
-    "Travel & City Life": articleFeature("travel"),
-    "Style": articleFeature("style"),
-  };
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [organizationJsonLd(getSiteUrl()), websiteJsonLd(getSiteUrl())],
@@ -65,8 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className="h-full antialiased"
-      
+      className={`${geist.variable} h-full antialiased`}
     >
       <head>
         <meta name="google-adsense-account" content="ca-pub-5814338716030863" />
@@ -88,10 +87,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           umamiUrl={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
           umamiWebsiteId={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
         />
-        <Header featuredByMenu={featuredByMenu} />
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-[#111111] focus:shadow-lg">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-lg">
           Skip to content
         </a>
+        <Header />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
         <ConsentManager />

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./editorial.css";
 
 .category-hero-image {
   object-position: var(--category-mobile-position, center);
@@ -48,59 +49,75 @@ input[type="search"]::-webkit-search-decoration {
   appearance: none;
 }
 
-/* Dark mode is intentionally disabled; legacy dark: utilities remain inert. */
-@custom-variant dark (&:where(.never-dark, .never-dark *));
+/* Theme decision: TodayAI ships a single, polished light editorial theme.
+   There is no theme toggle. Legacy `dark:` utilities in older components are
+   bound to a `data-theme="dark"` attribute that nothing sets, so they stay
+   inert; new components must not add `dark:` utilities. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
-  /* TodayAI newspaper palette. Legacy utility names remain as aliases so
-     existing components inherit the new red/black editorial system. */
-  --color-indigo: #8f1d24;
-  --color-electric: #b21f24;
-  --color-coral: #b21f24;
-  --color-soft-pink: #f8e7e7;
-  --color-lilac: #ead7d8;
-  --color-soft-purple: #f5eaea;
-  --color-aqua: #d9e2e2;
-  --color-mint: #dfe8df;
-  --color-soft-mint: #edf2ed;
-  --color-green: #38543d;
-  --color-soft-green: #e7eee8;
-  --color-orange: #8f1d24;
-  --color-soft-orange: #f5e7e5;
-  --color-lime: #e9d7d7;
-  --color-off-white: #fafafa;
-  --color-near-black: #111111;
+  /* ── TodayAI brand palette ───────────────────────────────────────────
+     Red is an accent (links, active states, kickers, primary CTA), never a
+     surface. Most surfaces are white, off-white or ink. */
+  --brand-red: #dc1f32;
+  --brand-red-strong: #b5162a;   /* hover/pressed; 6.6:1 on white */
+  --brand-red-tint: #fdecee;     /* selected chips, subtle highlights */
+  --ink: #111114;
+  --ink-surface: #09090b;
+  --ink-elevated: #18181b;
+  --ink-border: #27272a;
+  --paper: #fafafa;
+  --surface: #ffffff;
+  --text-muted: #71717a;         /* 4.8:1 on white */
+  --text-subtle: #52525b;
+  --line: #e4e4e7;
+  --line-strong: #d4d4d8;
 
-  --background: #ffffff;
-  --foreground: #111111;
-  --card: #ffffff;
-  --card-border: #e5e7eb;
-  --muted: #52565e;
+  /* Legacy utility names kept as aliases so older components inherit the
+     TodayAI system instead of their original blue/purple/lifestyle tints. */
+  --color-indigo: var(--brand-red-strong);
+  --color-electric: var(--brand-red);
+  --color-coral: var(--brand-red);
+  --color-soft-pink: var(--brand-red-tint);
+  --color-lilac: #f4f4f5;
+  --color-soft-purple: #f4f4f5;
+  --color-aqua: #f4f4f5;
+  --color-mint: #f4f4f5;
+  --color-soft-mint: #f4f4f5;
+  --color-green: #166534;        /* semantic success only */
+  --color-soft-green: #f0fdf4;
+  --color-orange: var(--brand-red-strong);
+  --color-soft-orange: var(--brand-red-tint);
+  --color-lime: #f4f4f5;
+  --color-off-white: var(--paper);
+  --color-near-black: var(--ink);
+
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-border: var(--line);
+  --muted: var(--text-muted);
   --content-width: 740px;
   --reading-width: 700px;
   --radius-control: 8px;
   --radius-input: 10px;
   --section-space: 56px;
-  --editorial-rule: #dfe1e5;
-  --editorial-accent: #b21f24;
-  --editorial-image-radius: 4px;
+  --editorial-rule: var(--line);
+  --editorial-accent: var(--brand-red);
+  --editorial-image-radius: 6px;
 
-  /* One shared editorial surface language. Modules can vary in content and
-     layout, but their edges, labels and actions should feel related. */
-  --editorial-surface-radius: 6px;
-  --editorial-surface-border: rgba(17, 17, 17, 0.09);
-  --editorial-surface-bg: #ffffff;
-  --editorial-muted: #666b75;
+  --editorial-surface-radius: 10px;
+  --editorial-surface-border: var(--line);
+  --editorial-surface-bg: var(--surface);
+  --editorial-muted: var(--text-muted);
 
-  /* Shared interaction tokens. Keep page-specific colour treatments in
-     editorial modules, but make controls and structure predictable. */
   --control-height: 44px;
   --control-radius: 8px;
   --section-gap: 64px;
   --content-gutter: 20px;
+  --header-height: 60px;
 
-  /* Frozen 4px-based editorial scale. New modules should use these values
-     instead of inventing one-off spacing and control dimensions. */
+  /* 4px spacing scale. */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -109,13 +126,25 @@ input[type="search"]::-webkit-search-decoration {
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 64px;
-  --editorial-card-radius: 6px;
-  --interactive-card-radius: 8px;
-  --utility-card-radius: 6px;
-  --editorial-card-border: 1px solid rgba(17, 17, 17, 0.09);
+  --editorial-card-radius: 10px;
+  --interactive-card-radius: 10px;
+  --utility-card-radius: 10px;
+  --editorial-card-border: 1px solid var(--line);
   --cta-primary-height: 44px;
   --cta-secondary-height: 44px;
   --cta-text-height: 44px;
+
+  /* Type scale (fluid where it matters). */
+  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --text-h1: clamp(2rem, 1.55rem + 1.9vw, 3.25rem);
+  --text-h2: clamp(1.5rem, 1.3rem + 0.9vw, 2.125rem);
+  --text-h3: 1.25rem;
+  --text-body: 1.0625rem;
+  --text-meta: 0.75rem;
+}
+
+@media (max-width: 1023px) {
+  :root { --header-height: 56px; }
 }
 
 @theme inline {
@@ -140,11 +169,20 @@ input[type="search"]::-webkit-search-decoration {
   --color-card: var(--card);
   --color-card-border: var(--card-border);
   --color-muted: var(--muted);
-  --font-heading: "Arial", "Helvetica Neue", sans-serif;
-  /* Keep editorial headings consistent across every page and card. */
+  --color-brand: var(--brand-red);
+  --color-brand-strong: var(--brand-red-strong);
+  --color-brand-tint: var(--brand-red-tint);
+  --color-ink: var(--ink);
+  --color-ink-surface: var(--ink-surface);
+  --color-ink-elevated: var(--ink-elevated);
+  --color-ink-border: var(--ink-border);
+  --color-paper: var(--paper);
+  --color-line: var(--line);
+  /* One self-hosted family (Geist, loaded by next/font/local in app/layout.tsx). */
+  --font-heading: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font-heading);
-  --font-body: "Arial", "Helvetica Neue", sans-serif;
-  --font-script: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-body: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-script: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 body {
@@ -152,201 +190,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Homepage art direction: a quiet paper-and-ink magazine system inspired by
-   East Asian editorial publishing and European culture journals. */
-.home-editorial {
-  --home-paper: #f5f1ea;
-  --home-ink: #151515;
-  --home-red: #bd2e2e;
-  max-width: 1440px;
-  color: var(--home-ink);
-}
-
-.home-editorial-intro {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  border-top: 1px solid rgba(21,21,21,.22);
-  border-bottom: 1px solid rgba(21,21,21,.14);
-  padding: 10px 0;
-  color: #6f6a63;
-  font-family: var(--font-script), monospace;
-  font-size: 10px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.home-editorial-kicker { color: var(--home-red); font-weight: 700; white-space: nowrap; }
-.home-editorial-intro-rule { width: 32px; height: 1px; background: var(--home-red); }
-.home-editorial-intro-copy { letter-spacing: .02em; text-transform: none; }
-
-.home-hero { border-bottom: 1px solid rgba(21,21,21,.18); }
-.home-hero-media { background: var(--home-paper); }
-.home-hero-title { font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
-
-.home-hero-rail {
-  border-left-color: rgba(21,21,21,.18);
-  background: #eee9e1;
-}
-
-.home-rail-heading {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(21,21,21,.18);
-  padding: 16px 0 13px;
-  color: var(--home-red);
-  font-family: var(--font-script), monospace;
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.home-hero-rail h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
-
-@media (min-width: 1024px) {
-  .home-hero { grid-template-columns: minmax(0, 1.58fr) minmax(310px, .72fr); }
-  .home-hero-media { aspect-ratio: 16 / 10; }
-  .home-editorial { padding-top: 12px; }
-}
-
-@media (max-width: 639px) {
-  .home-editorial-intro-copy { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-}
-
-/* Newspaper/blog variant: less art-directed, more reportorial. */
-.home-newspaper {
-  --home-paper: #f8f8f6;
-  --home-ink: #111;
-  --home-red: #b21f24;
-  max-width: 1280px;
-}
-
-.home-newspaper .home-editorial-intro {
-  border-top: 2px solid #111;
-  border-bottom: 1px solid #111;
-  color: #555;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 12px;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-.home-newspaper .home-editorial-kicker {
-  color: #111;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 12px;
-  letter-spacing: .01em;
-  text-transform: none;
-}
-
-.home-newspaper .home-editorial-intro-rule { background: #111; }
-.home-newspaper .home-editorial-intro-copy { font-style: italic; }
-.home-newspaper .home-hero { border-bottom: 1px solid #111; }
-.home-newspaper .home-hero-media { background: #eee; }
-.home-newspaper .home-hero-overlay {
-  background: linear-gradient(to top, rgba(0,0,0,.42), rgba(0,0,0,0) 62%) !important;
-  opacity: 1 !important;
-}
-.home-newspaper .home-hero-copy { text-shadow: 0 1px 2px rgba(0,0,0,.18); }
-.home-newspaper .home-hero-copy h2 { font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.02; }
-.home-newspaper .home-hero-rail { background: #fff; }
-.home-newspaper .home-rail-heading {
-  color: #111;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 12px;
-  letter-spacing: 0;
-  text-transform: none;
-}
-.home-newspaper .home-hero-rail h2 { font-family: Georgia, "Times New Roman", serif; }
-.home-newspaper .home-hero-rail .text-muted { color: #555; }
-
-.home-section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-  border-top: 2px solid #111;
-  padding-top: 14px;
-}
-
-.home-section-heading h2 {
-  margin-top: 4px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.75rem, 3vw, 2.8rem);
-  font-weight: 500;
-  letter-spacing: -.045em;
-  line-height: 1;
-}
-
-.home-section-kicker,
-.home-news-meta {
-  color: #b21f24;
-  font-family: var(--font-script), monospace;
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.home-section-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #b21f24;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.home-news-section,
-.home-explore-section { display: flex; flex-direction: column; gap: 22px; }
-
-.home-news-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) repeat(2, minmax(0, .875fr));
-  gap: 0;
-  border-bottom: 1px solid #cfcfcf;
-}
-
-.home-news-item {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border-left: 1px solid #d9d9d9;
-  padding: 0 20px 20px;
-  color: #111;
-}
-
-.home-news-item:first-child { border-left: 0; padding-left: 0; }
-.home-news-item:nth-child(n+4) { border-top: 1px solid #d9d9d9; padding-top: 18px; }
-.home-news-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #eee; }
-.home-news-copy h3 { margin-top: 7px; font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 500; letter-spacing: -.025em; line-height: 1.08; }
-.home-news-description { margin-top: 10px; color: #5e5e63; font-size: 13px; line-height: 1.5; }
-.home-news-item:not(.home-news-item-lead) .home-news-copy h3 { font-size: 18px; }
-.home-news-item:hover h3 { color: #b21f24; }
-
-.home-explore-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #d9d9d9; border-bottom: 1px solid #d9d9d9; }
-.home-explore-card { position: relative; min-height: 150px; border-left: 1px solid #d9d9d9; padding: 20px; color: #111; }
-.home-explore-card:first-child { border-left: 0; }
-.home-explore-card:hover { background: #fff6f6; }
-.home-explore-arrow { color: #b21f24; font-size: 18px; }
-.home-explore-card h3 { margin-top: 22px; font-family: Georgia, "Times New Roman", serif; font-size: 20px; font-weight: 500; line-height: 1.08; }
-.home-explore-card p { margin-top: 8px; color: #666; font-size: 12px; line-height: 1.45; }
-
-@media (max-width: 767px) {
-  .home-section-heading { align-items: start; flex-direction: column; gap: 12px; }
-  .home-news-grid { display: flex; flex-direction: column; }
-  .home-news-item,
-  .home-news-item:first-child,
-  .home-news-item:nth-child(n+4) { border-left: 0; border-top: 1px solid #d9d9d9; padding: 16px 0; }
-  .home-news-item:first-child { border-top: 0; padding-top: 0; }
-  .home-news-item:not(.home-news-item-lead) { display: block; }
-  .home-news-item:not(.home-news-item-lead) .home-news-copy h3,
-  .home-news-item .home-news-copy h3 { font-size: 20px; }
-  .home-explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .home-explore-card:nth-child(odd) { border-left: 0; }
-  .home-explore-card:nth-child(n+3) { border-top: 1px solid #d9d9d9; }
 }
 
 html,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const SITE_NAME = "TodayAI";
-export const SITE_TAGLINE = "Useful stories. Every day.";
+export const SITE_TAGLINE = "AI news, tools and guides";
 export const SITE_URL = "https://brisastory.live";
 
 export function getSiteUrl(): string {

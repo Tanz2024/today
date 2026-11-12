@@ -1,7 +1,50 @@
 import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import Container from "@/components/ui/Container";
+import PageHeader from "@/components/ui/PageHeader";
 import { buildMetadata } from "@/lib/seo";
 import ToolsHubAnalytics from "@/components/tools/ToolsHubAnalytics";
-export const metadata = buildMetadata({ title: "AI tools for real life", description: "Practical TodayAI tools for research, writing, study, productivity and everyday work — simple, private and useful without an account.", path: "/tools" });
-const groups = [{ name: "Money", items: [["Student Budget Calculator", "/tools/student-budget-calculator", "See what is actually left each month."], ["Bill Splitter", "/tools/bill-splitter", "Split a shared meal, trip or expense."], ["Percentage Calculator", "/tools/percentage-calculator", "Work out discounts, increases and everyday percentages."]] }, { name: "Campus", items: [["GPA & CGPA Planner", "/tools/cgpa-calculator", "Plan grades and final exam scores."], ["Attendance Calculator", "/tools/attendance-calculator", "Check attendance against your own target."], ["Word & Character Counter", "/tools/word-counter", "Count words, characters and reading time locally."], ["Focus Timer", "/tools/focus-timer", "Work in one calm, focused session."]] }, { name: "Travel & dates", items: [["Trip Budget Planner", "/tools/trip-budget-calculator", "Add real trip costs before booking."], ["Date Difference Calculator", "/tools/date-calculator", "Count days between plans and deadlines."]] }, { name: "Relationships", items: [["Compatibility Check", "/tools/compatibility-check", "Compare everyday styles with someone you know."]] }];
-export default function ToolsPage() { return <><ToolsHubAnalytics /><Container className="py-10 sm:py-14"><header className="max-w-2xl"><p className="text-[11px] font-bold uppercase tracking-[.16em] text-electric">BrisaStory tools</p><h1 className="mt-3 font-heading text-5xl font-semibold leading-none tracking-[-.05em] sm:text-7xl">Useful stuff.</h1><p className="mt-5 text-base leading-7 text-muted">Small, practical utilities for the decisions that show up in real life. No account required, and your numbers stay on your device.</p></header><div className="mt-12 grid gap-10 sm:grid-cols-2">{groups.map((group) => <section key={group.name}><h2 className="border-b border-near-black/80 pb-3 font-heading text-2xl font-semibold">{group.name}</h2><div>{group.items.map(([title, href, description]) => <Link key={href} href={href} className="group block border-b border-card-border py-5"><strong className="block font-heading text-xl font-semibold group-hover:text-electric">{title} <span aria-hidden="true">→</span></strong><span className="mt-1 block text-sm leading-6 text-muted">{description}</span></Link>)}</div></section>)}</div></Container></>; }
+import { PRACTICAL_TOOL_GROUPS } from "@/lib/practical-tools";
+
+export const metadata = buildMetadata({
+  title: "Practical tools",
+  description: "Free TodayAI calculators and utilities for budgets, grades, attendance, trips, dates and focus. No account needed, and your numbers stay on your device.",
+  path: "/tools",
+});
+
+export default function ToolsPage() {
+  return (
+    <>
+      <ToolsHubAnalytics />
+      <Container className="py-10 sm:py-14">
+        <PageHeader
+          eyebrow="Explore / Practical tools"
+          title="Practical tools"
+          description="Small calculators and utilities built by TodayAI for everyday decisions. No account required, and everything runs on your device. Looking for AI software instead? Browse the AI Tools directory."
+        >
+          <Link href="/ai-tools" className="ui-link-arrow">Browse AI tools <ArrowRight size={14} aria-hidden="true" /></Link>
+        </PageHeader>
+        <div className="mt-10 grid gap-x-10 gap-y-12 sm:grid-cols-2">
+          {PRACTICAL_TOOL_GROUPS.map((group) => (
+            <section key={group.name} aria-labelledby={`tools-${group.name}`}>
+              <h2 id={`tools-${group.name}`} className="section-rule-heading">{group.name}</h2>
+              <ul>
+                {group.items.map((tool) => (
+                  <li key={tool.href}>
+                    <Link href={tool.href} className="group flex items-start justify-between gap-4 border-b border-card-border py-5">
+                      <span>
+                        <strong className="block text-lg font-semibold tracking-tight group-hover:text-electric">{tool.title}</strong>
+                        <span className="mt-1 block text-sm leading-6 text-muted">{tool.description}</span>
+                      </span>
+                      <ArrowRight size={16} aria-hidden="true" className="mt-1.5 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-electric" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </Container>
+    </>
+  );
+}

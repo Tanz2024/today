@@ -1,8 +1,18 @@
-// Single source of truth for site navigation: header, mega menus, mobile
-// drawer, footer, and search "explore" links all read from here so labels
-// and hrefs can't drift between surfaces.
+// Single source of truth for site navigation. Desktop header, mobile menu,
+// footer, search "explore" links and the Explore hub all read from here so
+// labels and hrefs cannot drift between surfaces.
+import { AI_TOPICS } from "./ai-taxonomy.ts";
+import { AI_TOOL_CATEGORIES } from "./ai-tools.ts";
 
 export type NavLink = { label: string; href: string };
+export type NavItem = NavLink & {
+  description: string;
+  /** Path prefixes that mark this item active (besides href itself). */
+  match?: string[];
+  children?: NavLink[];
+  /** Shown as the last link of a dropdown. */
+  overview?: NavLink;
+};
 export type NavColumn = { title: string; href: string; exploreLabel: string; links: NavLink[] };
 export type FeaturedPrimary = { title: string; href: string; image: string; category: string; readingTime: string };
 export type MegaMenu = {
@@ -12,12 +22,97 @@ export type MegaMenu = {
   featured: { primary: FeaturedPrimary; secondary: NavLink[] };
 };
 
-export const FOR_YOU: NavLink = { label: "Editor's Picks", href: "/" };
-export const TRAVEL: NavLink = { label: "Travel", href: "/travel" };
-export const STYLE: NavLink = { label: "Style", href: "/style" };
+export const FOR_YOU: NavLink = { label: "Home", href: "/" };
 export const ABOUT: NavLink = { label: "About", href: "/about" };
 
-export const MEGA_MENUS: MegaMenu[] = [
+export const SEARCH_LINK: NavLink = { label: "Search", href: "/search" };
+
+// Explore → everything interactive and community-driven on TodayAI.
+export const EXPLORE_CHILDREN: NavLink[] = [
+  { label: "Games & Interactive", href: "/play" },
+  { label: "Questions & Polls", href: "/questions" },
+  { label: "Community", href: "/community" },
+  { label: "Daily Drop", href: "/daily-drop" },
+  { label: "Pulse", href: "/pulse" },
+  { label: "Practical tools", href: "/tools" },
+  { label: "Saved stories", href: "/saved" },
+];
+
+// The primary navigation: News | AI Tools | Reviews | Guides | Topics | Explore.
+export const PRIMARY_NAV: NavItem[] = [
+  {
+    label: "News",
+    href: "/news",
+    description: "The latest AI coverage, organised by topic.",
+    children: AI_TOPICS.filter((topic) => topic.slug !== "everyday-ai").slice(0, 8).map((topic) => ({ label: topic.name, href: `/news/${topic.slug}` })),
+    overview: { label: "All AI news", href: "/news" },
+  },
+  {
+    label: "AI Tools",
+    href: "/ai-tools",
+    description: "A directory of AI software by what you want to do.",
+    children: AI_TOOL_CATEGORIES.map((category) => ({ label: category.name, href: `/ai-tools#${category.slug}` })),
+    overview: { label: "Full AI tools directory", href: "/ai-tools" },
+  },
+  { label: "Reviews", href: "/reviews", description: "Hands-on reviews and side-by-side comparisons." },
+  { label: "Guides", href: "/guides", description: "Practical how-tos and explainers for using AI well." },
+  { label: "Topics", href: "/topics", description: "Every AI topic and tag, plus the TodayAI archive.", match: ["/topics"] },
+  {
+    label: "Explore",
+    href: "/explore",
+    description: "Games, questions, community and interactive features.",
+    match: ["/explore", "/play", "/questions", "/community", "/daily-drop", "/pulse", "/tools", "/saved", "/gaming"],
+    children: EXPLORE_CHILDREN,
+    overview: { label: "Everything on Explore", href: "/explore" },
+  },
+];
+
+/** True when `pathname` belongs to the nav item (used for active indicators). */
+export function isNavItemActive(item: Pick<NavItem, "href" | "match">, pathname: string | null | undefined) {
+  if (!pathname) return false;
+  const prefixes = [item.href, ...(item.match ?? [])];
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+// Reachable shortcuts used by search and the play hub.
+export const SECONDARY_LINKS: NavLink[] = [
+  { label: "Questions & Polls", href: "/questions" },
+  { label: "Games & Interactive", href: "/play" },
+  { label: "Pulse", href: "/pulse" },
+];
+
+// ── Footer groups ────────────────────────────────────────────────
+export const FOOTER_EDITORIAL: NavLink[] = [
+  { label: "News", href: "/news" },
+  { label: "Reviews", href: "/reviews" },
+  { label: "Guides", href: "/guides" },
+  { label: "Topics", href: "/topics" },
+];
+export const FOOTER_DISCOVER: NavLink[] = [
+  { label: "AI Tools", href: "/ai-tools" },
+  { label: "Explore", href: "/explore" },
+  { label: "Games & Interactive", href: "/play" },
+  { label: "Community", href: "/community" },
+];
+export const COMPANY_LINKS: NavLink[] = [
+  ABOUT,
+  { label: "Editorial Policy", href: "/editorial-policy" },
+  { label: "Contact", href: "/contact" },
+];
+export const LEGAL_LINKS: NavLink[] = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Advertising & affiliate disclosure", href: "/editorial-policy#advertising" },
+];
+
+// Back-compat aliases used by older surfaces.
+export const EXPLORE_LINKS: NavLink[] = [{ label: "Saved stories", href: "/saved" }, ...SECONDARY_LINKS];
+
+// ── Legacy lifestyle desks ───────────────────────────────────────
+// The pre-TodayAI desks (culture, relationships, campus, travel, style...)
+// keep their URLs and articles. They are no longer primary navigation; they
+// are listed as the archive on /topics and in search.
+const MEGA_MENUS_DATA: MegaMenu[] = [
   {
     label: "Culture",
     href: "/culture",
@@ -219,41 +314,28 @@ export const MEGA_MENUS: MegaMenu[] = [
   },
 ];
 
-const AI_MENU_LABELS = new Set(["Culture", "Campus"]);
 
-// Desktop and mobile share the same desk-level menu source.
-export const PRIMARY_NAV: NavLink[] = [
-  FOR_YOU,
-  ...MEGA_MENUS.filter((menu) => AI_MENU_LABELS.has(menu.label)).map((menu) => ({ label: menu.label, href: menu.href })),
-];
+export const LEGACY_DESK_MENUS: MegaMenu[] = MEGA_MENUS_DATA;
+/** @deprecated use LEGACY_DESK_MENUS */
+export const MEGA_MENUS = LEGACY_DESK_MENUS;
 
-// Reachable without hunting through the footer, per the nav architecture.
-export const SECONDARY_LINKS: NavLink[] = [
-  { label: "Questions", href: "/questions" },
-  { label: "Play", href: "/play" },
-  { label: "Pulse", href: "/pulse" },
-];
-
-// Footer "Explore" group.
-export const EXPLORE_LINKS: NavLink[] = [FOR_YOU, { label: "Saved stories", href: "/saved" }, ...SECONDARY_LINKS];
-
-// Footer "Topics" group / topic-level nav — same labels+hrefs as the mega menus.
+// Archive desks shown on /topics and in the footer-less search explore list.
 export const TOPIC_LINKS: NavLink[] = [
-  ...MEGA_MENUS.filter((menu) => AI_MENU_LABELS.has(menu.label)).map((menu) => ({ label: menu.label, href: menu.href })),
+  { label: "Culture", href: "/culture" },
+  { label: "Relationships", href: "/relationships" },
+  { label: "Campus", href: "/campus" },
   { label: "Money", href: "/money" },
+  { label: "Travel", href: "/travel" },
+  { label: "Style", href: "/style" },
 ];
 
-// Footer "BrisaStory" group.
-export const COMPANY_LINKS: NavLink[] = [
-  ABOUT,
-  { label: "Tools", href: "/tools" },
-  { label: "Editorial Policy", href: "/editorial-policy" },
-  { label: "Contact", href: "/contact" },
-];
-
-// One-line descriptions for surfaces (search, homepage grid) that want more
-// than a bare label — keyed by href so it can't disagree with TOPIC_LINKS/SECONDARY_LINKS.
+// One-line descriptions keyed by href so they can't disagree with the links.
 export const NAV_DESCRIPTIONS: Record<string, string> = {
+  "/news": "The latest AI coverage, organised by topic.",
+  "/ai-tools": "A directory of AI software by what you want to do.",
+  "/guides": "Practical how-tos and explainers for using AI well.",
+  "/reviews": "Hands-on reviews and side-by-side comparisons.",
+  "/explore": "Games, questions, community and interactive features.",
   "/relationships": "Relationships, dating and figuring out where you stand.",
   "/community": "Share a perspective, experience or idea with readers around the world.",
   "/culture": "Internet culture, trends, entertainment and music worth your time.",
@@ -261,7 +343,7 @@ export const NAV_DESCRIPTIONS: Record<string, string> = {
   "/money": "Budgeting, saving and practical advice for your first paychecks.",
   "/travel": "First trips, smart packing and going somewhere new.",
   "/style": "Skincare, fragrance and personal style that feels like you.",
-  "/questions": "Straight answers to the things everyone is wondering.",
+  "/questions": "Straight answers to the things everyone is wondering, plus reader polls.",
   "/play": "Games, group-chat prompts and low-stakes ways to have fun.",
-  "/pulse": "What's trending across BrisaStory right now.",
+  "/pulse": "What's trending across TodayAI right now.",
 };

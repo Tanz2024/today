@@ -4,18 +4,13 @@ import { useId, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { trackHomepageEvent } from "@/lib/homepage-analytics";
 
-// Warm editorial palette for this component. Note: coral is used only as a
-// large background fill (with dark ink text on it), never as small text or
-// a thin border/outline — at those sizes it falls below WCAG AA contrast
-// against both white and the cream background used by the wrapping section
-// (app/page.tsx and ArticleView.tsx apply the cream background around this
-// component; it isn't set here since this component doesn't own its own
-// container background in the footer variant).
-const CTA = "#b21f24";
-const EYEBROW = "#b21f24";
-const INK = "#111111";
-const SUPPORTING = "#555555";
-const INPUT_BORDER = "#cccccc";
+// TodayAI tokens (see app/globals.css). Inline styles are kept so the
+// component renders correctly on any surface, including the dark footer card.
+const CTA = "var(--ink)";
+const EYEBROW = "var(--brand-red-strong)";
+const INK = "var(--ink)";
+const SUPPORTING = "var(--text-subtle)";
+const INPUT_BORDER = "var(--line-strong)";
 
 type Variant = "homepage" | "article" | "footer";
 
@@ -30,9 +25,9 @@ type Copy = {
 const COPY: Record<Variant, Copy> = {
   homepage: {
     eyebrow: "THE FRESH DROP",
-    headline: "Your weekly internet reset.",
-    description: "Get one useful idea, one good story and one small internet find every Friday — without the noise.",
-    cta: "Send me the good stuff →",
+    headline: "The week in AI, in one email.",
+    description: "New TodayAI stories, guides and tools every Friday — clearly explained, without the hype.",
+    cta: "Subscribe",
     frequencyNote: "Every Friday. Free. Unsubscribe anytime.",
   },
   article: {
@@ -43,7 +38,7 @@ const COPY: Record<Variant, Copy> = {
   },
   footer: {
     eyebrow: "THE FRESH DROP",
-    headline: "Worth opening. Once a week.",
+    headline: "The week in AI, every Friday.",
     cta: "Join",
     frequencyNote: "Every Friday. Free.",
   },
@@ -176,7 +171,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
 
         {/* Input + button presented as one visual system, not two separate controls. */}
         <div
-          className={`flex flex-col overflow-hidden rounded-[4px] border bg-white transition-colors focus-within:border-[#b21f24] focus-within:ring-2 focus-within:ring-[#b21f24]/20 sm:flex-row ${
+          className={`flex flex-col overflow-hidden rounded-[10px] border bg-white transition-colors focus-within:border-ink focus-within:ring-2 focus-within:ring-ink/10 sm:flex-row ${
             isCompact ? "" : "mt-2"
           }`}
           style={{ borderColor: INPUT_BORDER }}
@@ -191,7 +186,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Email address"
-            className="min-h-12 min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-[#667085]"
+            className="min-h-12 min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted"
             style={{ color: INK }}
           />
 

@@ -95,7 +95,10 @@ test("footer newsletter shows only where no other signup exists", () => {
   for (const route of ["/culture", "/topics", "/topics/gen-alpha", "/about", "/play/trivia", "/questions/should-i-double-text"]) {
     assert.equal(showFooterNewsletter(route), true, route);
   }
-  assert.equal((read("components/layout/Footer.tsx").match(/<NewsletterSignup variant="footer" \/>/g) ?? []).length, 2);
+  // One responsive footer signup, rendered only when showFooterNewsletter() allows it.
+  const footer = read("components/layout/Footer.tsx");
+  assert.equal((footer.match(/<NewsletterSignup variant="footer" \/>/g) ?? []).length, 1);
+  assert.match(footer, /showNewsletter \? \(/);
   assert.ok(!fs.existsSync("app/newsletter"), "no thin standalone signup page");
 });
 

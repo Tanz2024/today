@@ -1,11 +1,8 @@
-export default function Logo({ className = "" }: { className?: string }) {
+export default function Logo({ className = "", tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   return (
-    <span
-      className={`font-heading text-[1.45rem] font-black tracking-[-0.065em] leading-none sm:text-[1.55rem] ${className}`}
-      aria-label="TodayAI home"
-    >
-      <span className="text-near-black">Today</span>
-      <span className="text-electric">AI</span>
+    <span className={`site-logo ${tone === "dark" ? "site-logo-dark" : ""} ${className}`}>
+      <span className="site-logo-today">Today</span>
+      <span className="site-logo-ai">AI</span>
     </span>
   );
 }
