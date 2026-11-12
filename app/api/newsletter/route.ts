@@ -4,6 +4,7 @@ import { Redis } from "@upstash/redis";
 import { abuseHash, isAllowedOrigin, isHoneypotTriggered, isTooFast } from "@/lib/contact-security";
 import { newsletterSchema } from "@/lib/newsletter-security";
 import { subscribeToMailerLite } from "@/lib/mailerlite";
+import { IS_STAGING } from "@/lib/deployment";
 
 export const runtime = "nodejs";
 const MAX_BODY_BYTES = 2_000;
@@ -25,6 +26,9 @@ async function isRateLimited(redis: Redis, ip: string): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
+  // Never send real subscriber data from a staging Worker, even if someone
+  // accidentally copies production MailerLite credentials into its settings.
+  if (IS_STAGING) return errorResponse("Newsletter signups are disabled on staging.", 503);
   if (!isAllowedOrigin(request.headers.get("origin"), request.headers.get("referer"), process.env.NODE_ENV === "production")) {
     return errorResponse("Unable to process this request.", 403);
   }

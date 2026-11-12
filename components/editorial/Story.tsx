@@ -94,6 +94,11 @@ export function RankedStory({ article, rank }: { article: AiArticle; rank: numbe
 export function GuideCard({ article }: { article: AiArticle }) {
   return (
     <article className="guide-card">
+      {article.image ? (
+        <Link href={articlePath(article)} className="guide-card-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill sizes="(min-width: 768px) 360px, 100vw" className="object-cover" />
+        </Link>
+      ) : null}
       <p className="guide-card-type">{CONTENT_TYPE_LABELS[article.contentKind]}</p>
       <h3 className="guide-card-title"><Link href={articlePath(article)} className="stretched-link">{title(article)}</Link></h3>
       <p className="guide-card-dek">{article.description}</p>

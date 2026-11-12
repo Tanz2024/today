@@ -4,13 +4,12 @@ import { useId, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { trackHomepageEvent } from "@/lib/homepage-analytics";
 
-// TodayAI tokens (see app/globals.css). Inline styles are kept so the
-// component renders correctly on any surface, including the dark footer card.
-const CTA = "var(--ink)";
+// TodayAI tokens (see app/globals.css). The component uses variant classes for
+// surfaces so the same subscription behavior can live in the footer, homepage,
+// and article reader without forcing one visual treatment everywhere.
 const EYEBROW = "var(--brand-red-strong)";
 const INK = "var(--ink)";
 const SUPPORTING = "var(--text-subtle)";
-const INPUT_BORDER = "var(--line-strong)";
 
 type Variant = "homepage" | "article" | "footer";
 
@@ -38,9 +37,9 @@ const COPY: Record<Variant, Copy> = {
   },
   footer: {
     eyebrow: "THE FRESH DROP",
-    headline: "The week in AI, every Friday.",
-    cta: "Join",
-    frequencyNote: "Every Friday. Free.",
+    headline: "AI worth your time. Every Friday.",
+    cta: "Subscribe",
+    frequencyNote: "Free. Unsubscribe anytime.",
   },
 };
 
@@ -117,8 +116,8 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
         : "The Fresh Drop lands every Friday.";
 
     return (
-      <div role="status" aria-live="polite" className={isCompact ? "text-sm" : "py-1"}>
-        <p className={`font-semibold ${isCompact ? "text-sm" : "text-[17px] sm:text-[19px]"}`} style={{ color: INK }}>
+      <div role="status" aria-live="polite" className={`newsletter-signup newsletter-signup-${variant}`}>
+        <p className={`font-semibold ${isCompact ? "text-sm" : "text-[17px] sm:text-[19px]"}`}>
           {headline}
         </p>
         {!isCompact && <p className="mt-1 text-sm text-muted">{subline}</p>}
@@ -127,7 +126,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
   }
 
   return (
-    <div>
+    <div className={`newsletter-signup newsletter-signup-${variant}`}>
       {!isCompact && (
         <>
           {variant !== "homepage" && (
@@ -136,12 +135,9 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
             </p>
           )}
           <h2
-            className={
-              variant === "homepage"
-                ? "mt-2 max-w-xl font-heading text-[28px] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[36px]"
-                : "mt-2 font-heading text-[19px] font-semibold leading-[1.3] sm:text-[21px]"
-            }
-            style={{ color: INK }}
+            className={variant === "homepage"
+              ? "mt-2 max-w-xl font-heading text-[28px] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[36px]"
+              : "mt-2 font-heading text-[19px] font-semibold leading-[1.3] sm:text-[21px]"}
           >
             {copy.headline}
           </h2>
@@ -170,12 +166,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
         )}
 
         {/* Input + button presented as one visual system, not two separate controls. */}
-        <div
-          className={`flex flex-col overflow-hidden rounded-[10px] border bg-white transition-colors focus-within:border-ink focus-within:ring-2 focus-within:ring-ink/10 sm:flex-row ${
-            isCompact ? "" : "mt-2"
-          }`}
-          style={{ borderColor: INPUT_BORDER }}
-        >
+        <div className={`newsletter-form-row ${isCompact ? "newsletter-form-row-footer" : ""} ${isCompact ? "" : "mt-2"}`}>
           <input
             id={emailId}
             name="email"
@@ -186,15 +177,13 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Email address"
-            className="min-h-12 min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted"
-            style={{ color: INK }}
+            className="newsletter-email min-h-12 min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:text-muted"
           />
 
           <button
             type="submit"
             disabled={status === "sending"}
-            className="min-h-12 shrink-0 border-t px-5 text-sm font-semibold text-white transition-colors hover:bg-electric focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[-3px] focus-visible:outline-[#111827] disabled:opacity-60 sm:border-l sm:border-t-0"
-            style={{ backgroundColor: CTA, borderColor: INPUT_BORDER }}
+            className="newsletter-submit min-h-12 shrink-0 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
           >
             {status === "sending" ? "Joining…" : copy.cta}
           </button>
@@ -210,7 +199,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
         </p>
       )}
 
-      <p className={`${isCompact ? "mt-2 text-[11px]" : "mt-2.5 text-[12px]"}`} style={{ color: SUPPORTING }}>
+      <p className={`newsletter-note ${isCompact ? "mt-2 text-[11px]" : "mt-2.5 text-[12px]"}`}>
         {copy.frequencyNote}{" "}
         <Link href="/privacy" className="underline underline-offset-2 hover:text-[#1F2937]">
           Privacy policy

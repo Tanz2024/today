@@ -13,11 +13,11 @@ export const metadata = buildMetadata({
   path: "/ai-tools",
 });
 
-function ToolCard({ tool }: { tool: AiTool }) {
+function ToolCard({ tool, index }: { tool: AiTool; index: number }) {
   return (
     <article className="directory-card">
       <div className="directory-card-head">
-        <h3 className="directory-card-name">{tool.name}</h3>
+        <div className="directory-card-title-row"><span className="directory-card-index">{String(index + 1).padStart(2, "0")}</span><h3 className="directory-card-name">{tool.name}</h3></div>
         <span className="directory-card-maker">{tool.maker}</span>
       </div>
       <p className="directory-card-description">{tool.description}</p>
@@ -73,7 +73,7 @@ export default function AiToolsPage() {
               <p className="text-sm text-muted">{category.description}</p>
             </div>
             {tools.length ? (
-              <div className="directory-grid">{tools.map((tool) => <ToolCard key={tool.slug} tool={tool} />)}</div>
+            <div className="directory-grid">{tools.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
             ) : (
               <p className="text-sm text-muted">No tools listed in this category yet.</p>
             )}

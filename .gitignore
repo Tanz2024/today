@@ -46,3 +46,6 @@ next-env.d.ts
 /CLAUDE.md
 /EDITORIAL_GUIDE.md
 /.playwright-mcp/
+/dist/
+.vinext/
+.cloudflare/

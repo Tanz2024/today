@@ -92,7 +92,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
                 const groupId = `${baseId}-${item.label.replace(/\s+/g, "-")}`;
                 const isExpanded = expanded === item.label;
                 return (
-                  <li key={item.href} className="mobile-menu-item">
+                  <li key={`${item.label}-${item.href}`} className="mobile-menu-item">
                     <div className="mobile-menu-row">
                       <Link href={item.href} onClick={onClose} aria-current={active ? "page" : undefined} className={`mobile-menu-link ${active ? "is-active" : ""}`}>
                         <span>{item.label}</span>
@@ -114,7 +114,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
                     {item.children?.length && isExpanded ? (
                       <ul id={groupId} className="mobile-menu-sublist">
                         {item.children.map((child) => (
-                          <li key={child.href}>
+                          <li key={`${child.label}-${child.href}`}>
                             <Link href={child.href} onClick={onClose} className="mobile-menu-sublink">{child.label}</Link>
                           </li>
                         ))}
@@ -128,7 +128,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
 
           <nav aria-label="Company" className="mobile-menu-footer">
             {[...COMPANY_LINKS, ...LEGAL_LINKS.slice(0, 2)].map((link) => (
-              <Link key={link.href} href={link.href} onClick={onClose}>{link.label}</Link>
+              <Link key={`${link.label}-${link.href}`} href={link.href} onClick={onClose}>{link.label}</Link>
             ))}
           </nav>
         </div>

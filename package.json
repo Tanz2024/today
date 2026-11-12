@@ -26,7 +26,11 @@
     "setup:community-submissions": "node scripts/setup-community-submissions.mjs",
     "cleanup:community-media": "node scripts/cleanup-community-media.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
-    "audit:orphans": "node --experimental-strip-types scripts/audit-orphans.ts"
+    "audit:orphans": "node --experimental-strip-types scripts/audit-orphans.ts",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1139.0",
@@ -35,6 +39,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@upstash/ratelimit": "^2.1.0",
     "@upstash/redis": "^1.38.4",
+    "@vinext/cloudflare": "latest",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
     "next": "^16.3.8",
@@ -42,19 +47,27 @@
     "node-appwrite": "^29.0.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "react-server-dom-webpack": "latest",
     "reading-time": "^1.5.0",
     "resend": "^6.28.1",
+    "vinext": "latest",
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "beta",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-rsc": "latest",
+    "cf": "latest",
     "eslint": "^9",
     "eslint-config-next": "^16.3.8",
     "playwright": "^1.63.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "typescript": "^5",
+    "vite": "8.3.0"
+  },
+  "type": "module"
 }

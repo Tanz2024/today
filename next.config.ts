@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
+const isStaging = process.env.NEXT_PUBLIC_DEPLOY_ENV === "staging";
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""} https://cloud.umami.is https://challenges.cloudflare.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://static.cloudflareinsights.com https://ep2.adtrafficquality.google`,
@@ -44,6 +45,7 @@ const nextConfig: NextConfig = {
       { key: "X-Content-Type-Options", value: "nosniff" },
       { key: "X-Frame-Options", value: "DENY" },
       { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+      ...(isStaging ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] : []),
       ...(process.env.NODE_ENV === "production" ? [{ key: "Strict-Transport-Security", value: "max-age=31536000" }] : []),
     ] }];
   },

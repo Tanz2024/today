@@ -35,7 +35,7 @@ export default function Footer() {
           <p className="site-footer-tagline">AI news, tools and guides — explained clearly, for everyone.</p>
           <FeedbackLink location="footer" className="mt-4 text-sm font-semibold text-white/80 hover:text-white" />
           {showNewsletter ? (
-            <div className="site-footer-newsletter">
+            <div className="site-footer-newsletter" aria-label="TodayAI newsletter">
               <NewsletterSignup variant="footer" />
             </div>
           ) : null}

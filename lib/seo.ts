@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { IS_STAGING } from "./deployment.ts";
 
 export const SITE_NAME = "TodayAI";
 export const SITE_TAGLINE = "AI news, tools and guides";
@@ -32,7 +33,7 @@ export const FEED_ALTERNATES = {
 
 // Indexable pages opt into large image previews, which Google Discover needs
 // to show the large-card format.
-export const INDEXABLE_ROBOTS = {
+const PUBLIC_INDEXABLE_ROBOTS = {
   index: true,
   follow: true,
   "max-image-preview": "large",
@@ -44,6 +45,10 @@ export const NOINDEX_ROBOTS = {
   follow: true,
   googleBot: { index: false, follow: true },
 } satisfies Metadata["robots"];
+
+// Staging must never compete with the live site in search. The canonical URL
+// intentionally remains the production domain until an official migration.
+export const INDEXABLE_ROBOTS = IS_STAGING ? NOINDEX_ROBOTS : PUBLIC_INDEXABLE_ROBOTS;
 
 // True when a category listing is showing a filter or a page beyond the first.
 export function isCategoryUiState(filter?: string, page?: string): boolean {
