@@ -1,4 +1,10 @@
 import "server-only";
+import { boundedFetch } from "@/lib/bounded-fetch";
+
+// Bounded so a slow or down provider cannot stall rendering/static generation.
+const providerFetch = (input: string | URL, init: RequestInit & { next?: { revalidate?: number } } = {}) =>
+  boundedFetch(input, { ...init, provider: "Pexels", timeoutMs: 6000 });
+
 
 export type PexelsPhoto = { id: number; width: number; height: number; photographer: string; photographerUrl: string; pexelsUrl: string; src: { original: string; large2x: string; large: string; medium: string }; alt: string };
 export type EditorialPhoto = { src: string; alt: string; photographer: string; photographerUrl: string; pexelsUrl: string };
@@ -8,7 +14,7 @@ export async function getAboutPhoto(): Promise<EditorialPhoto | null> {
   if (!key) return null;
   try {
     const params = new URLSearchParams({ query: "young friends urban lifestyle candid socializing", orientation: "landscape", size: "large", per_page: "20" });
-    const response = await fetch(`https://api.pexels.com/v1/search?${params}`, { headers: { Authorization: key, Accept: "application/json" }, next: { revalidate: 604800 } });
+    const response = await providerFetch(`https://api.pexels.com/v1/search?${params}`, { headers: { Authorization: key, Accept: "application/json" }, next: { revalidate: 604800 } });
     if (!response.ok) return null;
     const data = await response.json() as { photos?: PexelsPhoto[] };
     const positive = ["friends", "friend", "young", "laugh", "social", "together", "urban", "city", "outdoor", "smil", "conversation"];
@@ -32,7 +38,7 @@ export async function searchPexelsPhotos(query: string, options: { perPage?: num
   if (!key || !query) return [];
   try {
     const params = new URLSearchParams({ query, orientation: "landscape", per_page: String(Math.min(options.perPage ?? 15, 15)), page: String(options.page ?? 1) });
-    const response = await fetch(`https://api.pexels.com/v1/search?${params}`, { headers: { Authorization: key, Accept: "application/json" }, next: { revalidate: 86400 } });
+    const response = await providerFetch(`https://api.pexels.com/v1/search?${params}`, { headers: { Authorization: key, Accept: "application/json" }, next: { revalidate: 86400 } });
     if (!response.ok) return [];
     const data = await response.json() as { photos?: PexelsPhoto[] };
     return (data.photos ?? []).filter((photo) => photo.id && photo.width >= photo.height && photo.src?.large);

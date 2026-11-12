@@ -1,5 +1,11 @@
 import "server-only";
+import { boundedFetch } from "@/lib/bounded-fetch";
 import music from "@/content/music.json";
+
+// Bounded so a slow or down provider cannot stall rendering/static generation.
+const providerFetch = (input: string | URL, init: RequestInit & { next?: { revalidate?: number } } = {}) =>
+  boundedFetch(input, { ...init, provider: "Spotify", timeoutMs: 6000 });
+
 export type MusicEntry = (typeof music)[number];
 export function getMusic() { return music; }
 
@@ -53,7 +59,7 @@ async function requestSpotifyAccessToken(): Promise<string | null> {
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
   if (!clientId || !clientSecret) return null;
 
-  const response = await fetch("https://accounts.spotify.com/api/token", {
+  const response = await providerFetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
@@ -88,7 +94,7 @@ async function resolveSpotifyMetadata(id: string, spotifyUrl: string): Promise<S
   const request = (async () => {
     const token = await spotifyAccessToken();
     if (token) {
-      const response = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+      const response = await providerFetch(`https://api.spotify.com/v1/tracks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         next: { revalidate: 3600 },
       });
@@ -100,7 +106,7 @@ async function resolveSpotifyMetadata(id: string, spotifyUrl: string): Promise<S
       }
     }
 
-    const response = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(spotifyUrl)}`, { next: { revalidate: 3600 } });
+    const response = await providerFetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(spotifyUrl)}`, { next: { revalidate: 3600 } });
     if (!response.ok) return null;
     const data = (await response.json()) as { thumbnail_url?: string; title?: string };
     const metadata = { artwork: data.thumbnail_url, spotifyTitle: data.title, spotifyUrl };
@@ -118,7 +124,7 @@ export async function resolveMusic(entry: MusicEntry) {
     if (!id) {
       const token = await spotifyAccessToken();
       if (!token) return entry;
-      const response = await fetch(`https://api.spotify.com/v1/search?type=track&limit=1&q=${encodeURIComponent(`track:${entry.track} artist:${entry.artist}`)}`, {
+      const response = await providerFetch(`https://api.spotify.com/v1/search?type=track&limit=1&q=${encodeURIComponent(`track:${entry.track} artist:${entry.artist}`)}`, {
         headers: { Authorization: `Bearer ${token}` },
         next: { revalidate: 3600 },
       });

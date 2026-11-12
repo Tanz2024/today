@@ -1,4 +1,10 @@
 import "server-only";
+import { boundedFetch } from "@/lib/bounded-fetch";
+
+// Bounded so a slow or down provider cannot stall rendering/static generation.
+const providerFetch = (input: string | URL, init: RequestInit & { next?: { revalidate?: number } } = {}) =>
+  boundedFetch(input, { ...init, provider: "RAWG", timeoutMs: 6000 });
+
 
 const RAWG_API_BASE = "https://api.rawg.io/api";
 const REVALIDATE_SECONDS = 3600;
@@ -88,7 +94,7 @@ async function requestGames(
   const url = `${RAWG_API_BASE}/games?${params.toString()}`;
 
   try {
-    const response = await fetch(url, {
+    const response = await providerFetch(url, {
       headers: {
         Accept: "application/json",
       },
@@ -224,7 +230,7 @@ export async function getGameBySlug(slug: string): Promise<Game | null> {
   const apiKey = process.env.RAWG_API_KEY;
   if (!apiKey || !slug) return null;
   try {
-    const response = await fetch(`${RAWG_API_BASE}/games/${encodeURIComponent(slug)}?key=${encodeURIComponent(apiKey)}`, { headers: { Accept: "application/json" }, next: { revalidate: REVALIDATE_SECONDS } });
+    const response = await providerFetch(`${RAWG_API_BASE}/games/${encodeURIComponent(slug)}?key=${encodeURIComponent(apiKey)}`, { headers: { Accept: "application/json" }, next: { revalidate: REVALIDATE_SECONDS } });
     if (!response.ok) return null;
     const raw = (await response.json()) as RawgGame;
     return normalizeGame(raw);
@@ -236,7 +242,7 @@ export async function getGameScreenshots(gameSlug: string, limit = 5): Promise<G
   const apiKey = process.env.RAWG_API_KEY;
   if (!game || !apiKey) return [];
   try {
-    const response = await fetch(`${RAWG_API_BASE}/games/${game.id}/screenshots?key=${encodeURIComponent(apiKey)}&page_size=${Math.min(10, Math.max(1, limit))}`, { headers: { Accept: "application/json" }, next: { revalidate: SCREENSHOT_REVALIDATE_SECONDS } });
+    const response = await providerFetch(`${RAWG_API_BASE}/games/${game.id}/screenshots?key=${encodeURIComponent(apiKey)}&page_size=${Math.min(10, Math.max(1, limit))}`, { headers: { Accept: "application/json" }, next: { revalidate: SCREENSHOT_REVALIDATE_SECONDS } });
     if (!response.ok) return [];
     const data = (await response.json()) as { results?: Array<{ image?: string; hidden?: boolean }> };
     return (data.results ?? []).filter((item) => typeof item.image === "string" && item.image.length > 0 && !item.hidden).slice(0, limit).map((item) => ({ image: item.image as string, hidden: false }));

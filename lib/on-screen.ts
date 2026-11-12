@@ -1,4 +1,10 @@
+import { boundedFetch } from "@/lib/bounded-fetch";
 import chartJson from "@/content/on-screen.json";
+
+// Bounded so a slow or down provider cannot stall rendering/static generation.
+const providerFetch = (input: string | URL, init: RequestInit & { next?: { revalidate?: number } } = {}) =>
+  boundedFetch(input, { ...init, provider: "OnScreen", timeoutMs: 6000 });
+
 
 export type OnScreenSection =
   | "Anime"
@@ -163,7 +169,7 @@ async function tmdbFetch<T>(
 
   try {
     const response =
-      await fetch(
+      await providerFetch(
         `${TMDB_BASE}${path}`,
         {
           headers: {
@@ -191,7 +197,7 @@ async function tmdbFetch<T>(
 async function getAniListPoster(entry: ChartEntry): Promise<{ imageUrl: string; sourceUrl?: string } | null> {
   if (entry.section !== "Anime") return null;
   try {
-    const response = await fetch("https://graphql.anilist.co", {
+    const response = await boundedFetch("https://graphql.anilist.co", { provider: "AniList", timeoutMs: 6000,
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
