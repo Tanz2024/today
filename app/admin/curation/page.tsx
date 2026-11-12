@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 import CurationAdmin from "@/components/admin/CurationAdmin";
 
-export const metadata = buildMetadata({ title: "Curation admin", description: "Internal BrisaStory tool.", path: "/admin/curation", noindex: true });
+export const metadata = buildMetadata({ title: "Curation admin", description: "Internal TodayAI tool.", path: "/admin/curation", noindex: true });
 
 export const dynamic = "force-dynamic";
 

@@ -238,7 +238,8 @@
 .directory-card-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin-top: auto; border-top: 1px solid var(--line); padding-top: 12px; font-size: 0.8125rem; }
 .directory-card-facts dt { color: var(--text-muted); }
 .directory-card-facts dd { color: var(--ink); }
-.directory-card-related a { color: var(--brand-red-strong); font-size: 0.8125rem; font-weight: 600; }
+.directory-card-related { color: var(--text-muted); font-size: 0.8125rem; }
+.directory-card-related a { color: var(--brand-red-strong); font-weight: 600; }
 
 /* ── Commercial components ────────────────────────────────────────── */
 .commercial-disclosure { color: var(--text-muted); font-size: 0.75rem; line-height: 1.5; }

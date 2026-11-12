@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Terms of Use",
-  description: "The terms that cover use of BrisaStory's content and site.",
+  description: "The terms that cover use of TodayAI's content and site.",
   path: "/terms",
 });
 
@@ -17,7 +17,7 @@ export default function TermsPage() {
         <div className="prose-fresh mt-6 text-[1.05rem] leading-relaxed">
           <h2>Informational content only</h2>
           <p>
-            Everything on BrisaStory — including articles about relationships, money, self-care, and every
+            Everything on TodayAI — including articles about relationships, money, self-care, and every
             other category — is written for general informational and entertainment purposes. It is not
             professional medical, mental health, financial, or legal advice, and it isn&apos;t a substitute
             for talking to a qualified professional. If you&apos;re dealing with something serious, please
@@ -26,14 +26,14 @@ export default function TermsPage() {
 
           <h2>Content ownership</h2>
           <p>
-            Articles, graphics, and the BrisaStory name and wordmark are owned by BrisaStory unless otherwise
+            Articles, graphics, and the TodayAI name and wordmark are owned by TodayAI unless otherwise
             noted. You&apos;re welcome to link to our articles or quote short excerpts with attribution and a
             link back. Republishing full articles elsewhere without permission isn&apos;t allowed.
           </p>
 
           <h2>Acceptable use</h2>
           <p>
-            Use BrisaStory the way it&apos;s intended: to read articles, click around, and maybe react to a
+            Use TodayAI the way it&apos;s intended: to read articles, click around, and maybe react to a
             story. Don&apos;t attempt to scrape the site at scale, interfere with its normal operation, or use
             it to distribute anything illegal or harmful.
           </p>
@@ -49,19 +49,19 @@ export default function TermsPage() {
           <p>
             Community writing is reviewed before publication. Do not submit material you do not have permission
             to share, personal information about someone else, or harmful, illegal, hateful or exploitative
-            content. BrisaStory may edit, reject or remove submissions. Games are for entertainment; scores and
+            content. TodayAI may edit, reject or remove submissions. Games are for entertainment; scores and
             progress are stored locally on your device and do not create a verified public ranking.
           </p>
 
           <h2>No warranty</h2>
           <p>
-            BrisaStory is provided as-is. We do our best to keep articles accurate and up to date, but we
+            TodayAI is provided as-is. We do our best to keep articles accurate and up to date, but we
             can&apos;t guarantee the site will always be available, error-free, or perfectly current.
           </p>
 
           <h2>Changes to these terms</h2>
           <p>
-            We may update these terms as the site evolves. Continued use of BrisaStory after a change means
+            We may update these terms as the site evolves. Continued use of TodayAI after a change means
             you accept the updated terms. Meaningful changes will be reflected in the &ldquo;last
             updated&rdquo; date above.
           </p>

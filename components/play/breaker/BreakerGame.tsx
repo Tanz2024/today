@@ -410,7 +410,7 @@ export default function BreakerGame({ candidates }: { candidates: PlayCandidate[
 
   return (
     <GameShell
-      title="Brisa Breaker"
+      title="TodayAI Breaker"
       theme="midnight"
       challenge="Clear one more board"
       game="breaker"
@@ -439,13 +439,13 @@ export default function BreakerGame({ candidates }: { candidates: PlayCandidate[
           secondary={outcome.kind === "cleared" ? { label: "Start over", onClick: replay } : undefined}
           daily={outcome.daily}
           session={session}
-          share={{ game: "Brisa Breaker", path: "/play/breaker" }}
+          share={{ game: "TodayAI Breaker", path: "/play/breaker" }}
         />
       )}
     >
       <canvas
         ref={canvasRef}
-        aria-label="Brisa Breaker game area"
+        aria-label="TodayAI Breaker game area"
         role="img"
         className="absolute inset-0 h-full w-full select-none"
         onPointerDown={onPointerDown}

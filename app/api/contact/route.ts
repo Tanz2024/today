@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   const resend = new Resend(apiKey);
   const timestamp = new Date().toISOString();
   try {
-    const result = await resend.emails.send({ from: "BrisaStory <hello@brisastory.live>", to: inbox, replyTo: data.email, subject: `[BrisaStory contact] ${data.subject}`, text: `Name: ${data.name}\nEmail: ${data.email}\nSubject: ${data.subject}\nTimestamp: ${timestamp}\n\n${data.message}` });
+    const result = await resend.emails.send({ from: "TodayAI <hello@brisastory.live>", to: inbox, replyTo: data.email, subject: `[TodayAI contact] ${data.subject}`, text: `Name: ${data.name}\nEmail: ${data.email}\nSubject: ${data.subject}\nTimestamp: ${timestamp}\n\n${data.message}` });
     if (result.error) throw new Error("delivery failed");
   } catch { console.error("[contact] message delivery failed"); return errorResponse("We could not send your message. Please try again.", 502); }
 
@@ -75,11 +75,11 @@ export async function POST(request: NextRequest) {
     const confirmation = editorialEmail({
       title: "Message received",
       greeting: `Hi ${firstName},`,
-      paragraphs: ["Thanks for writing to BrisaStory.", "Your note is safely in our inbox. If it calls for a reply, someone from our team will get back to you.", "Until then, there’s always something fresh waiting at BrisaStory."],
-      subject: "We received your message — BrisaStory",
+      paragraphs: ["Thanks for writing to TodayAI.", "Your note is safely in our inbox. If it calls for a reply, someone from our team will get back to you.", "Until then, there’s always something fresh waiting at TodayAI."],
+      subject: "We received your message — TodayAI",
     });
     const result = await resend.emails.send({
-      from: "BrisaStory <hello@brisastory.live>",
+      from: "TodayAI <hello@brisastory.live>",
       to: data.email,
       replyTo: inbox,
       subject: confirmation.subject,

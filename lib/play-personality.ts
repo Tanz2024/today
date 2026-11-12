@@ -43,5 +43,5 @@ export function composeResult(answers: readonly QuizAnswer[], sign?: ZodiacSign 
   const totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
   const matchPercent = totalScore ? Math.round((scores[winner] / totalScore) * 100) : 50;
   const specific = winner === "spontaneousExplorer" ? "THE FRIEND WHO SAYS ‘I’M DOWN’ BEFORE ASKING WHERE" : winner === "cozyCurator" ? "THE ‘LET ME CHECK FIRST’ FRIEND" : winner === "connector" ? "THE ‘JUST SEND THE LOCATION’ FRIEND" : "THE PERSON WHO SOMEHOW ENDS UP ORGANISING EVERYTHING";
-  return { id: winner, title: specific, description: archetype.description, sign: sign ?? null, zodiacText: sign ? ZODIAC_TWISTS[sign] : null, choices: answers.map((answer) => answer.label), matchPercent, shareText: `${specific} — ${archetype.description} Just for fun. · BrisaStory` };
+  return { id: winner, title: specific, description: archetype.description, sign: sign ?? null, zodiacText: sign ? ZODIAC_TWISTS[sign] : null, choices: answers.map((answer) => answer.label), matchPercent, shareText: `${specific} — ${archetype.description} Just for fun. · TodayAI` };
 }

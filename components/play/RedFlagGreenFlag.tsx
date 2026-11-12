@@ -69,7 +69,7 @@ export default function RedFlagGreenFlag({
         share={
           <ShareAction
             title="Red Flag / Green Flag"
-            text={`I called ${tally.green} green flags and ${tally.red} red ones on BrisaStory.`}
+            text={`I called ${tally.green} green flags and ${tally.red} red ones on TodayAI.`}
             url={typeof window !== "undefined" ? window.location.href : ""}
             cardParams={{ kicker: "Red Flag / Green Flag", title: `${tally.green} green, ${tally.red} red` }}
           />

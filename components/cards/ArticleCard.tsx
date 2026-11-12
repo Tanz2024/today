@@ -105,7 +105,7 @@ export default function ArticleCard({
             text-[#111111]
             transition-colors
             duration-150
-            group-hover:text-[#2563EB]
+            group-hover:text-electric
             sm:text-[22px]
           "
         >

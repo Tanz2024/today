@@ -29,7 +29,7 @@ export default function TwoChoiceGame({
   rounds = 8,
   shareText,
   currentHref,
-  accent = "#2563EB",
+  accent = "#dc1f32",
 }: {
   title: string;
   subtitle: string;

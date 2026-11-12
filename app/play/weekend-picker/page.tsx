@@ -25,7 +25,7 @@ export default function WeekendPickerPage() {
           title="This weekend…"
           subtitle="Weekend Picker"
           questions={weekendPicker}
-          shareText="Help me figure out our weekend plans on BrisaStory."
+          shareText="Help me figure out our weekend plans on TodayAI."
           currentHref="/play/weekend-picker"
           accent="#E8703A"
         />

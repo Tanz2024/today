@@ -13,8 +13,8 @@ function mockDeps({ ballot, aggregate, fail }: { ballot?: unknown; aggregate?: u
     databaseId: "test-db", pollsCollectionId: "poll_votes", ballotsCollectionId: "poll_ballots",
     createTransaction: async () => { calls.transactions += 1; return { $id: "tx-1" }; },
     getDocument: async (_db, collection, id, _queries, tx) => { calls.reads.push([collection, id, tx]); if (collection === "poll_ballots") { if (ballot === undefined) throw notFound(); return ballot; } if (aggregate === undefined) throw notFound(); return aggregate; },
-    createDocument: async (_db, collection, _id, data, _permissions, _tx) => { calls.creates.push([collection, data]); if (fail === "ballot" && collection === "poll_ballots") throw failure("ballot failed"); if (fail === "aggregate-create" && collection === "poll_votes") throw failure("aggregate create failed"); return {}; },
-    updateDocument: async (_db, collection, _id, data, _permissions, _tx) => { calls.updates.push([collection, data]); if (fail === "aggregate-update") throw failure("aggregate update failed"); return {}; },
+    createDocument: async (_db, collection, _id, data) => { calls.creates.push([collection, data]); if (fail === "ballot" && collection === "poll_ballots") throw failure("ballot failed"); if (fail === "aggregate-create" && collection === "poll_votes") throw failure("aggregate create failed"); return {}; },
+    updateDocument: async (_db, collection, _id, data) => { calls.updates.push([collection, data]); if (fail === "aggregate-update") throw failure("aggregate update failed"); return {}; },
     updateTransaction: async (_id, commit, rollback) => { if (commit) { if (fail === "commit") throw failure("commit failed"); calls.commits += 1; } if (rollback) calls.rollbacks += 1; return {}; },
     getPollCounts: async () => ({ "text-again": 0, wait: 0, "leave-it": 0 }),
   };

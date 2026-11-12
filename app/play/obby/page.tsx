@@ -7,8 +7,8 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata = buildMetadata({
-  title: "Brisa Obby — Free School Platformer Game",
-  description: "Play Brisa Obby, a free browser platformer set in a nostalgic school world. Jump gaps, avoid classroom obstacles and reach endless new sections.",
+  title: "TodayAI Obby — Free School Platformer Game",
+  description: "Play TodayAI Obby, a free browser platformer set in a nostalgic school world. Jump gaps, avoid classroom obstacles and reach endless new sections.",
   path: "/play/obby",
 });
 
@@ -17,7 +17,7 @@ export default async function ObbyPage() {
   return (
     <Container className="py-4 sm:py-8">
       <ObbyGame candidates={candidates} />
-      <PlaySeo name="Brisa Obby" path="/play/obby" genre="Platformer" description="Brisa Obby is a free school-day platformer for the browser. Run through classrooms and corridors, jump gaps, avoid school obstacles and collect reward stickers." controls="Tap to jump on mobile, or press Space, Up, or W on desktop." />
+      <PlaySeo name="TodayAI Obby" path="/play/obby" genre="Platformer" description="TodayAI Obby is a free school-day platformer for the browser. Run through classrooms and corridors, jump gaps, avoid school obstacles and collect reward stickers." controls="Tap to jump on mobile, or press Space, Up, or W on desktop." />
     </Container>
   );
 }

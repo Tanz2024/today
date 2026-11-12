@@ -86,7 +86,7 @@ export default function GameResult({
   const shareResult = async () => {
     if (!share) return;
     const url = `${window.location.origin}${share.path}`;
-    const text = `I got ${copy.value} in ${share.game} on BrisaStory. Challenge accepted? Play the game and see if you can beat my score: ${url}`;
+    const text = `I got ${copy.value} in ${share.game} on TodayAI. Challenge accepted? Play the game and see if you can beat my score: ${url}`;
     try {
       if (navigator.share) {
         await navigator.share({ title: share.game, text, url });

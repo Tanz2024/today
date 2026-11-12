@@ -7,8 +7,8 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata = buildMetadata({
-  title: "Brisa Breaker — Free Brick Breaker Game",
-  description: "Play Brisa Breaker, a free browser brick-breaker game. Clear colorful boards, build combos and beat your best score on mobile or desktop.",
+  title: "TodayAI Breaker — Free Brick Breaker Game",
+  description: "Play TodayAI Breaker, a free browser brick-breaker game. Clear colorful boards, build combos and beat your best score on mobile or desktop.",
   path: "/play/breaker",
 });
 
@@ -17,7 +17,7 @@ export default async function BreakerPage() {
   return (
     <Container className="py-4 sm:py-8">
       <BreakerGame candidates={candidates} />
-      <PlaySeo name="Brisa Breaker" path="/play/breaker" genre="Brick breaker" description="Brisa Breaker is a free arcade brick-breaker for the browser. Control the paddle, clear colorful boards, collect story tokens and progress through tougher patterns." controls="Drag or move your mouse to steer, tap to launch on mobile, or use the arrow keys and Space on desktop." />
+      <PlaySeo name="TodayAI Breaker" path="/play/breaker" genre="Brick breaker" description="TodayAI Breaker is a free arcade brick-breaker for the browser. Control the paddle, clear colorful boards, collect story tokens and progress through tougher patterns." controls="Drag or move your mouse to steer, tap to launch on mobile, or use the arrow keys and Space on desktop." />
     </Container>
   );
 }

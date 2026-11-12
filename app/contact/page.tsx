@@ -17,7 +17,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Contact",
   description:
-    "Get in touch with BrisaStory about story ideas, corrections, collaborations, or anything worth sharing.",
+    "Get in touch with TodayAI about story ideas, corrections, collaborations, or anything worth sharing.",
   path: "/contact",
 });
 
@@ -36,7 +36,7 @@ const CONTACT_OPTIONS = [
     number: "01",
     title: "Story idea",
     description:
-      "Seen something online, on campus, or in culture that BrisaStory should cover?",
+      "Seen something online, on campus, or in culture that TodayAI should cover?",
     subject: "Story idea",
   },
   {
@@ -48,17 +48,17 @@ const CONTACT_OPTIONS = [
   },
   {
     number: "03",
-    title: "Work with BrisaStory",
+    title: "Work with TodayAI",
     description:
       "Writing, collaborations, partnerships, or another idea you think could fit.",
-    subject: "Work with BrisaStory",
+    subject: "Work with TodayAI",
   },
   {
     number: "04",
     title: "Just say hi",
     description:
       "Feedback, questions, suggestions, or something else you want to send us.",
-    subject: "Hello BrisaStory",
+    subject: "Hello TodayAI",
   },
 ];
 
@@ -101,7 +101,7 @@ export default function ContactPage() {
                 font-bold
                 uppercase
                 tracking-[0.16em]
-                text-[#6958c7]
+                text-electric
               "
             >
               Contact
@@ -121,7 +121,7 @@ export default function ContactPage() {
                 lg:text-[74px]
               "
             >
-              Talk to BrisaStory.
+              Talk to TodayAI.
             </h1>
 
             <p
@@ -136,7 +136,7 @@ export default function ContactPage() {
             >
               We&apos;re still growing, so there&apos;s no complicated
               contact maze. Send us what&apos;s on your mind and it reaches
-              the BrisaStory team.
+              the TodayAI team.
             </p>
           </div>
         </Container>
@@ -255,7 +255,7 @@ export default function ContactPage() {
                 "
               >
                 No support tickets. No chatbot. Just send an email and
-                someone from BrisaStory will read it.
+                someone from TodayAI will read it.
               </p>
 
               <a
@@ -348,7 +348,7 @@ export default function ContactPage() {
                     text-[#7c7f86]
                   "
                 >
-                  Follow BrisaStory
+                  Follow TodayAI
                 </p>
 
                 <div
@@ -380,7 +380,7 @@ export default function ContactPage() {
                           font-semibold
                           text-[#222222]
                           transition-colors
-                          hover:text-[#6757c5]
+                          hover:text-electric
                         "
                       >
                         <Icon
@@ -458,10 +458,10 @@ export default function ContactPage() {
                 gap-2
                 text-[13px]
                 font-semibold
-                text-[#6757c5]
+                text-electric
               "
             >
-              Back to BrisaStory
+              Back to TodayAI
 
               <ArrowRight
                 size={14}
@@ -495,7 +495,7 @@ function ContactRow({
 }) {
   const mailto =
     `mailto:${CONTACT_EMAIL}` +
-    `?subject=${encodeURIComponent(`[BrisaStory] ${subject}`)}`;
+    `?subject=${encodeURIComponent(`[TodayAI] ${subject}`)}`;
 
   return (
     <a
@@ -530,7 +530,7 @@ function ContactRow({
             tracking-[-0.025em]
             text-[#161616]
             transition-colors
-            group-hover:text-[#6757c5]
+            group-hover:text-electric
             sm:text-[24px]
           "
         >
@@ -557,7 +557,7 @@ function ContactRow({
           text-[#a0a2a8]
           transition-all
           group-hover:translate-x-1
-          group-hover:text-[#6757c5]
+          group-hover:text-electric
           sm:block
         "
       />

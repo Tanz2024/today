@@ -336,6 +336,7 @@ export const NAV_DESCRIPTIONS: Record<string, string> = {
   "/guides": "Practical how-tos and explainers for using AI well.",
   "/reviews": "Hands-on reviews and side-by-side comparisons.",
   "/explore": "Games, questions, community and interactive features.",
+  "/topics": "Every AI topic and tag, plus the TodayAI archive.",
   "/relationships": "Relationships, dating and figuring out where you stand.",
   "/community": "Share a perspective, experience or idea with readers around the world.",
   "/culture": "Internet culture, trends, entertainment and music worth your time.",

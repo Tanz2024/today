@@ -325,7 +325,7 @@ export default async function ArticleView({
               NEWSLETTER
           ====================================================== */}
 
-          <div className="relative left-1/2 mt-14 sm:mt-16 w-screen -translate-x-1/2 rounded-none border-y border-[#D9D3F5] px-5 py-7 sm:px-8 sm:py-8 lg:px-12" style={{ backgroundColor: "#F1EDFF" }}>
+          <div className="relative left-1/2 mt-14 sm:mt-16 w-screen -translate-x-1/2 rounded-none border-y border-line px-5 py-7 sm:px-8 sm:py-8 lg:px-12" style={{ backgroundColor: "#fafafa" }}>
             <NewsletterSignup variant="article" deskName={newsletterDesk} />
           </div>
 

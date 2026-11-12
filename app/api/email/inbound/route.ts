@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     const originalSubject = email.subject || subject;
     const originalText = email.text || "(Message body unavailable; view the received email in Resend.)";
     await resend.emails.send({
-      from: "BrisaStory <hello@brisastory.live>",
+      from: "TodayAI <hello@brisastory.live>",
       to: inbox,
       replyTo: sender,
       subject: originalSubject.startsWith("Fwd:") ? originalSubject : `Fwd: ${originalSubject}`,
@@ -98,11 +98,11 @@ export async function POST(request: NextRequest) {
     const reply = editorialEmail({
       title: "Correspondence received",
       greeting: "Hi,",
-      paragraphs: ["Thanks for writing to BrisaStory.", "Your email has reached us safely. If it calls for a reply, someone from our team will respond.", "In the meantime, you can see what’s fresh at BrisaStory."],
+      paragraphs: ["Thanks for writing to TodayAI.", "Your email has reached us safely. If it calls for a reply, someone from our team will respond.", "In the meantime, you can see what’s fresh at TodayAI."],
       subject: originalSubject.startsWith("Re:") ? originalSubject : `Re: ${originalSubject}`,
     });
     await resend.emails.send({
-      from: "BrisaStory <hello@brisastory.live>",
+      from: "TodayAI <hello@brisastory.live>",
       to: sender.match(/<([^>]+)>/)?.[1] ?? sender,
       replyTo: inbox,
       subject: reply.subject,

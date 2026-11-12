@@ -160,7 +160,7 @@ export default function ModeratorDashboard() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#fafafa] px-5">
         <div className="w-full max-w-sm">
-          <p className="text-xs font-medium uppercase tracking-[0.1em] text-[#8a8d94]">BrisaStory Editorial</p>
+          <p className="text-xs font-medium uppercase tracking-[0.1em] text-[#8a8d94]">TodayAI Editorial</p>
           <h1 className="mt-2 text-2xl font-semibold text-[#111]">Review desk</h1>
           <p className="mt-2 text-sm text-[#686b73]">Sign in to review pending story drafts.</p>
           <form onSubmit={login} className="mt-6">
@@ -198,7 +198,7 @@ export default function ModeratorDashboard() {
     <main className="min-h-screen bg-[#fafafa]">
       <header className="flex items-center justify-between border-b border-[#e5e6e9] px-6 py-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.1em] text-[#8a8d94]">BrisaStory Editorial</p>
+          <p className="text-xs font-medium uppercase tracking-[0.1em] text-[#8a8d94]">TodayAI Editorial</p>
           <h1 className="text-lg font-semibold text-[#111]">Review desk</h1>
         </div>
         <span className="text-sm text-[#686b73]">{drafts.length} waiting</span>

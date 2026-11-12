@@ -14,7 +14,7 @@
 // visible change than "fix the image system" calls for.
 
 export const FALLBACK_IMAGE = "/images/fallback-editorial.svg";
-export const FALLBACK_IMAGE_ALT = "BrisaStory — image pending editorial review";
+export const FALLBACK_IMAGE_ALT = "TodayAI — image pending editorial review";
 
 export function resolveImage(image: string | undefined, imageAlt: string | undefined) {
   if (image) return { image, imageAlt: imageAlt ?? "" };

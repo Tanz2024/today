@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 // a signed-in contributor's own submissions — private, not for search.
 export const metadata = buildMetadata({
   title: "Your submissions",
-  description: "Check the status of stories you have shared with BrisaStory.",
+  description: "Check the status of stories you have shared with TodayAI.",
   path: "/community/status",
   noindex: true,
 });

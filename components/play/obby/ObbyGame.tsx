@@ -110,26 +110,6 @@ function drawBall(ctx: CanvasRenderingContext2D, x: number, w: number, h: number
   ctx.restore();
 }
 
-// Checkpoint flag in the world: grey ahead, green once passed.
-function drawCheckpointFlag(ctx: CanvasRenderingContext2D, x: number, number: number, reached: boolean) {
-  ctx.save();
-  ctx.fillStyle = OBBY_COLORS.metal; ctx.fillRect(x, GROUND_Y - 44, 2, 44);
-  ctx.fillStyle = reached ? "#4D8B68" : "#B7BEC8";
-  ctx.beginPath(); ctx.moveTo(x + 2, GROUND_Y - 44); ctx.lineTo(x + 22, GROUND_Y - 37); ctx.lineTo(x + 2, GROUND_Y - 30); ctx.closePath(); ctx.fill();
-  ctx.fillStyle = "#FFFFFF"; ctx.font = "700 7px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillText(String(number), x + 9, GROUND_Y - 35);
-  ctx.restore();
-}
-
-function drawSticker(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, bob: number) {
-  ctx.save(); ctx.translate(x, y + bob); ctx.rotate(-0.12);
-  ctx.fillStyle = OBBY_COLORS.yellow; ctx.strokeStyle = OBBY_COLORS.ink; ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  for (let i = 0; i < 10; i += 1) { const a = -Math.PI / 2 + i * Math.PI / 5; const r = i % 2 ? radius * 0.46 : radius; ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); }
-  ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = OBBY_COLORS.ink; ctx.font = "700 9px system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillText("★", 0, 3);
-  ctx.restore();
-}
-
 const BUNTING = ["#FF8FB1", "#FFD166", "#7BDFF2", "#B8F2A6", "#C9A7FF"];
 
 // Cute poster between the windows: a cat, a rainbow or a heart.
@@ -224,13 +204,6 @@ type Outcome = {
   collected: Partial<Record<ThemeId, number>>;
   daily: { hit: boolean; remaining: string; label: string };
 };
-
-function collectedThemes(state: ObbyState) {
-  const tokens = tokensFor(state.level);
-  const counts: Partial<Record<ThemeId, number>> = {};
-  for (const index of state.collected) counts[tokens[index].theme] = (counts[tokens[index].theme] ?? 0) + 1;
-  return counts;
-}
 
 function drawHatch(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
   ctx.save();
@@ -336,7 +309,7 @@ export default function ObbyGame({ candidates }: { candidates: PlayCandidate[] }
       phaseRef.current = "result";
       finish(status === "complete" ? "complete" : "failed");
     }
-  }, [feedback, finish, session]);
+  }, [feedback, finish]);
 
   const draw = useCallback((ctx: CanvasRenderingContext2D) => {
     const state = stateRef.current;
@@ -518,14 +491,14 @@ export default function ObbyGame({ candidates }: { candidates: PlayCandidate[] }
         secondary={outcome.kind === "complete" ? { label: "Replay this level", onClick: retry } : undefined}
         daily={outcome.daily}
         session={session}
-        share={{ game: "Brisa Obby", path: "/play/obby" }}
+        share={{ game: "TodayAI Obby", path: "/play/obby" }}
       />
     );
   }
 
   return (
     <GameShell
-      title="Brisa Obby"
+      title="TodayAI Obby"
       tagline="Make it through the school day."
       controls="Tap to jump · Space / ↑ on desktop"
       phase={phase}
@@ -550,7 +523,7 @@ export default function ObbyGame({ candidates }: { candidates: PlayCandidate[] }
     >
       <canvas
         ref={canvasRef}
-        aria-label="Brisa Obby game area"
+        aria-label="TodayAI Obby game area"
         role="img"
         className="absolute inset-0 h-full w-full select-none"
         onPointerDown={(event) => { event.preventDefault(); jump(); }}

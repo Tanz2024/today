@@ -8,9 +8,9 @@ import type { PlayCandidate } from "@/lib/play/candidates";
 import type { PlaySession } from "@/lib/play/analytics";
 
 const ARCADE: { id: GameType; name: string; tagline: string; href: string; swatch: string }[] = [
-  { id: "breaker", name: "Brisa Breaker", tagline: "Break the bricks", href: "/play/breaker", swatch: "linear-gradient(135deg,#0B1020 55%,#22D3EE 55%)" },
-  { id: "rush", name: "Brisa Rush", tagline: "Dodge the traffic", href: "/play/rush", swatch: "linear-gradient(135deg,#18203A 55%,#F3C969 55%)" },
-  { id: "obby", name: "Brisa Obby", tagline: "Don't touch the floor", href: "/play/obby", swatch: "linear-gradient(135deg,#F1E4CF 55%,#3F6FF2 55%)" },
+  { id: "breaker", name: "TodayAI Breaker", tagline: "Break the bricks", href: "/play/breaker", swatch: "linear-gradient(135deg,#0B1020 55%,#22D3EE 55%)" },
+  { id: "rush", name: "TodayAI Rush", tagline: "Dodge the traffic", href: "/play/rush", swatch: "linear-gradient(135deg,#18203A 55%,#F3C969 55%)" },
+  { id: "obby", name: "TodayAI Obby", tagline: "Don't touch the floor", href: "/play/obby", swatch: "linear-gradient(135deg,#F1E4CF 55%,#3F6FF2 55%)" },
 ];
 
 // Below the result: the other two games first (the player is in Play mode),

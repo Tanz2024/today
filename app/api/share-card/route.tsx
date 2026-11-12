@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "96px 80px",
-          background: "linear-gradient(160deg, #111111 0%, #1c1730 60%, #2563eb 130%)",
+          background: "linear-gradient(160deg, #111111 0%, #18181b 60%, #dc1f32 130%)",
           color: "#ffffff",
           fontFamily: "sans-serif",
         }}
@@ -41,8 +41,8 @@ export async function GET(req: NextRequest) {
             letterSpacing: "-0.03em",
           }}
         >
-          <span>Brisa</span>
-          <span style={{ color: "#8ab4ff" }}>Story</span>
+          <span>Today</span>
+          <span style={{ color: "#dc1f32" }}>AI</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
               fontWeight: 700,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#8ab4ff",
+              color: "#dc1f32",
             }}
           >
             {kicker}

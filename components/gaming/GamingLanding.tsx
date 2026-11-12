@@ -36,7 +36,7 @@ export const GAMING_SECTIONS: Record<
     description:
       "Co-op, competitive, party games, and everything better with other people.",
     seoDescription:
-      "BrisaStory multiplayer coverage including co-op games, competitive games, online updates, and games to play with friends.",
+      "TodayAI multiplayer coverage including co-op games, competitive games, online updates, and games to play with friends.",
   },
 
   "gaming-culture": {
@@ -204,7 +204,7 @@ function LandingSection({
           {sectionArticles.length > 0 && (
             <div className="mt-10 border-t border-card-border pt-7">
               <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
-                BrisaStory picks
+                TodayAI picks
               </p>
 
               <ArticleGrid articles={sectionArticles} />
@@ -243,7 +243,7 @@ function SingleSection({
         {articles.length > 0 && (
           <div className="mt-16 border-t border-card-border pt-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
-              BrisaStory recommendations
+              TodayAI recommendations
             </p>
 
             <h2 className="mt-2 font-heading text-3xl font-bold text-near-black">
@@ -497,7 +497,7 @@ function ArticleGrid({
   if (articles.length === 0) {
     return (
       <EmptyState>
-        BrisaStory stories for this section are coming soon.
+        TodayAI stories for this section are coming soon.
       </EmptyState>
     );
   }

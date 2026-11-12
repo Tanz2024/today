@@ -63,22 +63,22 @@ export async function POST(req: NextRequest) {
     const safeTopic = typeof topic === "string" ? topic.trim().slice(0, 80) : "";
     try {
       await resend.emails.send({
-        from: "BrisaStory <hello@brisastory.live>",
+        from: "TodayAI <hello@brisastory.live>",
         to: inbox,
         replyTo: normalizedEmail || undefined,
-        subject: `[BrisaStory question]${safeTopic ? ` ${safeTopic}` : " New anonymous question"}`,
+        subject: `[TodayAI question]${safeTopic ? ` ${safeTopic}` : " New anonymous question"}`,
         text: `New anonymous question\n\nQuestion: ${safeText}\nTopic: ${safeTopic || "None"}\nReply email: ${normalizedEmail || "Not provided"}\nTimestamp: ${timestamp}`,
       });
 
       if (normalizedEmail) {
         const firstName = "there";
         await resend.emails.send({
-          from: "BrisaStory <hello@brisastory.live>",
+          from: "TodayAI <hello@brisastory.live>",
           to: normalizedEmail,
           replyTo: inbox,
           subject: "We received your question ✨",
-          text: `Hi ${firstName},\n\nThanks for sending your question to BrisaStory. It has been received and will be reviewed before anything appears publicly.\n\n— BrisaStory\nReal People. Brighter Days.`,
-          html: `<div style="background:#f7f7fb;padding:32px 16px;font-family:Arial,sans-serif;color:#171719"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e5e5eb;padding:32px"><p style="color:#6757c5;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase">BRISASTORY</p><h1 style="font-size:28px;line-height:1.15;margin:20px 0 16px">We received your question.</h1><p style="font-size:16px;line-height:1.6">Thanks for sending it in. Your question will be reviewed before anything appears publicly.</p><p style="margin:28px 0"><a href="https://brisastory.live/questions" style="color:#2563eb;font-weight:700">Explore Real Questions →</a></p><p style="font-size:14px;line-height:1.6">— BrisaStory<br>Real People. Brighter Days.</p></div></div>`,
+          text: `Hi ${firstName},\n\nThanks for sending your question to TodayAI. It has been received and will be reviewed before anything appears publicly.\n\n— TodayAI\nReal People. Brighter Days.`,
+          html: `<div style="background:#f7f7fb;padding:32px 16px;font-family:Arial,sans-serif;color:#171719"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e5e5eb;padding:32px"><p style="color:#dc1f32;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase">BRISASTORY</p><h1 style="font-size:28px;line-height:1.15;margin:20px 0 16px">We received your question.</h1><p style="font-size:16px;line-height:1.6">Thanks for sending it in. Your question will be reviewed before anything appears publicly.</p><p style="margin:28px 0"><a href="https://brisastory.live/questions" style="color:#dc1f32;font-weight:700">Explore Real Questions →</a></p><p style="font-size:14px;line-height:1.6">— TodayAI<br>Real People. Brighter Days.</p></div></div>`,
         });
       }
     } catch (error) {

@@ -193,7 +193,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
           <button
             type="submit"
             disabled={status === "sending"}
-            className="min-h-12 shrink-0 border-t px-5 text-sm font-semibold text-white transition-colors hover:bg-[#6D28D9] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[-3px] focus-visible:outline-[#111827] disabled:opacity-60 sm:border-l sm:border-t-0"
+            className="min-h-12 shrink-0 border-t px-5 text-sm font-semibold text-white transition-colors hover:bg-electric focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[-3px] focus-visible:outline-[#111827] disabled:opacity-60 sm:border-l sm:border-t-0"
             style={{ backgroundColor: CTA, borderColor: INPUT_BORDER }}
           >
             {status === "sending" ? "Joining…" : copy.cta}

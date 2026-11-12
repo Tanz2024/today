@@ -2,9 +2,9 @@ import Image from "@/components/ui/MediaImage";
 import type { GameType } from "@/lib/play/storage";
 
 const PREVIEWS: Record<GameType, { src: string; alt: string }> = {
-  obby: { src: "/images/play-previews/obby.png", alt: "Brisa Obby gameplay preview" },
-  rush: { src: "/images/play-previews/rush.png", alt: "Brisa Rush gameplay preview" },
-  breaker: { src: "/images/play-previews/breaker.png", alt: "Brisa Breaker gameplay preview" },
+  obby: { src: "/images/play-previews/obby.png", alt: "TodayAI Obby gameplay preview" },
+  rush: { src: "/images/play-previews/rush.png", alt: "TodayAI Rush gameplay preview" },
+  breaker: { src: "/images/play-previews/breaker.png", alt: "TodayAI Breaker gameplay preview" },
 };
 
 export default function GamePreview({ game }: { game: GameType }) {

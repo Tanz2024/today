@@ -28,8 +28,13 @@ type BreakerState = { failures: number; openUntil: number };
 const breakers = new Map<string, BreakerState>();
 
 export class UpstreamUnavailableError extends Error {
-  constructor(readonly provider: string, readonly reason: string) {
+  readonly provider: string;
+  readonly reason: string;
+
+  constructor(provider: string, reason: string) {
     super(`[${provider}] upstream unavailable: ${reason}`);
+    this.provider = provider;
+    this.reason = reason;
     this.name = "UpstreamUnavailableError";
   }
 }

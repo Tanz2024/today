@@ -174,7 +174,7 @@ export default function GameShell({
     <div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-background">
       <div className="sticky top-0 z-10 flex min-h-14 shrink-0 items-center gap-3 border-b border-card-border bg-background/95 px-2 backdrop-blur sm:px-4" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="flex min-w-0 items-center gap-3">
-          <span className="hidden font-heading text-[15px] font-bold tracking-[-.03em] sm:inline">Brisa<span className="text-electric">Story</span></span>
+          <span className="hidden font-heading text-[15px] font-bold tracking-[-.03em] sm:inline">Today<span className="text-electric">Atory</span></span>
           <span className="hidden text-[10px] font-bold uppercase tracking-[.16em] text-muted sm:inline">Play</span>
         </div>
         <button type="button" onClick={close} aria-label="Close game" className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-near-black hover:bg-black/[.05] hover:text-electric focus-visible:outline focus-visible:outline-2 focus-visible:outline-electric">

@@ -12,7 +12,7 @@ export const metadata = buildMetadata({
 });
 
 const games = [
-  ["Brisa Obby", "Don't touch the floor.", "/play/obby"],
+  ["TodayAI Obby", "Don't touch the floor.", "/play/obby"],
   ["Go Out or Stay Home?", "Find out what your social battery wants.", "/play/stay-out"],
   ["Weekend Picker", "Make a plan without overthinking it.", "/play/weekend-picker"],
   ["Would You Rather", "Impossible choices, no wrong answers.", "/play/would-you-rather"],

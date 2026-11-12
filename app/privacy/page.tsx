@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Privacy Policy",
-  description: "How BrisaStory handles privacy choices, functional storage, images, and future analytics or advertising.",
+  description: "How TodayAI handles privacy choices, functional storage, images, and future analytics or advertising.",
   path: "/privacy",
 });
 
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
 
         <div className="prose-fresh mt-6 text-[1.05rem] leading-relaxed">
           <p>
-            BrisaStory is built to collect as little as possible. This page describes, honestly, everything
+            TodayAI is built to collect as little as possible. This page describes, honestly, everything
             we do handle — no more, no less.
           </p>
 
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
 
           <h2>Cookies</h2>
           <p>
-            BrisaStory sets the first-party <code>brisastory_consent</code> cookie after you save a privacy
+            TodayAI sets the first-party <code>brisastory_consent</code> cookie after you save a privacy
             choice. It contains a version and your analytics and advertising choices, not personal information.
             You can change it at any time using &ldquo;Privacy choices&rdquo; in the footer. When Google Privacy &amp;
             messaging is enabled for production, its certified consent message manages applicable regional
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
 
           <h2>Analytics</h2>
           <p>
-            BrisaStory may use Umami and/or Google Analytics when the corresponding production setting is
+            TodayAI may use Umami and/or Google Analytics when the corresponding production setting is
             enabled and the relevant optional consent has been granted. These tools measure aggregate site
             usage and performance. The site does not use analytics to identify you personally.
           </p>
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
 
           <h2>Advertising</h2>
           <p>
-            BrisaStory is not currently serving Google advertisements, and manual advertising units remain
+            TodayAI is not currently serving Google advertisements, and manual advertising units remain
             disabled. Google AdSense ownership code may be present while the site is undergoing review. If
             advertising is enabled in the future, Google Privacy &amp; messaging or another Google-certified TCF
             CMP will manage applicable EEA, UK and Swiss consent signals; ad requests remain blocked until the
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
 
           <h2>Children&apos;s privacy</h2>
           <p>
-            BrisaStory is written with younger readers in mind, but we don&apos;t knowingly collect personal
+            TodayAI is written with younger readers in mind, but we don&apos;t knowingly collect personal
             information from anyone, regardless of age, beyond the anonymous mechanisms described above.
           </p>
 

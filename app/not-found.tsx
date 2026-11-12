@@ -26,13 +26,13 @@ export default async function NotFound() {
             <p className="mt-6 max-w-md text-[17px] leading-[1.55] text-[#667085] sm:text-[19px]">Looks like this page isn&apos;t here anymore.</p>
           </div>
           <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 text-[14px] font-semibold">
-            <Link href="/" className="inline-flex min-h-11 items-center border-b-2 border-[#2563EB] py-2 text-[#2563EB] transition-colors hover:text-[#111111]">← Home</Link>
-            <Link href="/search" className="inline-flex min-h-11 items-center border-b border-black/[0.22] py-2 text-[#667085] transition-colors hover:border-[#2563EB] hover:text-[#2563EB]">Search BrisaStory</Link>
+            <Link href="/" className="inline-flex min-h-11 items-center border-b-2 border-electric py-2 text-electric transition-colors hover:text-[#111111]">← Home</Link>
+            <Link href="/search" className="inline-flex min-h-11 items-center border-b border-black/[0.22] py-2 text-[#667085] transition-colors hover:border-electric hover:text-electric">Search TodayAI</Link>
           </div>
         </div>
         <div className="relative min-h-[230px] overflow-hidden bg-[#f7f8fa] lg:min-h-[500px]">
           <div aria-hidden="true" className="absolute -right-12 -top-12 font-heading text-[270px] font-semibold leading-none tracking-[-0.12em] text-[#111111]/[0.07] sm:text-[360px] lg:-right-24 lg:-top-20 lg:text-[500px]">404</div>
-          <div aria-hidden="true" className="absolute bottom-7 left-7 h-px w-24 bg-[#2563EB] lg:bottom-12 lg:left-10" />
+          <div aria-hidden="true" className="absolute bottom-7 left-7 h-px w-24 bg-electric lg:bottom-12 lg:left-10" />
           <p className="absolute bottom-7 left-7 max-w-[150px] font-mono text-[10px] uppercase tracking-[0.16em] text-[#74777f] lg:bottom-12 lg:left-10">Keep looking. There&apos;s more to read.</p>
         </div>
       </section>
@@ -45,7 +45,7 @@ export default async function NotFound() {
             return <Link key={article.slug} href={`/${article.category}/${article.slug}`} className="group border-b border-black/[0.10] py-6 sm:py-7">
               <div className="relative aspect-[16/10] overflow-hidden bg-[#f1f2f4]"><Image src={article.image} alt={article.imageAlt} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-opacity duration-200 group-hover:opacity-90" /></div>
               <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#74777f]">{category} <span className="mx-1 text-black/25">·</span> {formatArticleRecency(article.date)}</p>
-              <h3 className="mt-2 font-heading text-[21px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#111111] transition-colors group-hover:text-[#2563EB] sm:text-[23px]">{article.displayTitle ?? article.title}</h3>
+              <h3 className="mt-2 font-heading text-[21px] font-semibold leading-[1.15] tracking-[-0.03em] text-[#111111] transition-colors group-hover:text-electric sm:text-[23px]">{article.displayTitle ?? article.title}</h3>
             </Link>;
           })}
         </div>

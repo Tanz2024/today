@@ -477,7 +477,7 @@ export default function RushGame({ candidates }: { candidates: PlayCandidate[] }
 
   return (
     <GameShell
-      title="Brisa Rush"
+      title="TodayAI Rush"
       tagline="Dodge. Jump. Beat your best."
       controls="Tap left/right · swipe up to jump · ← → / Space on desktop"
       phase={phase}
@@ -492,7 +492,7 @@ export default function RushGame({ candidates }: { candidates: PlayCandidate[] }
       game="rush"
       after={outcome && <PlayNext game="rush" candidates={candidates} session={session} collected={outcome.collected} />}
       touchHint="Tap left or right to move · swipe up to jump"
-      mobileInstructions={["Tap the left or right side to change lanes", "Swipe up to jump over barriers", "Collect Brisa markers and keep moving"]}
+      mobileInstructions={["Tap the left or right side to change lanes", "Swipe up to jump over barriers", "Collect story markers and keep moving"]}
       onStart={begin}
       onPause={pause}
       onResume={resume}
@@ -505,13 +505,13 @@ export default function RushGame({ candidates }: { candidates: PlayCandidate[] }
           primary={{ label: "Run again", onClick: again }}
           daily={outcome.daily}
           session={session}
-          share={{ game: "Brisa Rush", path: "/play/rush" }}
+          share={{ game: "TodayAI Rush", path: "/play/rush" }}
         />
       )}
     >
       <canvas
         ref={canvasRef}
-        aria-label="Brisa Rush game area"
+        aria-label="TodayAI Rush game area"
         role="img"
         className="absolute inset-0 h-full w-full select-none"
         onPointerDown={onPointerDown}

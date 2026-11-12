@@ -11,7 +11,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Search",
   description:
-    "Search TodayAI stories, real questions, culture, music, travel and more.",
+    "Search TodayAI: AI news, guides, explainers, questions and every story in the archive.",
   path: "/search",
   noindex: true,
 });
@@ -37,7 +37,7 @@ export default async function SearchPage() {
               font-semibold
               uppercase
               tracking-[0.14em]
-              text-[#737780]
+              text-muted
             "
           >
             Search
@@ -52,7 +52,7 @@ export default async function SearchPage() {
               font-semibold
               leading-[1.03]
               tracking-[-0.045em]
-              text-[#111111]
+              text-ink
               sm:text-[44px]
               lg:text-[50px]
             "
@@ -66,12 +66,12 @@ export default async function SearchPage() {
               max-w-[600px]
               text-[16px]
               leading-[1.6]
-              text-[#6b6e76]
+              text-muted
               sm:text-[17px]
             "
           >
-            Stories, real questions, culture, music, travel and the things
-            you&apos;re actually looking for.
+            AI news, guides and explainers, plus every story, question and
+            feature on TodayAI.
           </p>
         </header>
 

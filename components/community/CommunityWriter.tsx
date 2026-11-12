@@ -1377,7 +1377,7 @@ function FinishSheet({
             p-4 backdrop-blur-xl
           "
         >
-          <label className="mb-3 flex items-start gap-3 text-xs leading-5 text-black/60"><input type="checkbox" checked={draft.consentAccepted} onChange={(event) => patch({ consentAccepted: event.target.checked })} className="mt-1 h-4 w-4" />I created this story or have permission to submit it, have permission to use its media, and agree to the BrisaStory Community Guidelines.</label>
+          <label className="mb-3 flex items-start gap-3 text-xs leading-5 text-black/60"><input type="checkbox" checked={draft.consentAccepted} onChange={(event) => patch({ consentAccepted: event.target.checked })} className="mt-1 h-4 w-4" />I created this story or have permission to submit it, have permission to use its media, and agree to the TodayAI Community Guidelines.</label>
           <button
             type="button"
             disabled={
@@ -2120,7 +2120,7 @@ export default function CommunityWriter() {
 
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold">
-                  Write for BrisaStory
+                  Write for TodayAI
                 </p>
 
                 <p className="text-[11px] text-black/35">
@@ -2368,7 +2368,7 @@ export default function CommunityWriter() {
             />
           </label>
 
-          {coverUrl && <div className="mt-3 grid gap-2 text-xs text-black/55 sm:max-w-md"><span className="font-semibold">Adjust crop</span><label className="flex items-center gap-3">Horizontal <input type="range" min="0" max="100" value={coverX} onChange={(event) => setCoverX(Number(event.target.value))} aria-label="Cover crop horizontal position" className="flex-1 accent-[#2563eb]" /><output>{coverX}%</output></label><label className="flex items-center gap-3">Vertical <input type="range" min="0" max="100" value={coverY} onChange={(event) => setCoverY(Number(event.target.value))} aria-label="Cover crop vertical position" className="flex-1 accent-[#2563eb]" /><output>{coverY}%</output></label></div>}
+          {coverUrl && <div className="mt-3 grid gap-2 text-xs text-black/55 sm:max-w-md"><span className="font-semibold">Adjust crop</span><label className="flex items-center gap-3">Horizontal <input type="range" min="0" max="100" value={coverX} onChange={(event) => setCoverX(Number(event.target.value))} aria-label="Cover crop horizontal position" className="flex-1 accent-electric" /><output>{coverX}%</output></label><label className="flex items-center gap-3">Vertical <input type="range" min="0" max="100" value={coverY} onChange={(event) => setCoverY(Number(event.target.value))} aria-label="Cover crop vertical position" className="flex-1 accent-electric" /><output>{coverY}%</output></label></div>}
 
           {/* Starter choices */}
 

@@ -55,7 +55,7 @@ export function resolveArticleAuthor(article: Pick<Article, "author" | "source">
     const display = name || COMMUNITY_PLACEHOLDER;
     return { name: display, kind: "person", profilePath: contributorProfilePath(display) };
   }
-  if (!name || name.startsWith("BrisaStory") || name.startsWith("TodayAI")) return { name: name || ORGANIZATION_AUTHOR, kind: "organization" };
+  if (!name || name.startsWith("TodayAI") || name.startsWith("TodayAI")) return { name: name || ORGANIZATION_AUTHOR, kind: "organization" };
   return { name, kind: "person" };
 }
 

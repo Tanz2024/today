@@ -8,14 +8,14 @@ import type { GameType } from "@/lib/play/storage";
 
 export const metadata = buildMetadata({
   title: "Games",
-  description: "Quick games for the metro, the queue or a short break: Brisa Obby, Brisa Rush and Brisa Breaker.",
+  description: "Quick games for the metro, the queue or a short break: TodayAI Obby, TodayAI Rush and TodayAI Breaker.",
   path: "/play",
 });
 
 const GAMES: Array<{ game: GameType; name: string; tagline: string; mechanic: string; meta: string }> = [
-  { game: "obby", name: "Brisa Obby", tagline: "Don't touch the floor.", mechanic: "Jump gaps, dodge hazards and reach checkpoints while collecting story tokens.", meta: "30 sec – 2 min" },
-  { game: "rush", name: "Brisa Rush", tagline: "Keep moving. Beat your best.", mechanic: "Switch lanes, clear obstacles and collect markers as the road gets faster.", meta: "Endless" },
-  { game: "breaker", name: "Brisa Breaker", tagline: "Clear as many boards as you can.", mechanic: "Steer the paddle, break patterned boards and catch falling story tokens.", meta: "Until you miss" },
+  { game: "obby", name: "TodayAI Obby", tagline: "Don't touch the floor.", mechanic: "Jump gaps, dodge hazards and reach checkpoints while collecting story tokens.", meta: "30 sec – 2 min" },
+  { game: "rush", name: "TodayAI Rush", tagline: "Keep moving. Beat your best.", mechanic: "Switch lanes, clear obstacles and collect markers as the road gets faster.", meta: "Endless" },
+  { game: "breaker", name: "TodayAI Breaker", tagline: "Clear as many boards as you can.", mechanic: "Steer the paddle, break patterned boards and catch falling story tokens.", meta: "Until you miss" },
 ];
 
 export default function PlayPage() {
@@ -60,7 +60,7 @@ export default function PlayPage() {
         ))}
       </ol>
 
-      <p className="mt-8 max-w-2xl border-t border-card-border pt-5 text-sm leading-6 text-muted">Story tokens are collectible themes that add to your on-device Brisa collection. They are optional, do not unlock paid content, and no account is required.</p>
+      <p className="mt-8 max-w-2xl border-t border-card-border pt-5 text-sm leading-6 text-muted">Story tokens are collectible themes that add to your on-device TodayAI collection. They are optional, do not unlock paid content, and no account is required.</p>
 
     </Container>
   );

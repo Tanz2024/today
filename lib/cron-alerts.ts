@@ -8,9 +8,9 @@ export async function alertCronFailure(name: string, error: unknown) {
   try {
     const resend = new Resend(apiKey);
     await resend.emails.send({
-      from: "BrisaStory Alerts <hello@brisastory.live>",
+      from: "TodayAI Alerts <hello@brisastory.live>",
       to: inbox,
-      subject: `[BrisaStory] ${name} Cron failed`,
+      subject: `[TodayAI] ${name} Cron failed`,
       text: `${name} did not complete successfully.\n\nTime: ${new Date().toISOString()}\nError: ${error instanceof Error ? error.message : "Unknown error"}`,
     });
   } catch (alertError) {
@@ -55,9 +55,9 @@ export async function alertCronSuccess(name: string, details: { dateKey?: string
     if (result.picks !== undefined) lines.push(`Movies/shows/games/places selected: ${result.picks}`);
     if (result.weeklyQuestion) lines.push(`Weekly question: ${result.weeklyQuestion}`);
     await resend.emails.send({
-      from: "BrisaStory Alerts <hello@brisastory.live>",
+      from: "TodayAI Alerts <hello@brisastory.live>",
       to: inbox,
-      subject: `[BrisaStory] ${name} Cron completed successfully`,
+      subject: `[TodayAI] ${name} Cron completed successfully`,
       text: lines.join("\n"),
     });
   } catch (error) {

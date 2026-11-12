@@ -25,9 +25,9 @@ export default function WouldYouRatherPage() {
           title="Would you rather…"
           subtitle="Would you rather?"
           questions={wouldYouRather}
-          shareText="Come argue about Would You Rather with me on BrisaStory."
+          shareText="Come argue about Would You Rather with me on TodayAI."
           currentHref="/play/would-you-rather"
-          accent="#7C3AED"
+          accent="#dc1f32"
         />
       </div>
     </Container>

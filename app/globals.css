@@ -493,7 +493,7 @@ html.game-open, html.game-open body { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
-  /* Active games get the full mobile viewport while Brisa ownership remains
+  /* Active games get the full mobile viewport while TodayAI branding remains
      visible in the compact GameShell header. Desktop publisher chrome stays. */
   .game-active .game-site-header { display: none; }
   .mobile-long-form-ready:not(.mobile-long-form-expanded) .mobile-long-form-remaining {

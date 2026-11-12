@@ -3,7 +3,7 @@ import SavedStories from "@/components/saved/SavedStories";
 import { getDiscoverableArticles } from "@/lib/article-catalog";
 import { buildMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({ title: "Saved stories", description: "Find the BrisaStory stories you saved for later.", path: "/saved", noindex: true });
+export const metadata = buildMetadata({ title: "Saved stories", description: "Find the TodayAI stories you saved for later.", path: "/saved", noindex: true });
 
 // Saved slugs live on the device; the list includes Appwrite stories so they
 // still resolve after reload. Refreshes with the shared article cache.

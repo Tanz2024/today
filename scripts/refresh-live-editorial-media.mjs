@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { Client, Databases, ID, Query } from "node-appwrite";
 import { fetchAniList, fetchListenBrainz, fetchTmdb } from "../functions/editorial-weekly/lib/editorial-providers.mjs";
 

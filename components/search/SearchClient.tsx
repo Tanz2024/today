@@ -27,10 +27,10 @@ import { CATEGORIES } from "@/lib/categories";
 
 const PUBLIC_CATEGORIES = CATEGORIES.filter((category) => !category.hidden);
 import { categoryAccentStyle } from "@/lib/category-colors";
-import { MEGA_MENUS, SECONDARY_LINKS, NAV_DESCRIPTIONS } from "@/lib/nav";
+import { PRIMARY_NAV, SECONDARY_LINKS, NAV_DESCRIPTIONS } from "@/lib/nav";
 
 const EXPLORE_DESTINATIONS = [
-  ...MEGA_MENUS.map((menu) => ({ label: menu.label, href: menu.href })),
+  ...PRIMARY_NAV.filter((item) => item.href !== "/explore").map((item) => ({ label: item.label, href: item.href })),
   ...SECONDARY_LINKS.filter((link) => link.href !== "/pulse"),
 ].map((item) => [item.label, NAV_DESCRIPTIONS[item.href] ?? "", item.href] as const);
 
@@ -330,8 +330,8 @@ export default function SearchClient({
           onKeyDown={
             handleSearchKeyDown
           }
-          placeholder="Search BrisaStory"
-          aria-label="Search BrisaStory"
+          placeholder="Search TodayAI"
+          aria-label="Search TodayAI"
           autoComplete="off"
           className="
             h-[62px]
@@ -374,7 +374,7 @@ export default function SearchClient({
               hover:text-[#111111]
               focus-visible:outline-none
               focus-visible:ring-2
-              focus-visible:ring-[#2563EB]
+              focus-visible:ring-electric
               focus-visible:ring-offset-2
             "
           >
@@ -445,7 +445,7 @@ export default function SearchClient({
                   bottom-[-1px]
                   h-[2px]
                   origin-left
-                  bg-[#2563EB]
+                  bg-electric
                   transition-transform
                   duration-200
                   ease-[cubic-bezier(0.22,1,0.36,1)]
@@ -472,7 +472,7 @@ export default function SearchClient({
               aria-labelledby="search-explore-heading"
             >
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6958c7]">Not sure what to search?</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-electric">Not sure what to search?</p>
                 <div className="flex items-end justify-between gap-5">
                   <h2 id="search-explore-heading" className="mt-2 font-heading text-[26px] font-semibold tracking-[-0.035em] text-[#111111] sm:text-[32px]">Explore topics</h2>
                 </div>
@@ -531,7 +531,7 @@ export default function SearchClient({
                       `}
                     >
                       <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="font-mono text-[12px] tracking-[0.08em] text-[#6958c7]">{String(index + 1).padStart(2, "0")}</span>
+                        <span className="font-mono text-[12px] tracking-[0.08em] text-electric">{String(index + 1).padStart(2, "0")}</span>
                         <span className="mt-7 min-w-0"><span className="block break-words font-heading text-[27px] font-semibold leading-[1.04] tracking-[-0.035em] transition-transform duration-200 group-hover:translate-x-1 sm:text-[30px]">{label}</span><span className="mt-5 block max-w-[270px] break-words font-body text-[14px] leading-[1.55] text-[#737780] sm:text-[15px]">{description}</span></span>
                       </span>
 
@@ -686,7 +686,7 @@ export default function SearchClient({
                 hover:text-[#111111]
                 focus-visible:outline-none
                 focus-visible:ring-2
-                focus-visible:ring-[#2563EB]
+                focus-visible:ring-electric
                 focus-visible:ring-offset-2
               "
             >
@@ -756,7 +756,7 @@ export default function SearchClient({
                                   text-[#111111]
                                   transition-colors
                                   duration-150
-                                  group-hover:text-[#2563EB]
+                                  group-hover:text-electric
                                 "
                               >
                                 {
@@ -791,7 +791,7 @@ export default function SearchClient({
                                 transition-all
                                 duration-200
                                 group-hover:translate-x-1
-                                group-hover:text-[#2563EB]
+                                group-hover:text-electric
                               "
                             />
                           </Link>
@@ -833,8 +833,8 @@ export default function SearchClient({
                                 underline-offset-4
                                 transition-colors
                                 duration-150
-                                hover:text-[#2563EB]
-                                hover:decoration-[#2563EB]
+                                hover:text-electric
+                                hover:decoration-electric
                               "
                             >
                               {
@@ -964,7 +964,7 @@ function BrowsePagination({
         type="button"
         onClick={() => go(page - 1)}
         disabled={page === 1}
-        className="min-h-11 text-[13px] font-semibold text-[#111111] transition-colors duration-150 hover:text-[#2563EB] disabled:pointer-events-none disabled:text-[#c2c4c8]"
+        className="min-h-11 text-[13px] font-semibold text-[#111111] transition-colors duration-150 hover:text-electric disabled:pointer-events-none disabled:text-[#c2c4c8]"
       >
         ← Previous
       </button>
@@ -989,7 +989,7 @@ function BrowsePagination({
         type="button"
         onClick={() => go(page + 1)}
         disabled={page === totalPages}
-        className="min-h-11 text-[13px] font-semibold text-[#111111] transition-colors duration-150 hover:text-[#2563EB] disabled:pointer-events-none disabled:text-[#c2c4c8]"
+        className="min-h-11 text-[13px] font-semibold text-[#111111] transition-colors duration-150 hover:text-electric disabled:pointer-events-none disabled:text-[#c2c4c8]"
       >
         Next →
       </button>
@@ -1129,7 +1129,7 @@ function StoryResult({
             text-[#111111]
             transition-colors
             duration-150
-            group-hover:text-[#2563EB]
+            group-hover:text-electric
             sm:mt-2
             sm:text-[22px]
           "
@@ -1233,7 +1233,7 @@ function EmptyState({
           min-h-[44px]
           text-[14px]
           font-medium
-          text-[#2563EB]
+          text-electric
           transition-opacity
           hover:opacity-70
         "
@@ -1293,8 +1293,8 @@ function EmptyState({
                       decoration-black/[0.18]
                       underline-offset-4
                       transition-colors
-                      hover:text-[#2563EB]
-                      hover:decoration-[#2563EB]
+                      hover:text-electric
+                      hover:decoration-electric
                     "
                   >
                     {topic.tag}

@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata = buildMetadata({
   title: "Gaming",
   description:
-    "BrisaStory gaming: new games worth playing, multiplayer picks, and the culture around gaming.",
+    "TodayAI gaming: new games worth playing, multiplayer picks, and the culture around gaming.",
   path: "/gaming",
 });
 

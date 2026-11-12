@@ -151,7 +151,7 @@ export default async function CategoryPage({
     name: meta.name,
     description: meta.description,
     url: categoryUrl,
-    isPartOf: { "@type": "WebSite", name: "BrisaStory", url: siteUrl },
+    isPartOf: { "@type": "WebSite", name: "TodayAI", url: siteUrl },
     mainEntity: {
       "@type": "ItemList",
         itemListElement: pageArticles.map((article, index) => ({
@@ -166,7 +166,7 @@ export default async function CategoryPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "BrisaStory", item: siteUrl },
+      { "@type": "ListItem", position: 1, name: "TodayAI", item: siteUrl },
       { "@type": "ListItem", position: 2, name: meta.name, item: categoryUrl },
     ],
   };
@@ -415,7 +415,7 @@ export default async function CategoryPage({
                       text-[#111111]
                       transition-colors
                       duration-150
-                      group-hover:text-[#2563EB]
+                      group-hover:text-electric
                       sm:text-[40px]
                       lg:text-[50px]
                     "
@@ -469,7 +469,7 @@ export default async function CategoryPage({
                       →
                     </span>
                   </span>
-                  <p className="mt-4 text-[10px] text-[#85888f]">BrisaStory editorial image · {featured.imageSourceType === "pexels" ? "Pexels" : "BrisaStory archive"}</p>
+                  <p className="mt-4 text-[10px] text-[#85888f]">TodayAI editorial image · {featured.imageSourceType === "pexels" ? "Pexels" : "TodayAI archive"}</p>
                 </div>
                 </div>
               </div>
@@ -681,7 +681,7 @@ export default async function CategoryPage({
                   items-center
                   text-[14px]
                   font-medium
-                  text-[#2563EB]
+                  text-electric
                 "
               >
                 Explore all{" "}
@@ -708,7 +708,7 @@ export default async function CategoryPage({
             <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-1">
               {deskTopics.map((topic) => (
                 <li key={topic.slug}>
-                  <Link href={topicPath(topic)} className="inline-flex min-h-[44px] items-center text-[14px] font-medium text-[#2563EB] hover:underline">
+                  <Link href={topicPath(topic)} className="inline-flex min-h-[44px] items-center text-[14px] font-medium text-electric hover:underline">
                     {topic.name}
                   </Link>
                 </li>
@@ -861,7 +861,7 @@ function EditorLead({
           text-[#111111]
           transition-colors
           duration-150
-          group-hover:text-[#2563EB]
+          group-hover:text-electric
           sm:text-[33px]
         "
       >
@@ -950,7 +950,7 @@ function EditorRow({
             text-[#111111]
             transition-colors
             duration-150
-            group-hover:text-[#2563EB]
+            group-hover:text-electric
             sm:text-[22px]
           "
         >
@@ -1070,7 +1070,7 @@ function LatestRow({
             text-[#111111]
             transition-colors
             duration-150
-            group-hover:text-[#2563EB]
+            group-hover:text-electric
 
             sm:text-[23px]
             lg:text-[27px]

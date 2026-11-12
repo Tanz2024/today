@@ -18,7 +18,7 @@ const CATEGORY_EDITORIAL: Record<string, CategoryEditorial> = {
 export function getCategoryEditorial(category: string, fallbackDescription: string) {
   const editorial = CATEGORY_EDITORIAL[category];
   return {
-    family: editorial?.family ?? "BrisaStory Desk",
+    family: editorial?.family ?? "TodayAI Desk",
     description: editorial?.description ?? fallbackDescription,
     headerImage: editorial?.headerImage ?? "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80",
     desktopObjectPosition: editorial?.desktopObjectPosition ?? "center 42%",
