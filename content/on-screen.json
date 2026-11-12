@@ -1,0 +1,98 @@
+{
+  "region": "Global",
+  "week": "2026-10-26",
+  "source": "TMDB trending this week + AniList trending this week",
+  "sourceUrl": "https://www.themoviedb.org/trending/movie/week",
+  "items": [
+    {
+      "section": "Movies",
+      "rank": 1,
+      "title": "Clayface",
+      "platform": "TMDB",
+      "mediaType": "movie",
+      "tmdbId": 1400940,
+      "watchUrl": "https://www.themoviedb.org/movie/1400940",
+      "editorNote": "A movie surfaced by TMDB's global trend data, ranked #1."
+    },
+    {
+      "section": "Movies",
+      "rank": 2,
+      "title": "Hope",
+      "platform": "TMDB",
+      "mediaType": "movie",
+      "tmdbId": 1058424,
+      "watchUrl": "https://www.themoviedb.org/movie/1058424",
+      "editorNote": "A movie surfaced by TMDB's global trend data, ranked #2."
+    },
+    {
+      "section": "Movies",
+      "rank": 3,
+      "title": "Spider-Man: Brand New Day",
+      "platform": "TMDB",
+      "mediaType": "movie",
+      "tmdbId": 969681,
+      "watchUrl": "https://www.themoviedb.org/movie/969681",
+      "editorNote": "A movie surfaced by TMDB's global trend data, ranked #3."
+    },
+    {
+      "section": "Trending TV",
+      "rank": 1,
+      "title": "The Apothecary Diaries",
+      "platform": "TMDB",
+      "mediaType": "series",
+      "tmdbId": 220542,
+      "watchUrl": "https://www.themoviedb.org/tv/220542",
+      "editorNote": "A television title surfaced by TMDB's global trend data, ranked #1."
+    },
+    {
+      "section": "Trending TV",
+      "rank": 2,
+      "title": "LINK CLICK",
+      "platform": "TMDB",
+      "mediaType": "series",
+      "tmdbId": 123542,
+      "watchUrl": "https://www.themoviedb.org/tv/123542",
+      "editorNote": "A television title surfaced by TMDB's global trend data, ranked #2."
+    },
+    {
+      "section": "Trending TV",
+      "rank": 3,
+      "title": "YAGA",
+      "platform": "TMDB",
+      "mediaType": "series",
+      "tmdbId": 314360,
+      "watchUrl": "https://www.themoviedb.org/tv/314360",
+      "editorNote": "A television title surfaced by TMDB's global trend data, ranked #3."
+    },
+    {
+      "section": "Anime",
+      "rank": 1,
+      "title": "Overgeared",
+      "platform": "AniList",
+      "mediaType": "series",
+      "watchUrl": "https://anilist.co/anime/212888",
+      "posterOverride": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx212888-NhyvqPt5aIuJ.jpg",
+      "editorNote": "An anime title surfaced by AniList's trend data, ranked #1."
+    },
+    {
+      "section": "Anime",
+      "rank": 2,
+      "title": "Cyberpunk: Edgerunners 2",
+      "platform": "AniList",
+      "mediaType": "series",
+      "watchUrl": "https://anilist.co/anime/195539",
+      "posterOverride": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx195539-4LdfmKIHzuxr.png",
+      "editorNote": "An anime title surfaced by AniList's trend data, ranked #2."
+    },
+    {
+      "section": "Anime",
+      "rank": 3,
+      "title": "Full Clearing Another World under a Goddess with Zero Believers",
+      "platform": "AniList",
+      "mediaType": "series",
+      "watchUrl": "https://anilist.co/anime/205896",
+      "posterOverride": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx205896-ElrV8oVAsuax.jpg",
+      "editorNote": "An anime title surfaced by AniList's trend data, ranked #3."
+    }
+  ]
+}

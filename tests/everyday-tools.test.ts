@@ -1,0 +1,8 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { attendance, billSplit, dateDifference, percentage, textStats } from "../lib/tools/everyday.ts";
+test("bill splitter includes optional charges", () => { assert.deepEqual(billSplit(100, 4, 10, 5), { subtotal: 100, charges: 15, total: 115, perPerson: 28.75 }); });
+test("attendance calculates reach and misses", () => { assert.equal(Math.round(attendance(10, 8, 75).percentage), 80); assert.equal(attendance(10, 8, 75).needed, 0); assert.equal(attendance(10, 8, 75).canMiss, 0); });
+test("attendance edge cases remain finite and bounded", () => { const results = [[0, 0, 0], [10, 10, 100], [10, 9, 100], [10, 8, 0], [-2, 20, 150], [10, 11, -10]].map(([held, attended, target]) => attendance(held, attended, target)); for (const result of results) { assert.ok(Number.isFinite(result.percentage)); assert.ok(result.needed === null || Number.isFinite(result.needed)); assert.ok(result.canMiss === null || Number.isFinite(result.canMiss)); } assert.equal(attendance(10, 9, 100).impossible, true); assert.equal(attendance(10, 10, 100).needed, 0); assert.equal(attendance(10, 8, 0).canMiss, null); });
+test("text stats stay local and count common fields", () => { assert.deepEqual(textStats("Hello world.\n\nNext line!"), { words: 4, characters: 24, charactersNoSpaces: 20, sentences: 2, paragraphs: 2, minutes: 1 }); });
+test("date difference and percentage modes are deterministic", () => { assert.equal(dateDifference("2026-01-01", "2026-01-11"), 10); assert.equal(percentage("of", 20, 50), 10); assert.equal(percentage("is", 20, 50), 40); assert.equal(percentage("increase", 120, 100), 20); });

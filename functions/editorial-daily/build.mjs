@@ -1,0 +1,13 @@
+import { cp, mkdir } from "node:fs/promises";
+await mkdir("lib", { recursive: true });
+await mkdir("content", { recursive: true });
+await cp("../../lib/editorial-daily-runner.mjs", "lib/editorial-daily-runner.mjs");
+await cp("../../lib/editorial-daily-ai.mjs", "lib/editorial-daily-ai.mjs");
+await cp("../../lib/editorial-providers.mjs", "lib/editorial-providers.mjs");
+await cp("../../lib/cron-fetch.mjs", "lib/cron-fetch.mjs");
+await cp("../../lib/daily-trend-pack.mjs", "lib/daily-trend-pack.mjs");
+await cp("../../lib/execution-budget.mjs", "lib/execution-budget.mjs");
+await cp("../../content/daily-drops.json", "content/daily-drops.json");
+await cp("../../content/polls.json", "content/polls.json");
+await cp("../../content/games.json", "content/games.json");
+console.log("Prepared editorial-daily runtime files.");

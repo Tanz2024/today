@@ -1,0 +1,5 @@
+import type { ProductRequest, ProductResult } from "./types";
+import { searchOpenBeautyFacts } from "./open-beauty-facts";
+import { searchIcecat } from "./icecat";
+const beauty = /beauty|skin|skincare|cosmetic|makeup|sunscreen|serum|moistur|cleanser|shampoo|haircare/i;
+export async function resolveProduct(request: ProductRequest): Promise<ProductResult> { const result = beauty.test(request.category ?? "") ? await searchOpenBeautyFacts(request) ?? await searchIcecat(request) : await searchIcecat(request); if (result) return result; return { provider: "", providerProductId: "", brand: request.brand ?? "", productName: request.productName ?? "", model: request.model ?? "", category: request.category ?? "", gtin: null, barcode: request.barcode ?? null, description: null, productUrl: null, imageUrl: null, imageAlt: null, imageCredit: null, imageCreditUrl: null, imageLicense: null, imageSourceType: "", price: null, currency: null, exactMatch: false, matchScore: 0, requiresExactImage: true, isExactImage: false, needsImageReview: true, failureReason: "PRODUCT_NOT_FOUND" }; }

@@ -1,0 +1,250 @@
+[
+  {
+    "article": "content/campus/first-week-university-guide.mdx",
+    "status": "valid",
+    "query": "New students carrying boxesbags across real campus",
+    "currentImage": "https://images.pexels.com/photos/7972544/pexels-photo-7972544.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/campus/how-to-make-friends-at-university.mdx",
+    "status": "valid",
+    "query": "Small group students talking together campus common",
+    "currentImage": "https://images.pexels.com/photos/8199558/pexels-photo-8199558.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/campus/how-to-study-without-burning-out.mdx",
+    "status": "valid",
+    "query": "Student desk with notes and laptop soft",
+    "currentImage": "/images/articles/study-without-burning-out-ai.webp",
+    "candidateImage": "",
+    "reason": "Local image exists"
+  },
+  {
+    "article": "content/entertainment/artist-you-should-know-this-week.mdx",
+    "status": "valid",
+    "query": "Artist performing stage",
+    "currentImage": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/entertainment/music-video-night-that-doesnt-flop.mdx",
+    "status": "valid",
+    "query": "Friends couch home with TVlaptop set for",
+    "currentImage": "https://images.pexels.com/photos/8885192/pexels-photo-8885192.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/entertainment/why-old-songs-go-viral-again.mdx",
+    "status": "valid",
+    "query": "Vinyl record cassette next smartphone showing streaming",
+    "currentImage": "https://images.pexels.com/photos/12972784/pexels-photo-12972784.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/gaming/balance-gaming-with-everything-else.mdx",
+    "status": "valid",
+    "query": "Young adult planning tasks desk before making",
+    "currentImage": "https://images.pexels.com/photos/461069/pexels-photo-461069.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/gaming/best-games-to-play-with-friends.mdx",
+    "status": "valid",
+    "query": "Group friends playing video games together couch",
+    "currentImage": "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=1200&q=80",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/gaming/gaming-vibing-with-friends.mdx",
+    "status": "valid",
+    "query": "Several friends together couch with controllers co-op",
+    "currentImage": "https://images.pexels.com/photos/7776191/pexels-photo-7776191.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/culture/what-does-67-mean.mdx",
+    "status": "valid",
+    "query": "Close-up phone screen mid-conversation showing trending slang",
+    "currentImage": "https://images.pexels.com/photos/3775147/pexels-photo-3775147.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/culture/what-is-aura-farming.mdx",
+    "status": "valid",
+    "query": "Young person confidently walking posing way that",
+    "currentImage": "https://images.pexels.com/photos/30427802/pexels-photo-30427802.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/culture/wilted-rose-emoji-meaning.mdx",
+    "status": "valid",
+    "query": "Close-up phone screen showing emoji being used",
+    "currentImage": "https://images.pexels.com/photos/38039808/pexels-photo-38039808.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/money/how-much-should-you-save-each-month.mdx",
+    "status": "valid",
+    "query": "Smartphone banking and personal savings review",
+    "currentImage": "https://images.pexels.com/photos/6694950/pexels-photo-6694950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/money/student-budget-guide.mdx",
+    "status": "valid",
+    "query": "Student desk with notebook calculator and banking",
+    "currentImage": "https://images.pexels.com/photos/16825355/pexels-photo-16825355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/money/what-to-do-with-first-salary.mdx",
+    "status": "valid",
+    "query": "Notebook calculator banking app receipts first-paycheck budgeting",
+    "currentImage": "https://images.pexels.com/photos/5900156/pexels-photo-5900156.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/relationships/what-does-dry-texting-mean.mdx",
+    "status": "valid",
+    "query": "Hands typing message smartphone indoors",
+    "currentImage": "https://images.pexels.com/photos/7343000/pexels-photo-7343000.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/relationships/what-is-a-situationship.mdx",
+    "status": "valid",
+    "query": "Two adults together ambiguous casual setting cafe",
+    "currentImage": "https://images.pexels.com/photos/6669776/pexels-photo-6669776.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/cant-sleep-even-tired.mdx",
+    "status": "valid",
+    "query": "Person resting bed while trying switch off",
+    "currentImage": "https://images.pexels.com/photos/4907439/pexels-photo-4907439.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/confident-without-faking-it.mdx",
+    "status": "valid",
+    "query": "cheerful man poses outdoors natural setting wearing",
+    "currentImage": "https://images.pexels.com/photos/5037755/pexels-photo-5037755.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/how-to-fix-sleep-schedule-gradually.mdx",
+    "status": "valid",
+    "query": "Sleepy young woman waking beside alarm clock",
+    "currentImage": "https://images.pexels.com/photos/7622504/pexels-photo-7622504.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/realistic-reset-routine-bad-weeks.mdx",
+    "status": "valid",
+    "query": "Young woman getting ready slowly front mirror",
+    "currentImage": "https://images.pexels.com/photos/36730073/pexels-photo-36730073.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/self-care-that-doesnt-cost-money.mdx",
+    "status": "valid",
+    "query": "Two young women taking quiet study and",
+    "currentImage": "https://images.pexels.com/photos/7972350/pexels-photo-7972350.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/self-care-when-you-have-zero-energy.mdx",
+    "status": "valid",
+    "query": "Young adult resting sofa with blankets",
+    "currentImage": "https://images.pexels.com/photos/7193670/pexels-photo-7193670.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/self-care/stop-comparing-yourself-online.mdx",
+    "status": "valid",
+    "query": "Two people comparing phones outdoors",
+    "currentImage": "https://images.pexels.com/photos/28971395/pexels-photo-28971395.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/sex-health/first-time-sex-what-to-know.mdx",
+    "status": "valid",
+    "query": "Two adults talking closely calm neutral setting",
+    "currentImage": "https://images.pexels.com/photos/6567219/pexels-photo-6567219.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/sex-health/how-to-know-if-you-are-ready-for-sex.mdx",
+    "status": "valid",
+    "query": "Two people talking closely calm neutral respectful",
+    "currentImage": "https://images.pexels.com/photos/36765292/pexels-photo-36765292.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/culture/culture-lifestyle-is-a-vibe.mdx",
+    "status": "valid",
+    "query": "Friends spending time together outdoors",
+    "currentImage": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/travel/food-drink-for-the-group-chat.mdx",
+    "status": "valid",
+    "query": "Nasi lemak Malaysian dish",
+    "currentImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Nasi%20lemak.jpg",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/travel/first-trip-without-overspending.mdx",
+    "status": "valid",
+    "query": "Budget-planning scene for first trip notebook calculator",
+    "currentImage": "https://images.pexels.com/photos/5900228/pexels-photo-5900228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/travel/travel-with-friends-without-ruining-friendship.mdx",
+    "status": "valid",
+    "query": "small group friends not solo traveler walking",
+    "currentImage": "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  },
+  {
+    "article": "content/travel/what-to-pack-for-a-3-day-trip.mdx",
+    "status": "valid",
+    "query": "Open suitcase packing cubes laid out bed",
+    "currentImage": "https://images.pexels.com/photos/8212229/pexels-photo-8212229.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "candidateImage": "",
+    "reason": "Remote image responded with an image content type"
+  }
+]

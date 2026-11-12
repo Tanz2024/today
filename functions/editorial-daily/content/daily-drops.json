@@ -1,0 +1,62 @@
+[
+  {
+    "id": "drop-2026-09-12",
+    "date": "2026-09-12",
+    "storyTitle": "What Does Dry Texting Mean?",
+    "storySummary": "Short replies don't always mean someone's losing interest. Here's how to actually read dry texting instead of spiraling over it.",
+    "storyHref": "/relationships/what-does-dry-texting-mean",
+    "pollId": "double-text",
+    "realQuestion": "Have you ever gone quiet on someone just because you didn't know what to say back?",
+    "recommendationType": "song",
+    "recommendationTitle": "But Not Kiss — Faye Webster",
+    "recommendationDescription": "For the walk home when your headphones are doing the heavy lifting.",
+    "recommendationHref": "https://open.spotify.com/track/78nMVqRwap5hysPgnziW4u",
+    "reactionTargetId": "daily-drop-2026-09-12",
+    "shareText": "Today's Brisa Daily Drop: dry texting, decoded."
+  },
+  {
+    "id": "drop-2026-09-19",
+    "date": "2026-09-19",
+    "storyTitle": "What Is a Situationship?",
+    "storySummary": "More than friends, less than a couple, no label attached. Here's what a situationship actually is and how to tell if you should ask for more.",
+    "storyHref": "/relationships/what-is-a-situationship",
+    "pollId": "double-text",
+    "realQuestion": "Would you rather ask \"what are we\" and risk an awkward answer, or keep things undefined?",
+    "recommendationType": "song",
+    "recommendationTitle": "Spirit 2.0 — Sampha",
+    "recommendationDescription": "Something to sit with if you're thinking too hard about a text you haven't sent yet.",
+    "recommendationHref": "https://open.spotify.com/track/57s2fT1A0hOxscqF2Jipd5",
+    "reactionTargetId": "daily-drop-2026-09-19",
+    "shareText": "Today's Brisa Daily Drop: situationships, explained."
+  },
+  {
+    "id": "drop-2026-09-24",
+    "date": "2026-09-24",
+    "storyTitle": "What Is the September Lock-In?",
+    "storySummary": "The reset trend turning routines, study plans and small wins into a shared Gen Alpha and Gen Z ritual.",
+    "storyHref": "/culture/what-is-the-september-lock-in",
+    "pollId": "music-platform",
+    "realQuestion": "What would you actually lock in on before October?",
+    "recommendationType": "song",
+    "recommendationTitle": "Pink + White — Frank Ocean",
+    "recommendationDescription": "For the slow-motion montage in your head after a plot twist you did not see coming.",
+    "recommendationHref": "https://open.spotify.com/track/6Sy9BUbgFvHYjhx1zZLdCq",
+    "reactionTargetId": "daily-drop-2026-09-24",
+    "shareText": "Today's Brisa Daily Drop: the September lock-in explained."
+  },
+  {
+    "id": "drop-2026-10-13",
+    "date": "2026-10-13",
+    "storyTitle": "Can Your Phone Be Useful Without Taking Over?",
+    "storySummary": "The attention reset is not about disappearing offline. It is about making your phone earn its place in your day.",
+    "storyHref": "/culture/the-phone-is-no-longer-the-main-character",
+    "pollId": "double-text",
+    "realQuestion": "What is one part of your day you would like your phone to stop interrupting?",
+    "recommendationType": "song",
+    "recommendationTitle": "Lover Boy — Phum Viphurit",
+    "recommendationDescription": "A warm, low-key soundtrack for putting your attention somewhere else.",
+    "recommendationHref": "https://open.spotify.com/track/2rd4FH1cSaWGc0ZiUaMbX9",
+    "reactionTargetId": "daily-drop-2026-10-13",
+    "shareText": "Today's Brisa Daily Drop: making your phone useful without letting it take over."
+  }
+]

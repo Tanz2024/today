@@ -1,0 +1,407 @@
+{
+  "thisOrThat": [
+  {
+    "id": "day-01-risky-text",
+    "day": 1,
+    "prompt": "Okay, be real 👀",
+    "left": {
+      "label": "Send the risky text",
+      "traits": ["spontaneous", "connector"]
+    },
+    "right": {
+      "label": "Type it... delete it",
+      "traits": ["observer", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-02-late-plan",
+    "day": 2,
+    "prompt": "Your friend texts at 10:47 PM...",
+    "left": {
+      "label": "I'm getting ready",
+      "traits": ["nightOwl", "spontaneous"]
+    },
+    "right": {
+      "label": "Absolutely not 😭",
+      "traits": ["homebase", "planner"]
+    }
+  },
+  {
+    "id": "day-03-camera-roll",
+    "day": 3,
+    "prompt": "Best day ever. What happens next?",
+    "left": {
+      "label": "Post everything",
+      "traits": ["mainCharacter", "connector"]
+    },
+    "right": {
+      "label": "Camera roll only",
+      "traits": ["observer", "independent"]
+    }
+  },
+  {
+    "id": "day-04-double-text",
+    "day": 4,
+    "prompt": "They haven't replied...",
+    "left": {
+      "label": "Double text. Whatever.",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "My job here is done",
+      "traits": ["observer", "independent"]
+    }
+  },
+  {
+    "id": "day-05-friend-circle",
+    "day": 5,
+    "prompt": "Choose your social life:",
+    "left": {
+      "label": "Huge friend group",
+      "traits": ["connector", "mainCharacter"]
+    },
+    "right": {
+      "label": "3 ride-or-dies",
+      "traits": ["homebase", "independent"]
+    }
+  },
+  {
+    "id": "day-06-money-trip",
+    "day": 6,
+    "prompt": "You suddenly get extra money 💸",
+    "left": {
+      "label": "Book a trip",
+      "traits": ["wanderer", "spontaneous"]
+    },
+    "right": {
+      "label": "Straight to savings",
+      "traits": ["planner", "independent"]
+    }
+  },
+  {
+    "id": "day-07-concert",
+    "day": 7,
+    "prompt": "Your favourite song comes on:",
+    "left": {
+      "label": "Screaming every lyric",
+      "traits": ["mainCharacter", "nightOwl"]
+    },
+    "right": {
+      "label": "Quietly having a moment",
+      "traits": ["observer", "homebase"]
+    }
+  },
+  {
+    "id": "day-08-first-move",
+    "day": 8,
+    "prompt": "You really like them...",
+    "left": {
+      "label": "Make the first move",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "They can figure it out",
+      "traits": ["observer", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-09-tea",
+    "day": 9,
+    "prompt": "Group chat situation:",
+    "left": {
+      "label": "Tell me EVERYTHING",
+      "traits": ["connector", "observer"]
+    },
+    "right": {
+      "label": "Protecting my peace",
+      "traits": ["homebase", "independent"]
+    }
+  },
+  {
+    "id": "day-10-flight",
+    "day": 10,
+    "prompt": "Cheap flight just appeared ✈️",
+    "left": {
+      "label": "Book first, think later",
+      "traits": ["wanderer", "spontaneous"]
+    },
+    "right": {
+      "label": "Check my bank account",
+      "traits": ["planner", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-11-party",
+    "day": 11,
+    "prompt": "You walk into a party where you know nobody:",
+    "left": {
+      "label": "Meet everyone",
+      "traits": ["connector", "mainCharacter"]
+    },
+    "right": {
+      "label": "Find one safe person",
+      "traits": ["homebase", "observer"]
+    }
+  },
+  {
+    "id": "day-12-voice-note",
+    "day": 12,
+    "prompt": "Your friend sends drama...",
+    "left": {
+      "label": "4-minute voice note",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "\"BRO WHAT 😭\"",
+      "traits": ["observer", "homebase"]
+    }
+  },
+  {
+    "id": "day-13-photos",
+    "day": 13,
+    "prompt": "You're somewhere beautiful:",
+    "left": {
+      "label": "Take 100 photos",
+      "traits": ["mainCharacter", "connector"]
+    },
+    "right": {
+      "label": "Phone stays away",
+      "traits": ["wanderer", "independent"]
+    }
+  },
+  {
+    "id": "day-14-travel-plan",
+    "day": 14,
+    "prompt": "Trip tomorrow. What's the plan?",
+    "left": {
+      "label": "Full itinerary ready",
+      "traits": ["planner"]
+    },
+    "right": {
+      "label": "We'll figure it out",
+      "traits": ["wanderer", "spontaneous"]
+    }
+  },
+  {
+    "id": "day-15-viral-place",
+    "day": 15,
+    "prompt": "Where are we eating?",
+    "left": {
+      "label": "That viral place",
+      "traits": ["mainCharacter", "connector"]
+    },
+    "right": {
+      "label": "Random hidden spot",
+      "traits": ["wanderer", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-16-feelings",
+    "day": 16,
+    "prompt": "Feelings are getting obvious...",
+    "left": {
+      "label": "Just tell them",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "Drop microscopic hints",
+      "traits": ["observer", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-17-plot",
+    "day": 17,
+    "prompt": "Your friend says \"trust me\"...",
+    "left": {
+      "label": "For the plot",
+      "traits": ["mainCharacter", "spontaneous"]
+    },
+    "right": {
+      "label": "Explain the plot first",
+      "traits": ["planner", "observer"]
+    }
+  },
+  {
+    "id": "day-18-private-life",
+    "day": 18,
+    "prompt": "Your ideal online presence:",
+    "left": {
+      "label": "Everyone knows everything",
+      "traits": ["mainCharacter", "connector"]
+    },
+    "right": {
+      "label": "Private final boss",
+      "traits": ["independent", "observer"]
+    }
+  },
+  {
+    "id": "day-19-reply",
+    "day": 19,
+    "prompt": "Someone texts you:",
+    "left": {
+      "label": "Reply immediately",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "Reply when battery returns",
+      "traits": ["homebase", "observer"]
+    }
+  },
+  {
+    "id": "day-20-new-city",
+    "day": 20,
+    "prompt": "Fresh start unlocked:",
+    "left": {
+      "label": "Move somewhere new",
+      "traits": ["wanderer", "independent"]
+    },
+    "right": {
+      "label": "Stay close to my people",
+      "traits": ["homebase", "connector"]
+    }
+  },
+  {
+    "id": "day-21-trends",
+    "day": 21,
+    "prompt": "New trend just dropped:",
+    "left": {
+      "label": "I'm already doing it",
+      "traits": ["mainCharacter", "spontaneous"]
+    },
+    "right": {
+      "label": "I'll discover it in 3 months",
+      "traits": ["observer", "homebase"]
+    }
+  },
+  {
+    "id": "day-22-weekend",
+    "day": 22,
+    "prompt": "Perfect Saturday:",
+    "left": {
+      "label": "A night I'll never forget",
+      "traits": ["nightOwl", "mainCharacter"]
+    },
+    "right": {
+      "label": "Doing absolutely nothing",
+      "traits": ["homebase", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-23-call",
+    "day": 23,
+    "prompt": "Important question:",
+    "left": {
+      "label": "Call without warning",
+      "traits": ["connector", "spontaneous"]
+    },
+    "right": {
+      "label": "Text \"can I call?\"",
+      "traits": ["planner", "observer"]
+    }
+  },
+  {
+    "id": "day-24-friend-plan",
+    "day": 24,
+    "prompt": "Inside the friend group, you're...",
+    "left": {
+      "label": "The one making the plan",
+      "traits": ["planner", "connector"]
+    },
+    "right": {
+      "label": "Just send the location",
+      "traits": ["spontaneous", "homebase"]
+    }
+  },
+  {
+    "id": "day-25-profile-stalk",
+    "day": 25,
+    "prompt": "Choose your nightmare 💀",
+    "left": {
+      "label": "Caught stalking their profile",
+      "traits": ["spontaneous", "connector"]
+    },
+    "right": {
+      "label": "Like their 2021 post",
+      "traits": ["observer", "softAdventure"]
+    }
+  },
+  {
+    "id": "day-26-crush-secret",
+    "day": 26,
+    "prompt": "You have a new crush:",
+    "left": {
+      "label": "Besties know in 3 minutes",
+      "traits": ["connector", "mainCharacter"]
+    },
+    "right": {
+      "label": "Nobody will ever know",
+      "traits": ["independent", "observer"]
+    }
+  },
+  {
+    "id": "day-27-free-forever",
+    "day": 27,
+    "prompt": "One is free forever:",
+    "left": {
+      "label": "Food 🍜",
+      "traits": ["homebase", "planner"]
+    },
+    "right": {
+      "label": "Flights ✈️",
+      "traits": ["wanderer", "spontaneous"]
+    }
+  },
+  {
+    "id": "day-28-famous-rich",
+    "day": 28,
+    "prompt": "Pick your life:",
+    "left": {
+      "label": "Famous everywhere",
+      "traits": ["mainCharacter", "connector"]
+    },
+    "right": {
+      "label": "Rich + nobody knows me",
+      "traits": ["independent", "planner"]
+    }
+  },
+  {
+    "id": "day-29-phone-nightmare",
+    "day": 29,
+    "prompt": "You HAVE to lose one:",
+    "left": {
+      "label": "My entire camera roll",
+      "traits": ["wanderer", "spontaneous"]
+    },
+    "right": {
+      "label": "Every group chat",
+      "traits": ["independent", "observer"]
+    }
+  },
+  {
+    "id": "day-30-truth",
+    "day": 30,
+    "prompt": "Would you actually want to know?",
+    "left": {
+      "label": "What people say about me",
+      "traits": ["observer", "mainCharacter"]
+    },
+    "right": {
+      "label": "Absolutely not ❤️",
+      "traits": ["homebase", "independent"]
+    }
+  },
+  {
+    "id": "day-31-search-history",
+    "day": 31,
+    "prompt": "Final boss question 😭",
+    "left": {
+      "label": "Crush sees my search history",
+      "traits": ["mainCharacter", "spontaneous"]
+    },
+    "right": {
+      "label": "Parents see the group chat",
+      "traits": ["observer", "softAdventure"]
+    }
+  }
+  ]
+}

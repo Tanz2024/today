@@ -1,0 +1,1 @@
+export async function validateProductImage(imageUrl: string | null) { if (!imageUrl) return { valid: false, reason: "IMAGE_NOT_FOUND" }; try { const response = await fetch(imageUrl, { method: "HEAD" }); return response.ok ? { valid: true, reason: null } : { valid: false, reason: "IMAGE_NOT_FOUND" }; } catch { return { valid: false, reason: "IMAGE_USAGE_UNVERIFIED" }; } }

@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { getMostDiscussedQuestions, getNewQuestions } from "../lib/question-discovery-core.ts";
+
+const base = (slug: string, publishedAt: string) => ({ slug, title: slug, category: "relationships", publishedAt });
+test("new questions use publishedAt, not updatedAt, and are capped", () => { const result = getNewQuestions([base("old", "2026-09-01"), base("new", "2026-09-03"), { ...base("bad", "bad"), updatedAt: "2099-01-01" }], 6); assert.deepEqual(result.map((item) => item.slug), ["new", "old"]); });
+test("new question ties are deterministic and exclusions work", () => { const result = getNewQuestions([base("b", "2026-09-01"), base("a", "2026-09-01"), base("excluded", "2026-09-04")], 6, new Set(["excluded"])); assert.deepEqual(result.map((item) => item.slug), ["a", "b"]); });
+test("most discussed excludes zero discussion and hides internal counts", () => { const result = getMostDiscussedQuestions([{ ...base("votes-only", "2026-09-04"), approvedReasonCount: 0, voteCount: 99 }, { ...base("discussed", "2026-09-01"), approvedReasonCount: 2, voteCount: 1 }]); assert.deepEqual(result.map((item) => item.slug), ["discussed"]); assert.deepEqual(Object.keys(result[0]).sort(), ["category", "publishedAt", "slug", "title"]); });
+test("most discussed orders approved reasons, votes, date, then slug", () => { const result = getMostDiscussedQuestions([{ ...base("vote-tie", "2026-09-01"), approvedReasonCount: 1, voteCount: 2 }, { ...base("more-reasons", "2026-08-01"), approvedReasonCount: 2, voteCount: 0 }, { ...base("date-tie", "2026-09-03"), approvedReasonCount: 1, voteCount: 2 }]); assert.deepEqual(result.map((item) => item.slug), ["more-reasons", "date-tie", "vote-tie"]); });
+test("most discussed is capped at five", () => { const result = getMostDiscussedQuestions(Array.from({ length: 6 }, (_, index) => ({ ...base(String(index), `2026-09-${String(index + 1).padStart(2, "0")}`), approvedReasonCount: 1, voteCount: 0 }))); assert.equal(result.length, 5); });

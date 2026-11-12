@@ -1,0 +1,5 @@
+ "use client";
+import { useEffect } from "react";
+import { trackHomepageEvent } from "@/lib/homepage-analytics";
+const TOOL_BY_SLUG: Record<string, string> = { "student-budget-calculator": "student-budget", "cgpa-calculator": "cgpa", "trip-budget-calculator": "trip-budget", "bill-splitter": "bill-splitter", "attendance-calculator": "attendance", "word-counter": "word-counter", "date-calculator": "date-calculator", "percentage-calculator": "percentage-calculator" };
+export default function ToolReferralTracker() { useEffect(() => { const onClick = (event: MouseEvent) => { const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="/tools/"]'); const tool = link ? TOOL_BY_SLUG[link.pathname.split("/")[2] ?? ""] : undefined; if (tool) trackHomepageEvent("tool_open", { tool, source: window.location.pathname, source_type: "article" }); }; document.addEventListener("click", onClick, true); return () => document.removeEventListener("click", onClick, true); }, []); return null; }

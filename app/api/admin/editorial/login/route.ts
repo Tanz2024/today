@@ -1,0 +1,3 @@
+import { NextResponse } from "next/server";
+import { createModeratorToken, moderatorCookieName } from "@/lib/editorial-moderation";
+export async function POST(request: Request) { const body = await request.json().catch(() => ({})); if (!process.env.EDITORIAL_MODERATOR_PASSWORD || body.password !== process.env.EDITORIAL_MODERATOR_PASSWORD) return NextResponse.json({ error: "Invalid password" }, { status: 401 }); const response = NextResponse.json({ ok: true }); response.cookies.set(moderatorCookieName, createModeratorToken(), { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 60 * 60 * 24 * 30, path: "/" }); return response; }

@@ -1,0 +1,7 @@
+{
+  "name": "brisastory-editorial-weekly",
+  "type": "module",
+  "private": true,
+  "dependencies": { "node-appwrite": "^29.0.0" },
+  "scripts": { "build": "node build.mjs" }
+}
