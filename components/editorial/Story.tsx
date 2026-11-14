@@ -23,6 +23,67 @@ export function StoryMeta({ article }: { article: AiArticle }) {
   );
 }
 
+/**
+ * One entry in the homepage's numbered edition. Rank 1 is the dominant story
+ * (image, large headline, dek); the rest are compact rows, with a thumbnail
+ * only where `thumbnail` is set. The numeral is decorative: the surrounding
+ * ordered list already carries the position for assistive tech.
+ */
+export function EditionStory({ article, rank, thumbnail = false }: { article: AiArticle; rank: number; thumbnail?: boolean }) {
+  const lead = rank === 1;
+  const media = article.image && (lead || thumbnail) ? (
+    <Link href={articlePath(article)} className="edition-story-media" tabIndex={-1} aria-hidden="true">
+      <Image src={article.image} alt="" fill priority={lead} sizes={lead ? "(min-width: 1024px) 740px, 100vw" : "112px"} className="object-cover" />
+    </Link>
+  ) : null;
+  return (
+    <li className={`edition-story ${lead ? "edition-story-lead" : ""} ${media && !lead ? "edition-story-has-media" : ""}`}>
+      {lead ? media : null}
+      <span className="edition-story-number" aria-hidden="true">{rank}</span>
+      <div className="edition-story-copy">
+        <StoryKicker article={article} />
+        <h3 className="edition-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+        {lead ? <p className="edition-story-dek">{article.description}</p> : null}
+        {lead ? <StoryMeta article={article} /> : null}
+      </div>
+      {lead ? null : media}
+    </li>
+  );
+}
+
+/** Compact row for the homepage "Latest news" list: date, headline, thumbnail. */
+export function LatestStory({ article }: { article: AiArticle }) {
+  return (
+    <article className="latest-story">
+      <time className="latest-story-date" dateTime={article.date}>{formatShortDate(article.date)}</time>
+      <div className="latest-story-copy">
+        <StoryKicker article={article} />
+        <h3 className="latest-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+      </div>
+      {article.image ? (
+        <Link href={articlePath(article)} className="latest-story-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill sizes="(min-width: 768px) 120px, 88px" className="object-cover" />
+        </Link>
+      ) : null}
+    </article>
+  );
+}
+
+/** Image-led card for the dark "Model launches" band. */
+export function BandStory({ article }: { article: AiArticle }) {
+  return (
+    <article className="band-story">
+      {article.image ? (
+        <Link href={articlePath(article)} className="band-story-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill sizes="(min-width: 1024px) 560px, (min-width: 768px) 50vw, 100vw" className="object-cover" />
+        </Link>
+      ) : null}
+      <h3 className="band-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+      <StoryMeta article={article} />
+    </article>
+  );
+}
+
 /** Timeline row for chronological feeds. */
 export function TimelineStory({ article }: { article: AiArticle }) {
   return (

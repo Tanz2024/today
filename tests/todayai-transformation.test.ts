@@ -145,13 +145,20 @@ test("all practical calculators are preserved and separate from AI tools", () =>
 // ── Homepage ────────────────────────────────────────────────────────
 test("homepage is AI-first and section order is stable", () => {
   const page = read("app/page.tsx");
-  const order = ["featured-heading", "latest-heading", "trending-heading", "tools-heading", "reviews-heading", "guides-heading", "explore-heading", "NewsletterSignup variant=\"homepage\""];
+  // One idea per band: the numbered edition, then latest, model launches,
+  // the tools directory, guides and the newsletter.
+  const order = ["id=\"six-heading\"", "id=\"latest-heading\"", "id=\"models-heading\"", "id=\"tools-heading\"", "id=\"guides-heading\"", "NewsletterSignup variant=\"homepage\""];
   let last = -1;
   for (const marker of order) {
     const index = page.indexOf(marker);
     assert.ok(index > last, `${marker} out of order or missing`);
     last = index;
   }
+  // Secondary discovery lives in the navigation, not on the homepage.
+  for (const removed of ["explore-heading", "trending-heading", "reviews-heading", "home-dateline-topics"]) {
+    assert.doesNotMatch(page, new RegExp(removed), `${removed} should not be on the homepage`);
+  }
+  assert.match(page, /planHomepage/);
   for (const legacy of ["MetroPicks", "TravelFeature", "WorthReadingAfterTravel", "InterestSelector", "EditorialFeature"]) {
     assert.doesNotMatch(page, new RegExp(legacy), `${legacy} should not be on the AI homepage`);
   }

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight, Microphone, Scan, Scissors } from "@phosphor-icons/react/ssr";
 
 import Container from "@/components/ui/Container";
 import AdSlot from "@/components/ui/AdSlot";
@@ -7,19 +6,17 @@ import NewsletterSignup from "@/components/newsletter/NewsletterSignup";
 import HomepageSignals from "@/components/home/HomepageSignals";
 import HomepageReturnSignal from "@/components/home/HomepageReturnSignal";
 import ModelWatch from "@/components/home/ModelWatch";
-import { CompactStory, FeatureHero, StoryCard } from "@/components/editorial/Story";
+import SectionHeading from "@/components/editorial/SectionHeading";
+import { BandStory, EditionStory, GuideCard, LatestStory } from "@/components/editorial/Story";
+import { toolAvailability } from "@/components/discovery/Cards";
 
 import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
-import { selectAiArticles, type AiArticle } from "@/lib/ai-content";
-import { hasIndexableImage } from "@/lib/article-discovery";
-import { CATALOG_GAMES, CATALOG_TOOLS } from "@/lib/site-catalog";
+import { selectAiArticles } from "@/lib/ai-content";
 import { isAiUtilitiesEnabled } from "@/lib/ai-utilities";
-import { toolAvailability } from "@/components/discovery/Cards";
+import { CATALOG_TOOLS, EVERYDAY_AI_TOOL_HREFS } from "@/lib/site-catalog";
 import { getLatestModelsByMaker } from "@/lib/model-data";
+import { editionHeading, planHomepage } from "@/lib/homepage-edition";
 import { buildMetadata } from "@/lib/seo";
-import MarketStrip from "@/components/markets/MarketStrip";
-import TradingViewTickers from "@/components/markets/TradingViewTickers";
-import { getMarketSnapshot } from "@/lib/market-data";
 
 export const revalidate = 3600;
 
@@ -40,172 +37,119 @@ export const metadata = {
   title: { absolute: HOME_TITLE },
 };
 
-// One-line "what you do" per game (accurate to the game code).
-const GAME_HOW: Record<string, string> = {
-  "word-detective": "Guess the hidden word. A language model scores how close each guess is in meaning.",
-  "quick-draw": "Sketch the prompt while an image model guesses.",
-};
+const siteDate = () => new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kuala_Lumpur" });
 
-// Homepage tools: three on-device tools that work without any provider.
-const HOME_TOOLS = [
-  { href: "/tools/ai-speech-to-text", name: "Transcribe a lecture", line: "Turn recordings and voice notes into editable text.", action: "Transcribe", Icon: Microphone },
-  { href: "/tools/ai-image-to-text", name: "Extract text from an image", line: "Copy text from screenshots, slides and photos.", action: "Extract text", Icon: Scan },
-  { href: "/tools/ai-background-remover", name: "Remove an image background", line: "Create a transparent image for presentations and projects.", action: "Remove background", Icon: Scissors },
-];
-const FRESH_DAYS = 14;
-const TREND_CATEGORIES = new Set(["culture", "entertainment", "gaming"]);
+/** Edition rows 2 and 3 carry a thumbnail; 4 to 6 are headline-only. */
+const EDITION_THUMBNAIL_RANKS = new Set([2, 3]);
+
+/**
+ * Tools band: the featured on-device workspaces, then the everyday tools,
+ * with tools that work right now ahead of ones that need setup.
+ */
+const HOME_TOOL_COUNT = 8;
+function homepageTools(aiEnabled: boolean) {
+  const featured = CATALOG_TOOLS.filter((tool) => tool.featured);
+  const everyday = EVERYDAY_AI_TOOL_HREFS.flatMap((href) => CATALOG_TOOLS.filter((tool) => tool.href === href));
+  const unique = [...new Map([...featured, ...everyday].map((tool) => [tool.href, tool])).values()];
+  return unique
+    .map((tool) => ({ tool, ready: toolAvailability(tool, aiEnabled) === "available" }))
+    .sort((a, b) => Number(b.ready) - Number(a.ready))
+    .slice(0, HOME_TOOL_COUNT);
+}
 
 export default async function HomePage() {
-  const [articles, market, modelSnapshot] = await Promise.all([getPublicDiscoverableArticles(), getMarketSnapshot(), getLatestModelsByMaker()]);
-  const ai = selectAiArticles(articles);
-  const aiOn = isAiUtilitiesEnabled();
-
-  // Shared selection: every article appears at most once on the page,
-  // keyed by its canonical path.
-  const used = new Set<string>();
-  const key = (article: (typeof ai)[number]) => `/${article.category}/${article.slug}`;
-  const take = (list: typeof ai, count: number) => {
-    const picked = list.filter((article) => !used.has(key(article))).slice(0, count);
-    picked.forEach((article) => used.add(key(article)));
-    return picked;
-  };
-
-  // 1 — Featured article: editor's pick, else newest that can carry the hero.
-  const now = Date.now();
-  const validDate = (article: (typeof ai)[number]) => Number.isFinite(new Date(article.date).getTime()) && new Date(article.date).getTime() <= now;
-  const suitable = (article: (typeof ai)[number]) =>
-    Boolean(article.slug && article.category && article.title?.trim().length >= 10 && (article.description?.trim().length ?? 0) >= 40 && hasIndexableImage(article.image)) && validDate(article);
-  const lead = ai.find((article) => article.homepageHero && suitable(article)) ?? ai.find(suitable) ?? ai.find((article) => (article.description?.trim().length ?? 0) >= 40) ?? ai[0];
-  if (lead) used.add(key(lead));
-
-  // 2 — One editorial section: a secondary story with image + up to four
-  // text-led headlines, newest first across news, guides and explainers.
-  const secondary = take(ai.filter((article) => hasIndexableImage(article.image) && validDate(article)), 1)[0];
-  const headlines = take(ai.filter(validDate), 4);
-  const reporting = [secondary, ...headlines].filter(Boolean);
-  const fresh = reporting.some((article) => now - new Date(article.date).getTime() < FRESH_DAYS * 86_400_000);
-
-  // Culture & trends: newest non-AI pieces from the trend desks, as a compact
-  // headline list (no "viral" or "breaking" labels; real dates only).
-  const aiPaths = new Set(ai.map(key));
-  const trends = articles
-    .filter((article) => TREND_CATEGORIES.has(article.category) && !aiPaths.has(`/${article.category}/${article.slug}`))
-    .filter((article) => Number.isFinite(new Date(article.date).getTime()) && new Date(article.date).getTime() <= now)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 4)
-    .map((article) => ({ ...article, aiTopic: "everyday-ai", aiTopicName: "", contentKind: "news" }) as AiArticle);
-
-  // Real availability per tool: on-device tools always work; hosted-AI
-  // tools say "Setup required" until the provider is switched on.
-  const tools = HOME_TOOLS.flatMap((tool) => {
-    const entry = CATALOG_TOOLS.find((item) => item.href === tool.href);
-    return entry ? [{ ...tool, ready: toolAvailability(entry, aiOn) === "available" }] : [];
-  });
-  const [game, ...otherGames] = CATALOG_GAMES.filter((item) => item.featured);
-  const newest = ai[0];
+  const [all, modelSnapshot] = await Promise.all([getPublicDiscoverableArticles(), getLatestModelsByMaker()]);
+  const { edition, latest, models, guides } = planHomepage(selectAiArticles(all));
+  const tools = homepageTools(isAiUtilitiesEnabled());
+  const newest = [...all].sort((a, b) => new Date(b.updated || b.date).getTime() - new Date(a.updated || a.date).getTime())[0];
+  const showModels = models.length > 0 || Boolean(modelSnapshot?.models.length);
 
   return (
-    <Container className="home home-editorial">
-      <HomepageSignals />
-      {newest ? <HomepageReturnSignal latestPublishedAt={newest.updated || newest.date} /> : null}
-      <h1 className="sr-only">TodayAI — AI news, tools, games and comparisons</h1>
+    <div className="home">
+      <Container className="home-stack">
+        <HomepageSignals />
+        {newest ? <HomepageReturnSignal latestPublishedAt={newest.updated || newest.date} /> : null}
+        <h1 className="sr-only">TodayAI — AI news, tools, games and comparisons</h1>
 
-      {/* 1 — Featured article */}
-      {lead ? (
-        <section aria-label="Featured story" data-homepage-impression="trending_impression" data-homepage-module="featured">
-          <FeatureHero article={lead} />
-        </section>
-      ) : (
-        <div className="empty-state"><h2>No AI articles yet</h2><p>New AI coverage will appear here as soon as it is published.</p></div>
-      )}
-
-      {/* Compact market context between the hero and the editorial feed. */}
-      <aside className="home-markets" aria-label="AI market context">
-        {market ? <MarketStrip snapshot={market} /> : <TradingViewTickers />}
-      </aside>
-
-      {/* 2 — Recent reporting */}
-      {reporting.length ? (
-        <section className="home-section" aria-labelledby="reporting-heading" data-homepage-impression="fresh_impression" data-homepage-module="fresh">
-          <div className="home-section-head">
-            <h2 id="reporting-heading" className="home-section-title">{fresh ? "Recent reporting" : "From the Journal"}</h2>
-            <Link href="/news" className="home-section-link">All articles <ArrowRight size={13} aria-hidden="true" /></Link>
+        {/* 1 — The numbered edition */}
+        <section aria-labelledby="six-heading" data-homepage-impression="trending_impression" data-homepage-module="trending">
+          <div className="edition-head">
+            <p className="edition-date">{siteDate()}</p>
+            <h2 id="six-heading" className="edition-heading">{editionHeading(edition.length)}</h2>
           </div>
-          <div className={`home-news ${secondary && headlines.length ? "" : "home-news-single"}`}>
-            {secondary ? <div className="home-news-lead"><StoryCard article={secondary} /></div> : null}
-            {headlines.length ? <div className="compact-list home-news-list">{headlines.map((article) => <CompactStory key={article.slug} article={article} />)}</div> : null}
-          </div>
-        </section>
-      ) : null}
-
-      {/* 2b — Culture & trends (non-AI trend desks), compact */}
-      {trends.length ? (
-        <section className="home-section" aria-labelledby="trends-heading">
-          <div className="home-section-head">
-            <h2 id="trends-heading" className="home-section-title">Culture &amp; trends</h2>
-          </div>
-          <div className="compact-list home-trends">{trends.map((article) => <CompactStory key={article.slug} article={article} />)}</div>
-        </section>
-      ) : null}
-
-      {/* 3 — Useful AI tools */}
-      {tools.length ? (
-        <section className="home-section home-tools-section" aria-labelledby="tools-heading">
-          <div className="home-section-head">
-            <div className="home-tools-intro">
-              <h2 id="tools-heading" className="home-section-title">What are you working on?</h2>
-              <p>Simple tools for studying, creating and everyday tasks.</p>
+          {edition.length ? (
+            <ol className="edition-list" role="list">
+              {edition.map((article, index) => <EditionStory key={article.slug} article={article} rank={index + 1} thumbnail={EDITION_THUMBNAIL_RANKS.has(index + 1)} />)}
+            </ol>
+          ) : (
+            <div className="empty-state">
+              <h3>No AI stories are published yet</h3>
+              <p>New AI coverage will appear here as soon as it is published.</p>
             </div>
-            <Link href="/tools" className="home-section-link">All tools <ArrowRight size={13} aria-hidden="true" /></Link>
-          </div>
-          <ul className="home-tools">
-            {tools.map(({ href, name, line, action, Icon, ready }) => (
-              <li key={href}>
-                <Link href={href} className={`home-tool ${ready ? "" : "is-setup"}`}>
-                  <span className="home-tool-icon" aria-hidden="true"><Icon size={24} weight="bold" /></span>
-                  <span className="home-tool-name">{name}</span>
-                  <span className="home-tool-line">{line}</span>
-                  <span className="home-tool-cta">{ready ? action : "Setup required"} <ArrowRight size={13} aria-hidden="true" /></span>
+          )}
+        </section>
+
+        {/* 2 — Latest news */}
+        {latest.length ? (
+          <section aria-labelledby="latest-heading" data-homepage-impression="fresh_impression" data-homepage-module="fresh">
+            <SectionHeading id="latest-heading" title="Latest news" href="/news" linkLabel="All AI news" />
+            <div className="latest-grid">
+              {latest.map((article) => <LatestStory key={article.slug} article={article} />)}
+            </div>
+          </section>
+        ) : null}
+
+        <AdSlot slot="homepage-boundary" />
+      </Container>
+
+      {/* 3 — Model launches (full-width dark band), with the live model table and the link to /compare */}
+      {showModels ? (
+        <section className="home-models" aria-labelledby="models-heading">
+          <Container>
+            <SectionHeading id="models-heading" title="Model launches" href="/news/ai-models" linkLabel="All AI model news" tone="dark" />
+            {models.length ? (
+              <div className="home-models-grid">
+                {models.map((article) => <BandStory key={article.slug} article={article} />)}
+              </div>
+            ) : null}
+            <ModelWatch snapshot={modelSnapshot} />
+          </Container>
+        </section>
+      ) : null}
+
+      <Container className="home-stack">
+        {/* 4 — TodayAI's own AI tools */}
+        <section aria-labelledby="tools-heading">
+          <SectionHeading id="tools-heading" title="AI tools" href="/tools" linkLabel="All AI tools" />
+          <p className="home-tools-lede">Free tools for writing, studying, images and audio. Most run right in your browser.</p>
+          <ul className="home-tools-grid">
+            {tools.map(({ tool, ready }) => (
+              <li key={tool.href}>
+                <Link href={tool.href} className="tool-category-tile">
+                  <span className="tool-category-name">{tool.title.replace(/^AI /, "")}</span>
+                  <span className="tool-category-examples">{tool.tagline ?? tool.description}</span>
+                  <span className="tool-category-count">{ready ? "Use tool" : "Setup required"}</span>
                 </Link>
               </li>
             ))}
           </ul>
         </section>
-      ) : null}
 
-      {/* 4 — Compact model / comparison preview */}
-      <ModelWatch snapshot={modelSnapshot} />
-
-      {/* 5 — Featured game */}
-      {game ? (
-        <section className="home-section" aria-labelledby="games-heading" data-homepage-impression="play_impression" data-homepage-module="play">
-          <div className="home-section-head">
-            <h2 id="games-heading" className="home-section-title">Play with AI</h2>
-            <Link href="/play" className="home-section-link">All games <ArrowRight size={13} aria-hidden="true" /></Link>
-          </div>
-          <div className="home-game">
-            <div className="home-game-main">
-              <h3 className="home-game-title"><Link href={game.href}>{game.title}</Link></h3>
-              <p className="home-game-line">{GAME_HOW[game.slug] ?? game.description}</p>
-              <Link href={game.href} className="ui-button ui-button-primary home-game-cta">Play now</Link>
+        {/* 5 — Guides, explainers and declared reviews */}
+        {guides.length ? (
+          <section aria-labelledby="guides-heading">
+            <SectionHeading id="guides-heading" title="Guides" href="/guides" linkLabel="All guides" />
+            <div className="home-learn-grid">
+              {guides.map((article) => <GuideCard key={article.slug} article={article} />)}
             </div>
-            {otherGames.length ? (
-              <ul className="home-game-side">
-                {otherGames.map((item) => (
-                  <li key={item.slug}><Link href={item.href} className="home-game-alt"><strong>{item.title}</strong><span>{GAME_HOW[item.slug] ?? item.description}</span></Link></li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
+          </section>
+        ) : null}
+
+        {/* 6 — Newsletter */}
+        <section className="home-newsletter" aria-label="Newsletter">
+          <NewsletterSignup variant="homepage" />
         </section>
-      ) : null}
-
-      <AdSlot slot="homepage-boundary" />
-
-      {/* 6 — Newsletter */}
-      <section className="home-newsletter" aria-label="Newsletter">
-        <NewsletterSignup variant="homepage" />
-      </section>
-    </Container>
+      </Container>
+    </div>
   );
 }
