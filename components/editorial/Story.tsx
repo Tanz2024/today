@@ -23,66 +23,6 @@ export function StoryMeta({ article }: { article: AiArticle }) {
   );
 }
 
-/**
- * One entry in the homepage's numbered edition. Rank 1 is the dominant story
- * (image, large headline, dek); the rest are compact rows, with a thumbnail
- * only where `thumbnail` is set. The numeral is decorative: the surrounding
- * ordered list already carries the position for assistive tech.
- */
-export function EditionStory({ article, rank, thumbnail = false }: { article: AiArticle; rank: number; thumbnail?: boolean }) {
-  const lead = rank === 1;
-  const media = article.image && (lead || thumbnail) ? (
-    <Link href={articlePath(article)} className="edition-story-media" tabIndex={-1} aria-hidden="true">
-      <Image src={article.image} alt="" fill priority={lead} sizes={lead ? "(min-width: 1024px) 740px, 100vw" : "112px"} className="object-cover" />
-    </Link>
-  ) : null;
-  return (
-    <li className={`edition-story ${lead ? "edition-story-lead" : ""} ${media && !lead ? "edition-story-has-media" : ""}`}>
-      {lead ? media : null}
-      {/* Grid items (see .edition-story in editorial.css): the number sits
-          beside the headline; the summary and meta run underneath. */}
-      <span className="edition-story-number" aria-hidden="true">{rank}</span>
-      <h3 className="edition-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
-      {article.description ? <p className="edition-story-dek">{article.description}</p> : null}
-      {lead ? <StoryMeta article={article} /> : null}
-      {lead ? null : media}
-    </li>
-  );
-}
-
-/** Compact row for the homepage "Latest news" list: date, headline, thumbnail. */
-export function LatestStory({ article }: { article: AiArticle }) {
-  return (
-    <article className="latest-story">
-      <time className="latest-story-date" dateTime={article.date}>{formatShortDate(article.date)}</time>
-      <div className="latest-story-copy">
-        <StoryKicker article={article} />
-        <h3 className="latest-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
-      </div>
-      {article.image ? (
-        <Link href={articlePath(article)} className="latest-story-media" tabIndex={-1} aria-hidden="true">
-          <Image src={article.image} alt="" fill sizes="(min-width: 768px) 120px, 88px" className="object-cover" />
-        </Link>
-      ) : null}
-    </article>
-  );
-}
-
-/** Image-led card for the dark "Model launches" band. */
-export function BandStory({ article }: { article: AiArticle }) {
-  return (
-    <article className="band-story">
-      {article.image ? (
-        <Link href={articlePath(article)} className="band-story-media" tabIndex={-1} aria-hidden="true">
-          <Image src={article.image} alt="" fill sizes="(min-width: 1024px) 560px, (min-width: 768px) 50vw, 100vw" className="object-cover" />
-        </Link>
-      ) : null}
-      <h3 className="band-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
-      <StoryMeta article={article} />
-    </article>
-  );
-}
-
 /** Timeline row for chronological feeds. */
 export function TimelineStory({ article }: { article: AiArticle }) {
   return (
@@ -173,6 +113,80 @@ export function CompactStory({ article }: { article: AiArticle }) {
       {article.image ? (
         <Link href={articlePath(article)} className="compact-story-media" tabIndex={-1} aria-hidden="true">
           <Image src={article.image} alt="" fill sizes="96px" className="object-cover" />
+        </Link>
+      ) : null}
+    </article>
+  );
+}
+
+/* ── Homepage (news-publication layout) ─────────────────────────── */
+
+function TopicLink({ article }: { article: AiArticle }) {
+  return <Link href={`/news/${article.aiTopic}`} className="hp-topic">{article.aiTopicName}</Link>;
+}
+
+/** Author · date · reading time, with the author emphasised. */
+function Byline({ article, readingTime = true }: { article: AiArticle; readingTime?: boolean }) {
+  const author = resolveArticleAuthor(article);
+  return (
+    <p className="hp-meta">
+      <span className="hp-meta-author">{author.name}</span>
+      <time dateTime={article.date}>{formatShortDate(article.date)}</time>
+      {readingTime && article.readingTime ? <span>{article.readingTime}</span> : null}
+    </p>
+  );
+}
+
+/** Lead story: 16:9 image, eyebrow, large headline, dek and byline. */
+export function LeadStory({ article }: { article: AiArticle }) {
+  return (
+    <article className="hp-lead">
+      {article.image ? (
+        <Link href={articlePath(article)} className="hp-lead-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill priority sizes="(min-width: 1024px) 800px, 100vw" className="object-cover" />
+        </Link>
+      ) : null}
+      <div className="hp-lead-copy">
+        <p className="hp-eyebrow"><span className="hp-eyebrow-flag">Top story</span><TopicLink article={article} /></p>
+        <h3 className="hp-lead-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+        {article.description ? <p className="hp-lead-dek">{article.description}</p> : null}
+        <Byline article={article} />
+      </div>
+    </article>
+  );
+}
+
+/** Secondary top story: topic, headline, date; thumbnail on the right. */
+export function RailStory({ article }: { article: AiArticle }) {
+  return (
+    <article className="hp-rail-story">
+      <div className="hp-rail-copy">
+        <TopicLink article={article} />
+        <h3 className="hp-rail-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+        <time className="hp-time" dateTime={article.date}>{formatShortDate(article.date)}</time>
+      </div>
+      {article.image ? (
+        <Link href={articlePath(article)} className="hp-rail-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill sizes="(min-width: 1024px) 112px, 88px" className="object-cover" />
+        </Link>
+      ) : null}
+    </article>
+  );
+}
+
+/** Latest-news row. `featured` gives the first story a larger image and headline. */
+export function RiverStory({ article, featured = false }: { article: AiArticle; featured?: boolean }) {
+  return (
+    <article className={`hp-river-story ${featured ? "is-featured" : ""}`}>
+      <div className="hp-river-copy">
+        <TopicLink article={article} />
+        <h3 className="hp-river-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+        {article.description ? <p className="hp-river-dek">{article.description}</p> : null}
+        <Byline article={article} readingTime={featured} />
+      </div>
+      {article.image ? (
+        <Link href={articlePath(article)} className="hp-river-media" tabIndex={-1} aria-hidden="true">
+          <Image src={article.image} alt="" fill sizes={featured ? "(min-width: 768px) 420px, 100vw" : "(min-width: 768px) 220px, 96px"} className="object-cover" />
         </Link>
       ) : null}
     </article>

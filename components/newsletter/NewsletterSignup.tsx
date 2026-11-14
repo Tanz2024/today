@@ -24,10 +24,10 @@ type Copy = {
 const COPY: Record<Variant, Copy> = {
   homepage: {
     eyebrow: "THE FRESH DROP",
-    headline: "The week in AI, in one email.",
-    description: "New TodayAI stories, guides and tools every Friday — clearly explained, without the hype.",
+    headline: "The week in AI",
+    description: "One email every Friday. Free.",
     cta: "Subscribe",
-    frequencyNote: "Every Friday. Free. Unsubscribe anytime.",
+    frequencyNote: "Unsubscribe anytime.",
   },
   article: {
     eyebrow: "Liked this?",
@@ -141,7 +141,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
           >
             {copy.headline}
           </h2>
-          {copy.description && <p className="mt-2 text-[14px] sm:text-[15px]" style={{ color: SUPPORTING }}>{copy.description}</p>}
+          {copy.description && <p className="mt-2 text-[14px] sm:text-[15px]" style={variant === "homepage" ? undefined : { color: SUPPORTING }}>{copy.description}</p>}
         </>
       )}
       {isCompact && (
@@ -155,7 +155,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
 
       <form onSubmit={submit} aria-label="Subscribe to the TodayAI newsletter" className={isCompact ? "mt-3" : "mt-4"}>
         {!isCompact && (
-          <label htmlFor={emailId} className="text-sm font-semibold" style={{ color: INK }}>
+          <label htmlFor={emailId} className="text-sm font-semibold" style={variant === "homepage" ? undefined : { color: INK }}>
             Email address
           </label>
         )}
@@ -194,7 +194,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
       </form>
 
       {status === "error" && (
-        <p role="alert" className="mt-2 text-sm font-medium text-[#9E285A]">
+        <p role="alert" className="newsletter-error mt-2 text-sm font-medium text-[#9E285A]">
           {error}
         </p>
       )}

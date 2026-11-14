@@ -1,38 +1,14 @@
-/* Mobile spacing (phones, below 640px).
-   One place for phone spacing and padding, imported after editorial.css and
-   discovery.css so these values win. Unlayered on purpose: it must beat the
-   `@layer components` rules in discovery.css. Keep the scale consistent:
-   16px side gutter, 40px between page sections, 24px around bands. */
+/* Phone spacing for hub pages and the footer (below 640px). Unlayered so
+   it beats `@layer components` in discovery.css. Header and homepage phone
+   rules live in home.css. */
 @media (max-width: 639px) {
-  /* Homepage rhythm */
-  .home, .home-stack { gap: 40px; }
-  .home { padding-top: 16px; padding-bottom: 48px; }
-  .home-models { padding: 36px 0 40px; }
-  .home-models-grid { gap: 24px; }
-  .home-models .mw { margin-top: 32px; }
-  .home-newsletter { padding: 24px 0; }
-
-  /* Numbered edition: number beside the headline, summary underneath. */
-  .edition-list { margin-top: 16px; }
-  .edition-story { grid-template-columns: 26px minmax(0, 1fr); column-gap: 10px; padding: 16px 0; }
-  .edition-story-has-media { grid-template-columns: 26px minmax(0, 1fr) 76px; }
-  .edition-story-number { font-size: 1.75rem; }
-  .edition-story-title { font-size: 1.125rem; }
-  .edition-story-lead { grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding-bottom: 20px; }
-  .edition-story-lead .edition-story-number { font-size: 3.25rem; line-height: 0.8; }
-  .edition-story-lead .edition-story-title { font-size: 1.625rem; line-height: 1.08; }
-  .edition-story-lead .edition-story-dek { font-size: 1rem; }
-
   /* Section headings */
   .section-heading { padding-top: 14px; margin-bottom: 18px; }
-  .home-tools-lede { margin-top: -6px; margin-bottom: 16px; }
-
   /* Hub pages (News, Guides, Tools, Compare, AI tools…) */
   .hub { padding-top: 24px; padding-bottom: 56px; }
   .page-header-title { font-size: 2rem; line-height: 1.08; letter-spacing: -0.04em; }
   .page-header-description { margin-top: 10px; font-size: 1rem; line-height: 1.55; }
   .hub-section, .compare-section { margin-top: 40px; }
-
   /* Footer */
   .site-footer-inner { gap: 32px; padding: 40px 16px 24px; }
   .site-footer-groups { gap: 24px 16px; }

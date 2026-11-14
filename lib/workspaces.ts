@@ -27,7 +27,7 @@ export const WORKSPACES: Workspace[] = [
   {
     slug: "ai-writing-studio",
     name: "AI Writing & Paraphrasing Studio",
-    description: "Paraphrase, fix grammar, change tone, make text academic, shorter or longer, with side-by-side changes you accept or reject. Runs on your device.",
+    description: "Paraphrase, fix grammar and change tone, with tracked changes. Runs on your device.",
     category: "writing",
     tagline: "Rewrite with tracked changes",
     model: "Qwen3.5 on-device",
@@ -51,7 +51,7 @@ export const WORKSPACES: Workspace[] = [
   {
     slug: "ai-resume-assistant",
     name: "AI Resume & Job Application Assistant",
-    description: "Build your CV section by section, compare it with a job description, improve bullet points and draft a cover letter, then print or save it as a PDF. Your CV stays on your device.",
+    description: "Build a CV, match it to a job ad and draft a cover letter. Stays on your device.",
     category: "productivity",
     tagline: "CV editor and job match",
     model: "Qwen3.5 on-device",
@@ -74,7 +74,7 @@ export const WORKSPACES: Workspace[] = [
   {
     slug: "ai-image-document-studio",
     name: "AI Image & Document Studio",
-    description: "Crop, rotate and adjust images, convert formats, remove portrait backgrounds, extract text with OCR, and turn photos of pages into a PDF, all on your device.",
+    description: "Edit and convert images, extract text and scan pages to PDF, on your device.",
     category: "images",
     tagline: "Edit, scan and extract text",
     model: "MODNet + Tesseract",
@@ -98,7 +98,7 @@ export const WORKSPACES: Workspace[] = [
   {
     slug: "ai-study-assistant",
     name: "AI Study & Exam Assistant",
-    description: "Upload notes or a PDF and get source-grounded answers with page references, simple explanations, flashcards, multiple-choice quizzes and practice questions. Runs on your device.",
+    description: "Answers, flashcards and quizzes from your own notes or PDF, with sources.",
     category: "documents",
     tagline: "Revise from your own notes",
     model: "Qwen3.5 + MiniLM on-device",

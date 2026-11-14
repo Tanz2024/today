@@ -3,7 +3,6 @@
 //
 // TodayAI is organised around four sections: AI Blog, AI Tools, AI Games and
 // Compare. Keep dropdowns short and only link to routes that exist.
-import { AI_UTILITIES } from "./ai-utilities.ts";
 
 export type NavLink = { label: string; href: string };
 export type NavItem = NavLink & {
@@ -18,31 +17,46 @@ export type NavItem = NavLink & {
 export const SEARCH_LINK: NavLink = { label: "Search", href: "/search" };
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: "Home", href: "/", description: "AI news, tools, games and comparisons." },
   {
-    label: "AI Blog",
+    label: "News",
     href: "/news",
-    description: "AI news, tutorials and guides.",
-    match: ["/news", "/guides", "/reviews", "/topics"],
-    // Reviews is left out until reviews are published; /reviews still exists
-    // (noindex while empty) and the Compare page links to it when it has content.
+    description: "The latest AI news, launches and analysis.",
+    match: ["/news", "/topics"],
     children: [
-      { label: "AI News", href: "/news" },
-      { label: "Guides & tutorials", href: "/guides" },
+      { label: "Latest AI news", href: "/news" },
+      { label: "AI companies", href: "/news/ai-companies" },
+      { label: "Product releases", href: "/news/product-releases" },
       { label: "Browse by topic", href: "/topics" },
     ],
-    overview: { label: "All AI stories", href: "/news" },
+    overview: { label: "All AI news", href: "/news" },
+  },
+  {
+    label: "AI Models",
+    href: "/compare",
+    description: "New model launches, prices and side-by-side comparisons.",
+    match: ["/compare", "/news/ai-models"],
+    children: [
+      { label: "Model launches", href: "/news/ai-models" },
+      { label: "Compare AI models", href: "/compare" },
+    ],
+    overview: { label: "Compare models", href: "/compare" },
   },
   {
     label: "AI Tools",
     href: "/tools",
-    description: "Free AI tools for writing, documents, coding and productivity.",
+    description: "Free AI tools for writing, documents, images and study. Many run on your device.",
     match: ["/tools", "/ai-tools"],
-    children: AI_UTILITIES.map((tool) => ({ label: tool.name, href: `/tools/${tool.slug}` })),
+    children: [
+      { label: "Writing & Paraphrasing Studio", href: "/tools/ai-writing-studio" },
+      { label: "Resume & Job Assistant", href: "/tools/ai-resume-assistant" },
+      { label: "Image & Document Studio", href: "/tools/ai-image-document-studio" },
+      { label: "Study & Exam Assistant", href: "/tools/ai-study-assistant" },
+      { label: "AI software directory", href: "/ai-tools" },
+    ],
     overview: { label: "All AI tools", href: "/tools" },
   },
+  { label: "Guides", href: "/guides", description: "Tutorials and explainers for using AI well.", match: ["/guides", "/reviews"] },
   { label: "AI Games", href: "/play", description: "Word and drawing games powered by real AI models.", match: ["/play"] },
-  { label: "Compare", href: "/compare", description: "AI models ranked by capability, price and value.", match: ["/compare"] },
 ];
 
 /** True when `pathname` belongs to the nav item (used for active indicators). */

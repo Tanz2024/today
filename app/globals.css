@@ -2,6 +2,7 @@
 @import "./editorial.css";
 @import "./discovery.css";
 @import "./mobile.css";
+@import "./home.css";
 
 .category-hero-image {
   object-position: var(--category-mobile-position, center);

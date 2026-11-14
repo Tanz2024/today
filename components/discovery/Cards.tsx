@@ -33,6 +33,11 @@ export type ToolAvailability = "available" | "preview" | "coming-soon";
  *   what it will do → "Preview tool" (no claim that it works).
  * - "coming-soon": no useful destination → not a link at all.
  */
+/** The icon a tool is shown with everywhere (specific, else its category's). */
+export function toolIcon(tool: CatalogTool) {
+  return TOOL_HREF_ICONS[tool.href] ?? TOOL_ICONS[tool.category];
+}
+
 export function toolAvailability(tool: CatalogTool, aiEnabled: boolean): ToolAvailability {
   if (tool.kind === "local") return "available";
   return aiEnabled ? "available" : "preview";
@@ -41,7 +46,7 @@ export function toolAvailability(tool: CatalogTool, aiEnabled: boolean): ToolAva
 /** Utility card: name, real description, category, availability, launch link. */
 export function CatalogToolCard({ tool, availability = "available" }: { tool: CatalogTool; availability?: ToolAvailability }) {
   const state = availability;
-  const Icon = TOOL_HREF_ICONS[tool.href] ?? TOOL_ICONS[tool.category];
+  const Icon = toolIcon(tool);
   const body = tool.tagline ? (
     <>
       <span className="d-card-icon" aria-hidden="true"><Icon size={20} weight="bold" /></span>

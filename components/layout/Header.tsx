@@ -32,6 +32,8 @@ export default function Header() {
   const router = useRouter();
   const [open, setOpen] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -72,6 +74,19 @@ export default function Header() {
     };
   }, [router]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const current = window.scrollY;
+      if (menuOpen || open || current <= 12 || document.activeElement?.closest(".site-header")) setHeaderHidden(false);
+      else if (current > lastScrollY.current + 4) setHeaderHidden(true);
+      else if (current < lastScrollY.current - 4) setHeaderHidden(false);
+      lastScrollY.current = current;
+    };
+    lastScrollY.current = window.scrollY;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen, open]);
+
   useEffect(() => () => cancelClose(), []);
 
   const closeMenu = useCallback(() => {
@@ -81,7 +96,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="site-header game-site-header">
+    <header className={`site-header editorial-site-header ${headerHidden ? "is-scroll-hidden" : ""}`}>
       <div className="site-header-inner">
         <Link href="/" aria-label="TodayAI home" className="site-header-logo">
           <Logo />

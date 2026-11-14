@@ -39,22 +39,21 @@ export default async function ToolsPage() {
       <JsonLd data={itemList} />
       <Container className="hub">
         <PageHeader
-          eyebrow="AI Tools"
-          title="AI tools & utilities"
-          description="Free tools built by TodayAI for images, writing, audio and documents. Tools marked On-device run the AI model in your browser, so your files never leave it. No account needed."
+          title="AI tools"
+          description="Free tools for writing, documents, images and audio. Most run in your browser. No account needed."
         >
           <Link href="/ai-tools" className="ui-link-arrow">Looking for AI software? Browse the directory <ArrowRight size={14} aria-hidden="true" /></Link>
         </PageHeader>
 
         <section aria-labelledby="featured-tools" className="hub-section">
-          <SectionHeading id="featured-tools" kicker="Start here" title="AI tools for everyday work" />
+          <SectionHeading id="featured-tools" title="Featured" />
           <ul className="card-grid tool-grid tool-grid-5">
             {featured.map((tool) => <li key={tool.href}><CatalogToolCard tool={tool} availability={toolAvailability(tool, aiOn)} /></li>)}
           </ul>
         </section>
 
         <section aria-labelledby="all-tools" className="hub-section">
-          <SectionHeading id="all-tools" kicker="Directory" title="All tools" />
+          <SectionHeading id="all-tools" title="All tools" />
           <FilterableGrid
             label="Search tools"
             placeholder="Search tools, e.g. transcribe, pdf, grammar"
@@ -71,12 +70,12 @@ export default async function ToolsPage() {
 
         {guides.length ? (
           <section aria-labelledby="tool-guides" className="hub-section">
-            <SectionHeading id="tool-guides" kicker="Learn" title="Related guides" href="/guides" linkLabel="All guides" />
+            <SectionHeading id="tool-guides" title="Related guides" href="/guides" linkLabel="All guides" />
             <div className="home-guides-grid">{guides.map((article) => <GuideCard key={article.slug} article={article} />)}</div>
           </section>
         ) : null}
 
-        <p className="hub-footnote">On-device tools never upload your files. Hosted AI tools send your text to a language model only when you press the button. TodayAI does not show ratings or usage numbers it can&apos;t verify.</p>
+        <p className="hub-footnote">On-device tools never upload your files. Hosted tools send your text to a model only when you press the button.</p>
       </Container>
     </>
   );

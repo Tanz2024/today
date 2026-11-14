@@ -96,7 +96,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
                     <div className="mobile-menu-row">
                       <Link href={item.href} onClick={onClose} aria-current={active ? "page" : undefined} className={`mobile-menu-link ${active ? "is-active" : ""}`}>
                         <span>{item.label}</span>
-                        <span className="mobile-menu-link-description">{item.description}</span>
+                        
                       </Link>
                       {item.children?.length ? (
                         <button
