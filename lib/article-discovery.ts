@@ -142,6 +142,8 @@ export function filterByTag(articles: Article[], tag: string): Article[] {
 
 export interface SearchIndexEntry {
   slug: string;
+  /** "review" | "comparison" | "guide" … for AI coverage; set by the search page. */
+  contentKind?: string;
   category: string;
   title: string;
   displayTitle?: string;

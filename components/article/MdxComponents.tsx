@@ -7,8 +7,6 @@ import {
 } from "react";
 
 import QuickAnswer from "@/components/article/QuickAnswer";
-import GameScreenshot from "@/components/gaming/GameScreenshot";
-import TripPlanner from "@/components/article/TripPlanner";
 import { slugify } from "@/lib/toc";
 
 // Editors sometimes end a heading with a decorative emoji (e.g. "Brisa's
@@ -357,8 +355,6 @@ export const mdxComponents = {
    * <QuickAnswer text="The answer..." />
    */
   QuickAnswer,
-  GameScreenshot,
-  TripPlanner,
   ListenToSpotify,
 
   /*

@@ -1,22 +1,19 @@
 import type { MetadataRoute } from "next";
-import { getPublicCategories } from "@/lib/categories";
 import { getSiteUrl } from "@/lib/seo";
-import { getQuestions } from "@/lib/questions";
-import { questionIndexing } from "@/lib/question-indexing";
-import { getDiscoverableArticles } from "@/lib/article-catalog";
+import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
 import { buildTopicIndex, getEligibleTopics, topicPath } from "@/lib/topics";
+import { selectAiArticles } from "@/lib/ai-content";
+import { AI_TOPICS } from "@/lib/ai-taxonomy";
+import { AI_UTILITIES, isAiUtilitiesEnabled } from "@/lib/ai-utilities";
 
-// `/music` is excluded: it redirects to the homepage.
-// `/pulse`, `/daily-drop`, `/saved`, `/search` and `/community` are
-// noindex utility or ephemeral pages.
-// `/metro` is excluded: content/metro-picks.json is currently empty, so the
-// route renders with no picks — not a public-ready page yet.
+// Retained, AI-focused public routes only. Retired sections (lifestyle desks,
+// questions, polls, community, non-AI games and calculators) are gone.
 const STATIC_ROUTES = [
-  "", "/trending", "/topics", "/about", "/editorial-policy", "/contact", "/privacy", "/terms", "/questions",
-    "/play", "/play/trivia", "/play/what-to-play", "/play/multiplayer", "/play/gaming-culture", "/play/obby", "/play/rush", "/play/breaker", "/gaming", "/play/stay-out",
-    "/play/group-chat", "/play/red-flag-green-flag", "/play/would-you-rather", "/play/weekend-picker", "/play/quick-draw", "/what-if/phone-free-week",
-  "/tools", "/tools/student-budget-calculator", "/tools/cgpa-calculator", "/tools/trip-budget-calculator",
-  "/tools/bill-splitter", "/tools/attendance-calculator", "/tools/word-counter", "/tools/date-calculator", "/tools/percentage-calculator", "/tools/focus-timer", "/tools/compatibility-check",
+  "", "/ai", "/news", "/guides", "/compare", "/topics", "/ai-tools",
+  "/tools", "/tools/word-counter",
+  "/tools/ai-writing-studio", "/tools/ai-resume-assistant", "/tools/ai-image-document-studio", "/tools/ai-study-assistant",
+  "/play", "/play/word-detective", "/play/quick-draw",
+  "/about", "/editorial-policy", "/contact", "/privacy", "/terms",
 ];
 
 // Only routes with a real, known modification date — content-driven pages
@@ -33,17 +30,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : { url: `${base}${route}` };
   });
 
-  for (const cat of getPublicCategories()) {
-    if (!entries.some((entry) => entry.url === `${base}/${cat.slug}`)) {
-      entries.push({ url: `${base}/${cat.slug}` });
-    }
+  // AI utilities are noindex until a provider is switched on; list them only then.
+  if (isAiUtilitiesEnabled()) {
+    for (const tool of AI_UTILITIES) entries.push({ url: `${base}/tools/${tool.slug}` });
   }
 
-  // MDX, generated and community articles (all pages of each Appwrite
-  // collection). Hidden-desk articles stay listed; only their landing pages
-  // redirect.
+  // AI news topic hubs that have stories.
+  // AI articles only (MDX and generated). Non-AI archive articles now 404.
   const seen = new Set(entries.map((entry) => entry.url));
-  const articles = await getDiscoverableArticles();
+  const articles = selectAiArticles(await getPublicDiscoverableArticles());
+  // Same threshold as app/news/[topic] (noindex below 2 stories): never list
+  // a noindexed page in the sitemap.
+  for (const topic of AI_TOPICS.filter((item) => articles.filter((article) => article.aiTopic === item.slug).length >= 2)) {
+    const url = `${base}/news/${topic.slug}`;
+    seen.add(url);
+    entries.push({ url });
+  }
   for (const article of articles) {
     const url = `${base}/${article.category}/${article.slug}`;
     if (seen.has(url)) continue;
@@ -59,12 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (seen.has(url)) continue;
     seen.add(url);
     entries.push({ url, lastModified: new Date(topic.lastModified) });
-  }
-
-  // Only questions with their own guidance; the rest are noindex.
-  for (const question of getQuestions().filter((item) => questionIndexing(item.slug).index)) {
-    const url = `${base}/questions/${question.slug}`;
-    if (!entries.some((entry) => entry.url === url)) entries.push({ url });
   }
 
   return entries;

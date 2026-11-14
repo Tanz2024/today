@@ -9,7 +9,7 @@ import { formatShortDate } from "@/lib/ai-content";
 
 export const metadata = buildMetadata({
   title: "AI tools directory",
-  description: "A factual directory of AI tools for writing, coding, research, images, video, audio, productivity and education, with links to each official site.",
+  description: "A factual directory of AI chatbots, coding assistants, productivity and creative software, with links to each official site.",
   path: "/ai-tools",
 });
 
@@ -41,6 +41,8 @@ function ToolCard({ tool, index }: { tool: AiTool; index: number }) {
   );
 }
 
+const CATEGORIES_WITH_TOOLS = AI_TOOL_CATEGORIES.filter((category) => AI_TOOLS.some((tool) => tool.category === category.slug));
+
 export default function AiToolsPage() {
   const hasAffiliate = AI_TOOLS.some((tool) => tool.affiliate);
   const itemList = {
@@ -58,13 +60,14 @@ export default function AiToolsPage() {
         title="AI tools directory"
         description={`${AI_TOOLS.length} AI products, sorted by what you want to get done. Descriptions are factual, nothing here is sponsored or ranked, and every link goes to the official site.`}
       >
-        <Link href="/tools" className="ui-link-arrow">Looking for calculators? Practical tools →</Link>
+        <Link href="/tools" className="ui-link-arrow">Use TodayAI&apos;s free AI tools →</Link>
+        <Link href="/compare" className="ui-link-arrow">Compare side by side →</Link>
       </PageHeader>
       <nav aria-label="AI tool categories" className="hub-topic-bar">
-        {AI_TOOL_CATEGORIES.map((category) => <a key={category.slug} href={`#${category.slug}`} className="topic-chip">{category.name}</a>)}
+        {CATEGORIES_WITH_TOOLS.map((category) => <a key={category.slug} href={`#${category.slug}`} className="topic-chip">{category.name}</a>)}
       </nav>
       {hasAffiliate ? <AffiliateDisclosure className="mt-6" /> : null}
-      {AI_TOOL_CATEGORIES.map((category) => {
+      {CATEGORIES_WITH_TOOLS.map((category) => {
         const tools = AI_TOOLS.filter((tool) => tool.category === category.slug);
         return (
           <section key={category.slug} id={category.slug} className="directory-category hub-section" aria-labelledby={`${category.slug}-heading`}>
@@ -72,11 +75,7 @@ export default function AiToolsPage() {
               <h2 id={`${category.slug}-heading`} className="text-xl font-extrabold tracking-tight">{category.name}</h2>
               <p className="text-sm text-muted">{category.description}</p>
             </div>
-            {tools.length ? (
             <div className="directory-grid">{tools.map((tool, index) => <ToolCard key={tool.slug} tool={tool} index={index} />)}</div>
-            ) : (
-              <p className="text-sm text-muted">No tools listed in this category yet.</p>
-            )}
           </section>
         );
       })}

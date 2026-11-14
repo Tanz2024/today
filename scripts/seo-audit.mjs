@@ -1,4 +1,4 @@
-// Development-only SEO spot check against a running BrisaStory server.
+// Development-only SEO spot check against a running TodayAI server.
 //   npm run seo:audit -- http://localhost:3000            representative routes
 //   npm run seo:audit -- http://localhost:3000 --sitemap  every sitemap URL
 // Checks status, canonical, robots, title, description, JSON-LD and the RSS
@@ -6,9 +6,9 @@
 // crawler and not used by the app.
 const base = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
 const sitemapMode = process.argv.includes("--sitemap");
-const SITE = "https://brisastory.live";
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://brisastory.live").replace(/\/$/, "");
 
-const ROUTES = ["/", "/culture", "/topics", "/questions", "/trending", "/saved", "/search", "/pulse", "/daily-drop", "/play", "/feed.xml", "/robots.txt"];
+const ROUTES = ["/", "/news", "/tools", "/play", "/compare", "/topics", "/search", "/feed.xml", "/robots.txt"];
 
 const pick = (html, pattern) => html.match(pattern)?.[1];
 

@@ -4,14 +4,39 @@ import { buildMetadata, getSiteUrl } from "@/lib/seo";
 import { aboutPageJsonLd } from "@/lib/structured-data";
 import JsonLd from "@/components/seo/JsonLd";
 
-export const metadata = buildMetadata({ title: "About", description: "TodayAI is an independent global youth media publication covering culture, relationships, campus life, technology, travel, style, entertainment and the internet.", path: "/about" });
+export const metadata = buildMetadata({ title: "About", description: "TodayAI is an independent publication about artificial intelligence: AI news and guides, free AI tools, AI games and factual software comparisons.", path: "/about" });
 
 export default function AboutPage() {
   return (
-    <div>
+    <Container className="hub">
       <JsonLd data={aboutPageJsonLd(getSiteUrl())} />
-      <section className="border-b border-black/[0.08] bg-paper"><Container className="py-12 sm:py-16 lg:py-20"><div className="grid gap-10 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-16"><div><p className="text-[10px] font-bold uppercase tracking-[0.17em] text-electric">About TodayAI</p><h1 className="mt-4 max-w-[760px] font-heading text-[43px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#171425] sm:text-[60px] lg:text-[72px]">Life is already complicated enough.</h1></div><div className="max-w-[510px] lg:justify-self-end"><p className="text-[16px] leading-[1.65] text-[#68627c] sm:text-[18px]">TodayAI is an independent global magazine for youth culture and city life — the trends, style, relationships and ideas people actually talk about, online and off.</p><p className="mt-5 font-heading text-[18px] font-semibold text-[#342a63]">Real People. <span className="text-electric">Brighter Days.</span></p></div></div></Container></section>
-      <Container className="py-12 sm:py-16 lg:py-20"><div className="prose-fresh mx-auto max-w-2xl text-[17px] leading-[1.7]"><h2>Our story</h2><p>TodayAI was founded in Asia and publicly launched on 20 September 2026 as a global magazine for readers everywhere. It started from a simple frustration: stories about modern life often sound painfully corporate or exist mainly to keep you scrolling. We wanted something direct, useful, curious and occasionally funny.</p><h2>Who we write for</h2><p>Gen Alpha, who are growing up online and setting the next wave of trends, and metro readers of every age who want to understand what is happening in culture and city life right now. If you live somewhere busy, curious and connected, you are our reader.</p><h2>What we cover</h2><p>Culture and internet trends, style and beauty, relationships, technology and AI, money, travel and city life, and clear, factual guidance on sex and health. For medical, legal or financial decisions, talk to a qualified professional.</p><h2>How we write</h2><p>Every article aims to answer its headline quickly, without fake urgency or seventeen-paragraph intros.</p><h2>Who&apos;s behind it</h2><p>Articles are published under the TodayAI Editorial byline while the publication grows. See our <Link href="/editorial-policy">editorial policy</Link> for how we research, source and correct our stories.</p><h2>What we don&apos;t do</h2><p>No account maze, no selling your data and no fake urgency. See our <Link href="/privacy">privacy page</Link> for anonymous reactions and polls.</p><h2>On Screen credits</h2><p>On Screen uses TMDB for title metadata and artwork. TodayAI is not affiliated with or endorsed by Netflix.</p><p>Have a topic suggestion? Visit our <Link href="/contact">contact page</Link>.</p></div></Container>
-    </div>
+      <article className="legal-page">
+        <p className="eyebrow">About TodayAI</p>
+        <h1 className="detail-title">AI, explained clearly and made useful.</h1>
+        <p className="detail-dek">TodayAI is an independent publication about artificial intelligence. We explain what&apos;s changing, build small tools you can actually use, and make AI concepts tangible through games.</p>
+
+        <h2>Our story</h2>
+        <p>TodayAI was founded in Asia and publicly launched on 20 September 2026. It now focuses entirely on AI: what it can do, where it falls short, and how to use it with good judgment.</p>
+
+        <h2>What you&apos;ll find here</h2>
+        <ul>
+          <li><Link href="/news">AI Blog</Link> — dated news, guides and explainers.</li>
+          <li><Link href="/tools">AI Tools</Link> — free tools to summarize text, write emails, improve prompts, explain code and plan automations.</li>
+          <li><Link href="/play">AI Games</Link> — word and drawing games where a real AI model is part of the play.</li>
+          <li><Link href="/compare">Compare</Link> — factual side-by-side tables of AI software, with links to official sites.</li>
+        </ul>
+
+        <h2>How we work</h2>
+        <p>Every article aims to answer its headline quickly, without fake urgency. We don&apos;t invent ratings, prices, test results or usage numbers. Our AI tools only ever show real model output, and say so plainly when they&apos;re unavailable.</p>
+
+        <h2>Who&apos;s behind it</h2>
+        <p>Articles are published under the TodayAI Editorial byline while the publication grows. See our <Link href="/editorial-policy">editorial policy</Link> for how we research, source and correct stories.</p>
+
+        <h2>What we don&apos;t do</h2>
+        <p>No account required, no selling your data, and no paid placements in the AI software directory. See our <Link href="/privacy">privacy policy</Link> for details.</p>
+
+        <p>Have a topic suggestion or a correction? Use our <Link href="/contact">contact page</Link>.</p>
+      </article>
+    </Container>
   );
 }

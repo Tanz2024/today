@@ -10,6 +10,9 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import JsonLd from "@/components/seo/JsonLd";
 import ConsentAwareScripts from "@/components/privacy/ConsentAwareScripts";
 
+const ADS_ENABLED = process.env.NEXT_PUBLIC_ADS_ENABLED === "true";
+const PRIVACY_MESSAGING_ENABLED = process.env.NEXT_PUBLIC_GOOGLE_PRIVACY_MESSAGING_ENABLED === "true";
+
 // Geist (SIL Open Font License) is self-hosted from app/fonts, so builds
 // never depend on a font CDN.
 const geist = localFont({
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "AI news, tools, reviews and practical guides, explained clearly. Plus games, questions and community features from TodayAI.",
+    "AI news and guides, free AI tools, AI games and factual AI software comparisons from TodayAI.",
   applicationName: SITE_NAME,
   // No canonical or og:url here: they would be inherited by every route that
   // lacks its own metadata and point it at the homepage. Pages set their own
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
-    description: "AI news, tools, reviews and practical guides, explained clearly.",
+    description: "AI news and guides, free AI tools, AI games and AI software comparisons.",
   },
   twitter: { card: "summary_large_image" },
   robots: INDEXABLE_ROBOTS,
@@ -68,13 +71,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geist.variable} h-full antialiased`}
     >
       <head>
+        {/* Site ownership verification for AdSense; loads no script. */}
         <meta name="google-adsense-account" content="ca-pub-5814338716030863" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5814338716030863" crossOrigin="anonymous" />
-        {process.env.NEXT_PUBLIC_GOOGLE_PRIVACY_MESSAGING_ENABLED === "true" ? (
-          <>
-            {/* Google requires the AdSense tag on the page for published Privacy & messaging messages to display. */}
-            <script async src="https://fundingchoicesmessages.google.com/i/pub-5814338716030863/page/message.js?ers=1" />
-          </>
+        {/* The AdSense loader is only needed when ad slots can render, or when
+            Google Privacy & messaging is on (its messages require the tag).
+            NEXT_PUBLIC_ADSENSE_LOADER=true also loads it for a site review
+            without enabling slots. */}
+        {ADS_ENABLED || PRIVACY_MESSAGING_ENABLED || process.env.NEXT_PUBLIC_ADSENSE_LOADER === "true" ? (
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5814338716030863" crossOrigin="anonymous" />
+        ) : null}
+        {PRIVACY_MESSAGING_ENABLED ? (
+          <script async src="https://fundingchoicesmessages.google.com/i/pub-5814338716030863/page/message.js?ers=1" />
         ) : null}
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">

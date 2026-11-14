@@ -1,3 +1,4 @@
+import { SITE_URL } from "./site-url.ts";
 export type CampaignSharePlatform = "reddit" | "whatsapp" | "telegram" | "x" | "facebook" | "native" | "copy";
 
 const PLATFORM_PARAMS: Record<CampaignSharePlatform, { source: string; medium: string }> = {
@@ -21,7 +22,7 @@ export function buildCampaignUrl({ url, source, medium, campaign = "article_shar
   campaign?: string;
   content?: string;
 }): string {
-  const next = new URL(url, "https://brisastory.live");
+  const next = new URL(url, SITE_URL);
   next.searchParams.set("utm_source", source);
   next.searchParams.set("utm_medium", medium);
   next.searchParams.set("utm_campaign", campaign);

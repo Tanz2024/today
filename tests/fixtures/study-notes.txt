@@ -1,0 +1,9 @@
+Photosynthesis is the process by which green plants convert light energy into chemical energy. It takes place in the chloroplasts of plant cells. Chlorophyll, the main pigment, absorbs mainly blue and red light and reflects green light, which is why leaves look green.
+
+The process has two stages. The light-dependent reactions occur in the thylakoid membranes. They use light energy to split water molecules, releasing oxygen as a by-product, and produce ATP and NADPH.
+
+The Calvin cycle, also called the light-independent reactions, occurs in the stroma of the chloroplast. It uses the ATP and NADPH from the first stage to fix carbon dioxide into glucose. The enzyme RuBisCO catalyses the first step of carbon fixation.
+
+The rate of photosynthesis depends on light intensity, carbon dioxide concentration and temperature. At low light intensity, light is the limiting factor. Most plants photosynthesise fastest at around 25 degrees Celsius; above about 40 degrees Celsius enzymes begin to denature.
+
+Cellular respiration is the reverse process. Mitochondria break down glucose with oxygen to release energy as ATP, producing carbon dioxide and water.

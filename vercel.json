@@ -1,28 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron/editorial-daily",
-      "schedule": "0 16 * * *"
-    },
-    {
       "path": "/api/cron/editorial-daily-maintenance",
       "schedule": "30 16 * * *"
-    },
-    {
-      "path": "/api/cron/editorial-weekly",
-      "schedule": "0 16 * * 5"
-    },
-    {
-      "path": "/api/cron/editorial-food-travel?beat=discovery",
-      "schedule": "30 16 * * 0"
-    },
-    {
-      "path": "/api/cron/editorial-food-travel?beat=food",
-      "schedule": "0 1 * * 3"
-    },
-    {
-      "path": "/api/cron/editorial-food-travel?beat=travel",
-      "schedule": "0 1 * * 5"
     }
   ]
 }

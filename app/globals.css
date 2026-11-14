@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./editorial.css";
+@import "./discovery.css";
 
 .category-hero-image {
   object-position: var(--category-mobile-position, center);
@@ -195,40 +196,6 @@ body {
 html,
 body {
   overflow-x: clip;
-}
-
-/* Haunted & Strange keeps the standard article structure, but gives mobile
-   reading a quieter transition around real media and section breaks. */
-@media (max-width: 639px) {
-  .haunted-article .article-reading-content {
-    background: #f3f0ed;
-    color: #151417;
-  }
-
-  .haunted-article .article-reading-content h2 {
-    margin-top: 4.25em;
-    color: #2f2942;
-  }
-
-  .haunted-article .haunted-video-moment {
-    margin-inline: -1.25rem;
-    padding: 2rem 1.25rem;
-    background: #1c1920;
-  }
-
-  .haunted-article .haunted-video-moment figcaption {
-    color: #f5f1ec;
-    font-size: 15px;
-  }
-
-  .haunted-article .haunted-video-moment figcaption > span:last-child {
-    color: #aaa2ae;
-    font-size: 12.5px;
-  }
-
-  .haunted-article .article-reading-content hr {
-    border-color: #d8d2d5;
-  }
 }
 
 .emoji {

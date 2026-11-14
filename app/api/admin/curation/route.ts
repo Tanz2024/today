@@ -1,10 +1,14 @@
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { saveCurationConfig, listCurationConfigs } from "@/lib/homepage-curation";
 import type { CurationConfig } from "@/lib/homepage-curation-core";
 
+// Constant-time bearer check (hash both sides so lengths always match).
 function authorized(request: Request) {
   const token = process.env.CURATION_ADMIN_TOKEN;
-  return Boolean(token && request.headers.get("authorization") === `Bearer ${token}`);
+  if (!token) return false;
+  const digest = (value: string) => createHash("sha256").update(value).digest();
+  return timingSafeEqual(digest(request.headers.get("authorization") ?? ""), digest(`Bearer ${token}`));
 }
 
 export async function GET(request: Request) {

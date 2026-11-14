@@ -79,7 +79,7 @@ export function organizationJsonLd(siteUrl: string) {
     "@id": `${siteUrl}/#organization`,
     name: "TodayAI",
     url: siteUrl,
-    description: "TodayAI is an independent editorial publication covering culture, relationships, campus life, technology, travel, style, entertainment and the internet.",
+    description: "TodayAI is an independent publication about artificial intelligence: AI news and guides, free AI tools, AI games and factual software comparisons.",
     logo: { "@type": "ImageObject", url: `${siteUrl}${ORGANIZATION_LOGO.path}`, width: ORGANIZATION_LOGO.width, height: ORGANIZATION_LOGO.height },
     founder: FOUNDER,
     ...(OFFICIAL_PROFILES.length ? { sameAs: OFFICIAL_PROFILES } : {}),
