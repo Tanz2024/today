@@ -49,6 +49,8 @@ export default async function ComparePage() {
   const epochCredit = epoch ? (
     <>Source: Epoch AI, ‘Capabilities &amp; benchmarking’. Published online at epoch.ai. Retrieved from ‘<ExternalLink href="https://epoch.ai/benchmarks">https://epoch.ai/benchmarks</ExternalLink>’ [online resource]. Data as of {dayLabel(epoch.asOf)}. Licensed under <ExternalLink href={CC_BY}>CC BY 4.0</ExternalLink>.</>
   ) : null;
+  const epochShort = epoch ? <>Source: <ExternalLink href="https://epoch.ai/benchmarks">Epoch AI</ExternalLink>, <ExternalLink href={CC_BY}>CC BY 4.0</ExternalLink> · {dayLabel(epoch.asOf)}</> : null;
+  const priceShort = prices ? <>Prices: <ExternalLink href="https://openrouter.ai/models">OpenRouter</ExternalLink> · {dayLabel(prices.asOf)}</> : null;
   const priceCredit = prices ? <>Prices: <ExternalLink href="https://openrouter.ai/models">OpenRouter models API</ExternalLink>, as of {dayLabel(prices.asOf)}.</> : null;
 
   const sections = [
@@ -66,7 +68,7 @@ export default async function ComparePage() {
       <header className="compare-intro">
         <p className="page-header-eyebrow">Research / Compare</p>
         <h1 className="page-header-title">Compare AI</h1>
-        <p className="page-header-description">Which AI model is number one — at reasoning, at winning people’s votes, at coding, maths and science, on price and on value? Open-weight and closed models are ranked together and labelled. Every number comes from a named source with its date; nothing is estimated.</p>
+        <p className="page-header-description"><span className="compare-intro-full">Which AI model is number one — at reasoning, at winning people’s votes, at coding, maths and science, on price and on value? Open-weight and closed models are ranked together and labelled. Every number comes from a named source with its date; nothing is estimated.</span><span className="compare-intro-short">Which AI model is number one? Open and closed models, ranked from named, dated sources.</span></p>
       </header>
       {sections.length ? <nav aria-label="Compare sections" className="compare-tabs">{sections.map((section) => <a key={section.href} href={section.href}>{section.label}</a>)}</nav> : null}
 
@@ -78,19 +80,19 @@ export default async function ComparePage() {
 
           {eciRows.length && epoch ? (
             <section id="smartest" className="compare-section" aria-labelledby="smartest-heading">
-              <div className="compare-section-heading"><div><p className="section-heading-kicker">Overall capability</p><h2 id="smartest-heading">Smartest models</h2></div><span className="compare-section-meta">Epoch Capabilities Index · higher is better</span></div>
+              <div className="compare-section-heading"><div><p className="section-heading-kicker">Overall capability</p><h2 id="smartest-heading">Smartest models</h2></div><span className="compare-section-meta">Epoch Capabilities Index · higher is better · line shows uncertainty</span></div>
               <p className="rank-intro">Epoch AI combines many benchmark results into one capability score per model. The dot is the score; the line is Epoch’s 90% confidence interval — where lines overlap, the order between those models is not certain.</p>
               <RankedChart label="Models ranked by Epoch Capabilities Index" rows={eciRows} format="index" mode="interval" intervalLabel="90% confidence interval" />
-              <SourceNote>{epochCredit}</SourceNote>
+              <SourceNote short={epochShort}>{epochCredit}</SourceNote>
             </section>
           ) : null}
 
           {arenaRows.length && arena ? (
             <section id="favourite" className="compare-section" aria-labelledby="favourite-heading">
-              <div className="compare-section-heading"><div><p className="section-heading-kicker">Head-to-head votes</p><h2 id="favourite-heading">People’s favourite</h2></div><span className="compare-section-meta">LMArena text arena score · higher is better</span></div>
+              <div className="compare-section-heading"><div><p className="section-heading-kicker">Head-to-head votes</p><h2 id="favourite-heading">People’s favourite</h2></div><span className="compare-section-meta">LMArena text arena score · higher is better · line shows uncertainty</span></div>
               <p className="rank-intro">People ask two anonymous models the same question and vote for the better answer; LMArena turns millions of votes into a rating (text arena, overall category, adjusted for answer length and style). Each model appears once, at its highest-rated variant. Open or closed follows the licence LMArena lists.</p>
               <RankedChart label="Models ranked by LMArena text arena score" rows={arenaRows} format="arena" mode="interval" intervalLabel="confidence interval" />
-              <SourceNote>Source: <ExternalLink href={arena.url}>LMArena leaderboard dataset</ExternalLink>, <ExternalLink href={CC_BY}>CC BY 4.0</ExternalLink>. Leaderboard published {dayLabel(arena.asOf)}.</SourceNote>
+              <SourceNote short={<>Source: <ExternalLink href={arena.url}>LMArena</ExternalLink>, <ExternalLink href={CC_BY}>CC BY 4.0</ExternalLink> · {dayLabel(arena.asOf)}</>}>Source: <ExternalLink href={arena.url}>LMArena leaderboard dataset</ExternalLink>, <ExternalLink href={CC_BY}>CC BY 4.0</ExternalLink>. Leaderboard published {dayLabel(arena.asOf)}.</SourceNote>
             </section>
           ) : null}
 
@@ -108,7 +110,7 @@ export default async function ComparePage() {
                   </>
                 ),
               }))} />
-              <SourceNote>{epochCredit}</SourceNote>
+              <SourceNote short={epochShort}>{epochCredit}</SourceNote>
             </section>
           ) : null}
 
@@ -117,7 +119,7 @@ export default async function ComparePage() {
               <div className="compare-section-heading"><div><p className="section-heading-kicker">API economics</p><h2 id="cheapest-heading">Cheapest to run</h2></div><span className="compare-section-meta">USD per 1M tokens · lower is cheaper</span></div>
               <p className="rank-intro">Models in Epoch’s index released in the {PRICE_WINDOW_MONTHS} months to {dayLabel(epoch.asOf)}, ranked by blended API price: (3 × input price + 1 × output price) ÷ 4, a typical chat mix of three input tokens per output token. Input and output prices are shown on each row. API prices are not consumer subscription prices.</p>
               <RankedChart label="Models ranked by blended API price, cheapest first" rows={priceRows} format="usd" mode="bar" />
-              <SourceNote>{priceCredit} Models matched to Epoch’s index by name and API id; models without a confident match are left out.</SourceNote>
+              <SourceNote short={priceShort}>{priceCredit} Models matched to Epoch’s index by name and API id; models without a confident match are left out.</SourceNote>
             </section>
           ) : null}
 
@@ -126,7 +128,7 @@ export default async function ComparePage() {
               <div className="compare-section-heading"><div><p className="section-heading-kicker">Capability per dollar</p><h2 id="value-heading">Best value</h2></div><span className="compare-section-meta">Index score against blended price</span></div>
               <p className="rank-intro">Up and to the left is better: more capable for less. Same models and price rule as above.</p>
               <ValueScatter points={points} />
-              <SourceNote>{epochCredit} {priceCredit}</SourceNote>
+              <SourceNote short={<>{epochShort}. {priceShort}</>}>{epochCredit} {priceCredit}</SourceNote>
             </section>
           ) : null}
 

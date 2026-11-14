@@ -590,7 +590,9 @@
   .rank-bar { position: absolute; top: 50%; left: 0; width: max(var(--bar), 2px); height: 12px; margin-top: -6px; border-radius: 0 4px 4px 0; background: currentColor; }
   .rank-value { color: var(--ink); font-size: .9375rem; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
   .rank-empty { margin-top: 18px; color: var(--text-subtle); font-size: .9375rem; }
-  .rank-source { max-width: 96ch; }
+  .rank-source { max-width: 96ch; margin-top: 12px; color: var(--text-muted); font-size: .75rem; line-height: 1.5; }
+  .rank-source a { color: var(--brand-red-strong); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .rank-source-short, .compare-intro-short { display: none; }
   .rank-credits { display: grid; gap: 6px; margin-top: 12px; padding-left: 1.1rem; list-style: disc; color: var(--text-subtle); font-size: .8125rem; line-height: 1.55; }
   .rank-credits a { color: var(--brand-red-strong); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: no-preference) {
@@ -657,6 +659,12 @@
     .rank-filter-option span { padding: 0 11px; }
     .scatter-frame { padding-left: 38px; }
     .scatter-plot { height: 320px; }
+    /* Phones: charts first. Explanations stay on wider screens and in the methodology. */
+    .compare-intro-full, .rank-intro, .rank-filter-note, .compare-methodology > p { display: none; }
+    .compare-intro-short { display: inline; }
+    .rank-source:has(.rank-source-short) .rank-source-full { display: none; }
+    .rank-source-short { display: inline; }
+    .compare-section-heading .compare-section-meta { line-height: 1.45; }
   }
 }
 

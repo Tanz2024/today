@@ -722,3 +722,20 @@ input, textarea, select { border-radius: 12px; border-color: var(--line-strong);
 .listen-float .listen-btn { min-width: 32px; height: 32px; }
 .listen-float-label { color: var(--ink); font-size: 0.8125rem; font-weight: 600; white-space: nowrap; }
 @media (min-width: 768px) { .listen-float { bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); } }
+
+/* ── Homepage on phones: headlines first, fewer words ─────────────── */
+.mw-source-short { display: none; }
+@media (max-width: 639px) {
+  /* Stories 2–6: headline only. Story 1: a two-line summary, left-aligned. */
+  .edition-story:not(.edition-story-lead) .edition-story-dek { display: none; }
+  .edition-story-lead .edition-story-dek { display: -webkit-box; -webkit-line-clamp: 2; overflow: hidden; text-align: left; hyphens: manual; }
+  /* Model band: one visible heading; the table's own heading stays for screen readers. */
+  .home-models .mw .home-section-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .home-models .mw .home-section-head { justify-content: flex-end; }
+  .mw-source-full { display: none; }
+  .mw-source-short { display: inline; }
+  .home-tools-lede { display: none; }
+  /* Newsletter: headline, box and button; the label stays for screen readers. */
+  .home-newsletter .newsletter-signup-homepage > h2 + p { display: none; }
+  .home-newsletter .newsletter-signup-homepage form > label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}

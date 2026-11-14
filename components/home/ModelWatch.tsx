@@ -14,6 +14,7 @@ export default function ModelWatch({ snapshot, limit = 3 }: { snapshot: ModelSna
   if (!snapshot?.models.length) return null;
   const models = [...snapshot.models].sort((a, b) => b.listedOn.localeCompare(a.listedOn)).slice(0, limit);
   const fetched = new Date(snapshot.fetchedAt).toLocaleString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "UTC" });
+  const fetchedShort = new Date(snapshot.fetchedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 
   return (
     <section className="home-section mw" aria-labelledby="model-watch-heading">
@@ -36,7 +37,8 @@ export default function ModelWatch({ snapshot, limit = 3 }: { snapshot: ModelSna
           ))}
         </tbody>
       </table>
-      <p className="mw-source">Source: <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">OpenRouter</a> · Updated {fetched} UTC · USD API prices</p>
+      {/* Phones show the short form; the full line stays on wider screens. */}
+      <p className="mw-source">Source: <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">OpenRouter</a><span className="mw-source-full"> · Updated {fetched} UTC · USD API prices</span><span className="mw-source-short"> · {fetchedShort}</span></p>
     </section>
   );
 }
