@@ -1,3 +1,4 @@
+import { isTrustedOrigin } from "./site-url.ts";
 import { z } from "zod";
 import { createHash } from "node:crypto";
 
@@ -30,9 +31,7 @@ export function isTooFast(startedAt: number, now = Date.now(), minimumMs = 2500)
   const elapsed = now - startedAt;
   return elapsed < minimumMs || elapsed > 24 * 60 * 60 * 1000;
 }
+/** Explicit allowlist from lib/site-url.ts (NEXT_PUBLIC_SITE_URL + ALLOWED_ORIGINS). */
 export function isAllowedOrigin(origin: string | null, referer: string | null, isProduction: boolean) {
-  if (!isProduction) return true;
-  const candidate = origin || referer;
-  if (!candidate) return false;
-  try { const url = new URL(candidate); return url.protocol === "https:" && url.hostname === "brisastory.live"; } catch { return false; }
+  return isTrustedOrigin(origin, referer, isProduction);
 }

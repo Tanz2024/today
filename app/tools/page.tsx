@@ -2,48 +2,81 @@ import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/ssr";
 import Container from "@/components/ui/Container";
 import PageHeader from "@/components/ui/PageHeader";
-import { buildMetadata } from "@/lib/seo";
+import SectionHeading from "@/components/editorial/SectionHeading";
+import JsonLd from "@/components/seo/JsonLd";
 import ToolsHubAnalytics from "@/components/tools/ToolsHubAnalytics";
-import { PRACTICAL_TOOL_GROUPS } from "@/lib/practical-tools";
+import FilterableGrid from "@/components/discovery/FilterableGrid";
+import { CatalogToolCard, toolAvailability, toolCategoryName } from "@/components/discovery/Cards";
+import { GuideCard } from "@/components/editorial/Story";
+import { CATALOG_TOOLS, toolCategoriesInUse } from "@/lib/site-catalog";
+import { isAiUtilitiesEnabled } from "@/lib/ai-utilities";
+import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
+import { selectAiArticles } from "@/lib/ai-content";
+import { buildMetadata, getSiteUrl } from "@/lib/seo";
+
+export const revalidate = 3600;
 
 export const metadata = buildMetadata({
-  title: "Practical tools",
-  description: "Free TodayAI calculators and utilities for budgets, grades, attendance, trips, dates and focus. No account needed, and your numbers stay on your device.",
+  title: "AI tools and free online utilities",
+  description: "Free AI tools: remove image backgrounds, extract text from images, transcribe audio, fix grammar and ask questions about PDFs. Many run privately on your device.",
   path: "/tools",
 });
 
-export default function ToolsPage() {
+export default async function ToolsPage() {
+  const aiOn = isAiUtilitiesEnabled();
+  const featured = CATALOG_TOOLS.filter((tool) => tool.featured);
+  const guides = selectAiArticles(await getPublicDiscoverableArticles()).filter((article) => article.contentKind === "guide" || article.contentKind === "explainer").slice(0, 3);
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "TodayAI tools",
+    itemListElement: CATALOG_TOOLS.map((tool, index) => ({ "@type": "ListItem", position: index + 1, name: tool.title, url: new URL(tool.href, getSiteUrl()).toString() })),
+  };
+
   return (
     <>
       <ToolsHubAnalytics />
-      <Container className="py-10 sm:py-14">
+      <JsonLd data={itemList} />
+      <Container className="hub">
         <PageHeader
-          eyebrow="Explore / Practical tools"
-          title="Practical tools"
-          description="Small calculators and utilities built by TodayAI for everyday decisions. No account required, and everything runs on your device. Looking for AI software instead? Browse the AI Tools directory."
+          eyebrow="AI Tools"
+          title="AI tools & utilities"
+          description="Free tools built by TodayAI for images, writing, audio and documents. Tools marked On-device run the AI model in your browser, so your files never leave it. No account needed."
         >
-          <Link href="/ai-tools" className="ui-link-arrow">Browse AI tools <ArrowRight size={14} aria-hidden="true" /></Link>
+          <Link href="/ai-tools" className="ui-link-arrow">Looking for AI software? Browse the directory <ArrowRight size={14} aria-hidden="true" /></Link>
         </PageHeader>
-        <div className="mt-10 grid gap-x-10 gap-y-12 sm:grid-cols-2">
-          {PRACTICAL_TOOL_GROUPS.map((group) => (
-            <section key={group.name} aria-labelledby={`tools-${group.name}`}>
-              <h2 id={`tools-${group.name}`} className="section-rule-heading">{group.name}</h2>
-              <ul>
-                {group.items.map((tool) => (
-                  <li key={tool.href}>
-                    <Link href={tool.href} className="group flex items-start justify-between gap-4 border-b border-card-border py-5">
-                      <span>
-                        <strong className="block text-lg font-semibold tracking-tight group-hover:text-electric">{tool.title}</strong>
-                        <span className="mt-1 block text-sm leading-6 text-muted">{tool.description}</span>
-                      </span>
-                      <ArrowRight size={16} aria-hidden="true" className="mt-1.5 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-electric" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+
+        <section aria-labelledby="featured-tools" className="hub-section">
+          <SectionHeading id="featured-tools" kicker="Start here" title="AI tools for everyday work" />
+          <ul className="card-grid tool-grid tool-grid-5">
+            {featured.map((tool) => <li key={tool.href}><CatalogToolCard tool={tool} availability={toolAvailability(tool, aiOn)} /></li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="all-tools" className="hub-section">
+          <SectionHeading id="all-tools" kicker="Directory" title="All tools" />
+          <FilterableGrid
+            label="Search tools"
+            placeholder="Search tools, e.g. transcribe, pdf, grammar"
+            categories={toolCategoriesInUse()}
+            emptyHint={<>Try a broader word, or <Link href="/ai-tools" className="underline">browse third-party AI software</Link>.</>}
+            items={CATALOG_TOOLS.map((tool) => ({
+              key: tool.href,
+              category: tool.category,
+              text: [tool.title, tool.description, toolCategoryName(tool.category), ...(tool.keywords ?? [])].join(" "),
+              node: <CatalogToolCard tool={tool} availability={toolAvailability(tool, aiOn)} />,
+            }))}
+          />
+        </section>
+
+        {guides.length ? (
+          <section aria-labelledby="tool-guides" className="hub-section">
+            <SectionHeading id="tool-guides" kicker="Learn" title="Related guides" href="/guides" linkLabel="All guides" />
+            <div className="home-guides-grid">{guides.map((article) => <GuideCard key={article.slug} article={article} />)}</div>
+          </section>
+        ) : null}
+
+        <p className="hub-footnote">On-device tools never upload your files. Hosted AI tools send your text to a language model only when you press the button. TodayAI does not show ratings or usage numbers it can&apos;t verify.</p>
       </Container>
     </>
   );

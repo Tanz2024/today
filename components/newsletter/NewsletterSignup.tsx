@@ -31,7 +31,7 @@ const COPY: Record<Variant, Copy> = {
   },
   article: {
     eyebrow: "Liked this?",
-    headline: "The Fresh Drop sends you the best of TodayAI once a week.",
+    headline: "The TodayAI newsletter: the week in AI, once a week.",
     cta: "Join The Drop →",
     frequencyNote: "Every Friday. Free.",
   },
@@ -112,8 +112,8 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
 
     const subline =
       status === "confirm"
-        ? "Click the confirmation link we just sent you to start getting The Fresh Drop."
-        : "The Fresh Drop lands every Friday.";
+        ? "Click the confirmation link we just sent you to start getting the TodayAI newsletter."
+        : "The newsletter lands every Friday.";
 
     return (
       <div role="status" aria-live="polite" className={`newsletter-signup newsletter-signup-${variant}`}>
@@ -153,7 +153,7 @@ export default function NewsletterSignup({ variant, deskName }: { variant: Varia
         </>
       )}
 
-      <form onSubmit={submit} aria-label="Subscribe to The Fresh Drop newsletter" className={isCompact ? "mt-3" : "mt-4"}>
+      <form onSubmit={submit} aria-label="Subscribe to the TodayAI newsletter" className={isCompact ? "mt-3" : "mt-4"}>
         {!isCompact && (
           <label htmlFor={emailId} className="text-sm font-semibold" style={{ color: INK }}>
             Email address

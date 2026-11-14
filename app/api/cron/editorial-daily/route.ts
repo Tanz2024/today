@@ -13,12 +13,6 @@ function revalidateDailyEditorialPages() {
   revalidateTag("homepage-editorial", "max");
   revalidateTag("editorial-slot-daily_song_pick", "max");
   revalidatePath("/", "page");
-  revalidatePath("/pulse", "page");
-  revalidatePath("/play", "page");
-  revalidatePath("/play/group-chat", "page");
-  revalidatePath("/gaming", "page");
-  revalidatePath("/play/would-you-rather", "page");
-  revalidatePath("/questions", "page");
 }
 
 export async function GET(request: NextRequest) {

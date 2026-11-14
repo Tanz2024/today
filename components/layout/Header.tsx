@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { CaretDown, List, MagnifyingGlass } from "@phosphor-icons/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -14,47 +13,16 @@ function isTypingTarget(target: EventTarget | null) {
   return target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
 }
 
-const FEATURED_BY_NAV: Record<string, { kicker: string; title: string; href: string; image: string; read: string }> = {
-  News: { kicker: "AI NEWS", title: "The ideas, products and questions moving AI forward", href: "/news", image: "/BrisaStory.jpg", read: "TodayAI Desk · 5 min read" },
-  "AI Tools": { kicker: "AI TOOLS", title: "Find the right AI tool for the work in front of you", href: "/ai-tools", image: "/BrisaStory.jpg", read: "Tools Desk · Directory" },
-  Explore: { kicker: "TODAYAI", title: "A smarter way to spend a few minutes online", href: "/explore", image: "/BrisaStory.jpg", read: "TodayAI · Explore" },
-};
-
+// Short, single-column dropdown: description, links, overview link.
 function Dropdown({ item, id, onNavigate }: { item: NavItem; id: string; onNavigate: () => void }) {
   const links = item.children ?? [];
-  const featured = FEATURED_BY_NAV[item.label];
-  const columns = [links.slice(0, 3), links.slice(3, 6), links.slice(6)];
   return (
-    <div id={id} className="nav-dropdown" role="region" aria-label={`${item.label} menu`}>
-      <div className="nav-mega-layout">
-        <div className="nav-mega-links">
-          <p className="nav-dropdown-description">{item.description}</p>
-          <div className="nav-mega-columns">
-            {columns.filter((column) => column.length > 0).map((column, columnIndex) => (
-              <div key={`${item.label}-column-${columnIndex}`} className="nav-mega-column">
-                <p className="nav-mega-column-title">{columnIndex === 0 ? item.label : columnIndex === 1 ? "MORE TO EXPLORE" : "IN THE MIX"}</p>
-                <ul className="nav-dropdown-list">
-                  {column.map((link) => <li key={`${link.label}-${link.href}`}><Link href={link.href} onClick={onNavigate} className="nav-dropdown-link">{link.label}</Link></li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-          {item.overview ? <Link href={item.overview.href} onClick={onNavigate} className="nav-dropdown-overview">{item.overview.label} →</Link> : null}
-        </div>
-        {featured ? (
-          <aside className="nav-mega-featured">
-            <p className="nav-mega-column-title">FEATURED</p>
-            <Link href={featured.href} onClick={onNavigate} className="nav-mega-featured-link">
-              <Image src={featured.image} alt="" width={640} height={360} className="nav-mega-featured-image" />
-              <h2>{featured.title}</h2>
-              <p>{featured.kicker} · {featured.read}</p>
-            </Link>
-            <ol className="nav-mega-ranked">
-              {links.slice(0, 3).map((link, index) => <li key={`featured-${link.label}-${link.href}`}><span>{String(index + 1).padStart(2, "0")}</span><Link href={link.href} onClick={onNavigate}>{link.label}</Link><span aria-hidden="true">→</span></li>)}
-            </ol>
-          </aside>
-        ) : null}
-      </div>
+    <div id={id} className="nav-dropdown nav-dropdown-simple" role="region" aria-label={`${item.label} menu`}>
+      <p className="nav-dropdown-description">{item.description}</p>
+      <ul className="nav-dropdown-list">
+        {links.map((link) => <li key={`${link.label}-${link.href}`}><Link href={link.href} onClick={onNavigate} className="nav-dropdown-link">{link.label}</Link></li>)}
+      </ul>
+      {item.overview ? <Link href={item.overview.href} onClick={onNavigate} className="nav-dropdown-overview">{item.overview.label} →</Link> : null}
     </div>
   );
 }

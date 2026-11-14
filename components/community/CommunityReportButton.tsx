@@ -1,8 +1,0 @@
-"use client";
-import { useState } from "react";
-
-export default function CommunityReportButton({ submissionId }: { submissionId: string }) {
-  const [open, setOpen] = useState(false); const [reason, setReason] = useState("spam"); const [details, setDetails] = useState(""); const [message, setMessage] = useState("");
-  async function submit() { const response = await fetch("/api/community/reports", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ submissionId, reason, details }) }); setMessage(response.ok ? "Thanks — your report was sent." : "We could not send that report."); if (response.ok) setOpen(false); }
-  return <div className="mt-6 text-xs text-muted"><button type="button" onClick={() => setOpen((value) => !value)} className="underline underline-offset-2">Report this story</button>{open && <div className="mt-3 grid max-w-md gap-2"><label htmlFor="community-report-reason" className="sr-only">Reason</label><select id="community-report-reason" value={reason} onChange={(event) => setReason(event.target.value)} className="min-h-10 border border-card-border bg-white px-2"><option value="harassment">Harassment</option><option value="copyright">Copyright</option><option value="misinformation">Misinformation</option><option value="spam">Spam</option><option value="inappropriate">Inappropriate</option><option value="other">Other</option></select><textarea value={details} onChange={(event) => setDetails(event.target.value)} maxLength={1000} placeholder="Optional details" className="min-h-20 border border-card-border bg-white p-2" /><button type="button" onClick={submit} className="min-h-10 bg-near-black px-3 text-white">Send report</button></div>}{message && <span className="ml-2">{message}</span>}</div>;
-}

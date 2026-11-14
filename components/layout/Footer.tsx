@@ -20,10 +20,6 @@ const GROUPS: { title: string; links: NavLink[] }[] = [
 export default function Footer() {
   const pathname = usePathname();
 
-  // The story editor has its own fixed mobile creation dock; keep the global
-  // footer off that focused screen so the dock never covers footer content.
-  if (pathname === "/community/write") return null;
-
   const year = new Date().getFullYear();
   const showNewsletter = showFooterNewsletter(pathname);
 

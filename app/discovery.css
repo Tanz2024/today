@@ -726,7 +726,8 @@
   .ws-range { display: grid; gap: 4px; font-size: 0.8125rem; font-weight: 700; }
   .ws-range input { width: 100%; accent-color: var(--ink); }
   .ws-canvas-wrap { position: relative; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); padding: 8px; touch-action: none; }
-  .ws-canvas-wrap canvas { max-width: 100%; max-height: 520px; height: auto; }
+  .ws-canvas-inner { position: relative; display: inline-block; max-width: 100%; line-height: 0; }
+  .ws-canvas-wrap canvas { display: block; max-width: 100%; max-height: 520px; width: auto; height: auto; }
   .ws-crop { position: absolute; border: 2px solid var(--brand-red); box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35); pointer-events: none; }
   .ws-thumbs { display: flex; flex-wrap: wrap; gap: 10px; }
   .ws-thumbs figure { display: grid; gap: 4px; width: 120px; margin: 0; font-size: 0.75rem; }
@@ -739,11 +740,13 @@
   .ws-quiz-opt.is-wrong { border-color: #dc2626; background: #fef2f2; }
 }
 
-/* Resume print templates: only the CV is printed. */
+/* Resume print templates: a copy of the CV is portalled to <body> and is
+   the only thing printed. */
+.cv-print-portal { display: none; }
 @media print {
-  body:has(.cv-print-root) * { visibility: hidden; }
-  body:has(.cv-print-root) .cv-print-root, body:has(.cv-print-root) .cv-print-root * { visibility: visible; }
-  body:has(.cv-print-root) .cv-print-root { position: absolute; inset: 0; margin: 0; border: 0; box-shadow: none; }
+  body:has(> .cv-print-portal) > *:not(.cv-print-portal) { display: none !important; }
+  body:has(> .cv-print-portal) > .cv-print-portal { display: block; }
+  .cv-print-portal .cv-sheet { border: 0; border-radius: 0; padding: 0; }
   @page { margin: 14mm; }
 }
 .cv-sheet { border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #111; padding: 28px; font-size: 10.5pt; line-height: 1.45; }

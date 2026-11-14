@@ -25,19 +25,25 @@ import type {
 
 import { CATEGORIES } from "@/lib/categories";
 
-const PUBLIC_CATEGORIES = CATEGORIES.filter((category) => !category.hidden);
+// Topic suggestions are the AI news topics (legacy desks are retired).
+const PUBLIC_CATEGORIES = AI_TOPICS.map((topic) => ({ slug: `news/${topic.slug}`, name: topic.name, description: topic.description }));
+import { AI_TOPICS } from "@/lib/ai-taxonomy";
 import { categoryAccentStyle } from "@/lib/category-colors";
-import { PRIMARY_NAV, SECONDARY_LINKS, NAV_DESCRIPTIONS } from "@/lib/nav";
+import { PRIMARY_NAV, NAV_DESCRIPTIONS } from "@/lib/nav";
 
 const EXPLORE_DESTINATIONS = [
-  ...PRIMARY_NAV.filter((item) => item.href !== "/explore").map((item) => ({ label: item.label, href: item.href })),
-  ...SECONDARY_LINKS.filter((link) => link.href !== "/pulse"),
+  ...PRIMARY_NAV.filter((item) => item.href !== "/").map((item) => ({ label: item.label, href: item.href })),
 ].map((item) => [item.label, NAV_DESCRIPTIONS[item.href] ?? "", item.href] as const);
 
 type Tab =
   | "all"
   | "stories"
+  | "tools"
+  | "games"
+  | "comparisons"
   | "topics";
+
+export type CatalogEntry = { type: "tool" | "game"; title: string; href: string; description: string; keywords: string };
 
 const TABS: {
   value: Tab;
@@ -49,7 +55,19 @@ const TABS: {
   },
   {
     value: "stories",
-    label: "Stories",
+    label: "Articles",
+  },
+  {
+    value: "tools",
+    label: "Tools",
+  },
+  {
+    value: "games",
+    label: "Games",
+  },
+  {
+    value: "comparisons",
+    label: "Comparisons",
   },
   {
     value: "topics",
@@ -60,9 +78,11 @@ const TABS: {
 export default function SearchClient({
   index,
   topics,
+  catalog = [],
 }: {
   index: SearchIndexEntry[];
   topics: TopicEntry[];
+  catalog?: CatalogEntry[];
 }) {
   const params = useSearchParams();
   const router = useRouter();
@@ -79,7 +99,7 @@ export default function SearchClient({
   const [tab, setTab] =
     useState<Tab>(() => {
       const requested = params.get("type");
-      return requested === "stories" || requested === "topics" ? requested : "all";
+      return requested === "stories" || requested === "topics" || requested === "tools" || requested === "games" || requested === "comparisons" ? requested : "all";
     });
 
   const BROWSE_PAGE_SIZE = 10;
@@ -224,6 +244,17 @@ export default function SearchClient({
       topics,
     ]);
 
+  const catalogResults = useMemo(() => {
+    if (!normalizedQuery) return [];
+    return catalog.filter((entry) => `${entry.title} ${entry.description} ${entry.keywords}`.toLowerCase().includes(normalizedQuery));
+  }, [catalog, normalizedQuery]);
+  const toolResults = catalogResults.filter((entry) => entry.type === "tool");
+  const gameResults = catalogResults.filter((entry) => entry.type === "game");
+  const comparisonResults = articleResults.filter((entry) => entry.contentKind === "comparison" || entry.contentKind === "review");
+  const showTools = tab === "all" || tab === "tools";
+  const showGames = tab === "all" || tab === "games";
+  const showComparisons = tab === "comparisons";
+
   const showStories =
     tab === "all" ||
     tab === "stories";
@@ -240,6 +271,9 @@ export default function SearchClient({
     (showStories
       ? articleResults.length
       : 0) +
+    (showTools ? toolResults.length : 0) +
+    (showGames ? gameResults.length : 0) +
+    (showComparisons ? comparisonResults.length : 0) +
     (showTopics
       ? matchingTopicCount
       : 0);
@@ -848,6 +882,15 @@ export default function SearchClient({
                   </section>
                 )}
 
+              {showTools && toolResults.length > 0 ? <CatalogResults id="tool-results-heading" title="Tools" entries={toolResults} /> : null}
+              {showGames && gameResults.length > 0 ? <CatalogResults id="game-results-heading" title="Games" entries={gameResults} /> : null}
+              {showComparisons && comparisonResults.length > 0 ? (
+                <section aria-labelledby="comparison-results-heading" className="mt-9">
+                  <div className="search-group-head"><h3 id="comparison-results-heading">Comparisons & reviews</h3><span>{comparisonResults.length}</span></div>
+                  <div>{comparisonResults.map((entry) => <StoryResult key={`${entry.category}-${entry.slug}`} entry={entry} query={normalizedQuery} />)}</div>
+                </section>
+              ) : null}
+
               {/* =============================================
                   STORY RESULTS
               ============================================== */}
@@ -934,6 +977,29 @@ export default function SearchClient({
         </div>
       )}
     </div>
+  );
+}
+
+/* =========================================================
+   TOOL & GAME RESULTS
+========================================================= */
+
+function CatalogResults({ id, title, entries }: { id: string; title: string; entries: CatalogEntry[] }) {
+  return (
+    <section aria-labelledby={id} className="mt-9">
+      <div className="search-group-head"><h3 id={id}>{title}</h3><span>{entries.length}</span></div>
+      <ul className="search-catalog-list">
+        {entries.map((entry) => (
+          <li key={entry.href}>
+            <Link href={entry.href} className="search-catalog-item">
+              <span className="search-catalog-type">{entry.type === "tool" ? "Tool" : "Game"}</span>
+              <span className="search-catalog-title">{entry.title}</span>
+              <span className="search-catalog-text">{entry.description}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

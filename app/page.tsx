@@ -1,232 +1,210 @@
 import Link from "next/link";
-import type { ComponentType } from "react";
-import { BookmarkSimple, ChatsCircle, Lightning, PuzzlePiece, Question, Calculator, UsersThree, Pulse } from "@phosphor-icons/react/ssr";
+import { ArrowRight, Microphone, Scan, Scissors } from "@phosphor-icons/react/ssr";
 
 import Container from "@/components/ui/Container";
 import AdSlot from "@/components/ui/AdSlot";
 import NewsletterSignup from "@/components/newsletter/NewsletterSignup";
 import HomepageSignals from "@/components/home/HomepageSignals";
 import HomepageReturnSignal from "@/components/home/HomepageReturnSignal";
-import SectionHeading from "@/components/editorial/SectionHeading";
-import { GuideCard, LeadStory, RankedStory, SideStory, TimelineStory } from "@/components/editorial/Story";
+import ModelWatch from "@/components/home/ModelWatch";
+import { CompactStory, FeatureHero, StoryCard } from "@/components/editorial/Story";
 
 import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
-import { getCachedHomepageEngagement } from "@/lib/homepage-engagement";
-import { getHomepageCurationData, resolveCuratedArticlesFromData } from "@/lib/homepage-curation";
 import { selectAiArticles, type AiArticle } from "@/lib/ai-content";
-import { AI_TOPICS } from "@/lib/ai-taxonomy";
-import { AI_TOOLS, AI_TOOL_CATEGORIES } from "@/lib/ai-tools";
-import { TOPIC_LINKS } from "@/lib/nav";
+import { hasIndexableImage } from "@/lib/article-discovery";
+import { CATALOG_GAMES, CATALOG_TOOLS } from "@/lib/site-catalog";
+import { isAiUtilitiesEnabled } from "@/lib/ai-utilities";
+import { toolAvailability } from "@/components/discovery/Cards";
+import { getLatestModelsByMaker } from "@/lib/model-data";
 import { buildMetadata } from "@/lib/seo";
+import MarketStrip from "@/components/markets/MarketStrip";
+import TradingViewTickers from "@/components/markets/TradingViewTickers";
+import { getMarketSnapshot } from "@/lib/market-data";
 
-// Public content with a short freshness window; visitor-specific state
-// (reactions, votes, saved stories) stays client-side.
 export const revalidate = 3600;
 
-const HOME_TITLE = "TodayAI — AI news, tools and guides";
+const HOME_TITLE = "TodayAI — AI news, tools, games and comparisons";
 
 export const metadata = {
   ...buildMetadata({
     title: HOME_TITLE,
-    description: "AI news, a directory of AI tools, and practical guides to using AI well — explained clearly by TodayAI.",
+    description: "AI news and guides, AI tools, AI games and factual AI software comparisons — in one place on TodayAI.",
     path: "/",
-    image: "/BrisaStory.jpg",
-    imageAlt: "TodayAI",
-    // True size of public/BrisaStory.jpg. A 1200×630 social card does not exist yet.
-    imageWidth: 1024,
-    imageHeight: 559,
+    // Generated TodayAI card (app/og-default.png/route.tsx).
+    image: "/og-default.png",
+    imageAlt: "TodayAI — AI news, tools, games and comparisons",
+    imageWidth: 1200,
+    imageHeight: 630,
   }),
   // Absolute: the root title template would repeat the brand.
   title: { absolute: HOME_TITLE },
 };
 
-type Trending = { label: string; note: string; articles: AiArticle[] };
+// One-line "what you do" per game (accurate to the game code).
+const GAME_HOW: Record<string, string> = {
+  "word-detective": "Guess the hidden word. A language model scores how close each guess is in meaning.",
+  "quick-draw": "Sketch the prompt while an image model guesses.",
+};
 
-/**
- * Trending is never invented. It is, in order of preference:
- *  1. real reader engagement (reads + reactions) for AI stories, when at
- *     least two stories have any, or
- *  2. the editors' explicit "trending" curation for today, or
- *  3. stories editors flagged `featured: true`.
- * Each option is labelled honestly; with none of them the module is hidden.
- */
-function chooseTrending(ai: AiArticle[], engagementScore: Map<string, number>, curated: AiArticle[] | null): Trending | null {
-  const engaged = ai.filter((article) => (engagementScore.get(article.slug) ?? 0) > 0).sort((a, b) => (engagementScore.get(b.slug) ?? 0) - (engagementScore.get(a.slug) ?? 0));
-  if (engaged.length >= 2) return { label: "Most read", note: "Ranked by reader reads and reactions on TodayAI.", articles: engaged.slice(0, 5) };
-  if (curated && curated.length) return { label: "Editors' picks", note: "Chosen by the TodayAI editors.", articles: curated.slice(0, 5) };
-  const flagged = ai.filter((article) => article.featured);
-  if (flagged.length) return { label: "Editors' picks", note: "Chosen by the TodayAI editors.", articles: flagged.slice(0, 5) };
-  return null;
-}
-
-const EXPLORE: { title: string; href: string; description: string; icon: ComponentType<{ size?: number; weight?: "bold" | "regular" }> }[] = [
-  { title: "Games & Interactive", href: "/play", description: "Quick games, trivia and group-chat prompts.", icon: PuzzlePiece },
-  { title: "Questions & Polls", href: "/questions", description: "Straight answers and reader polls.", icon: Question },
-  { title: "Community", href: "/community", description: "Stories and perspectives from readers.", icon: UsersThree },
-  { title: "Daily Drop", href: "/daily-drop", description: "One story, one song, one find — every day.", icon: Lightning },
-  { title: "Pulse", href: "/pulse", description: "What readers are reacting to right now.", icon: Pulse },
-  { title: "Practical tools", href: "/tools", description: "Calculators for budgets, grades and trips.", icon: Calculator },
-  { title: "Saved stories", href: "/saved", description: "Everything you bookmarked, on this device.", icon: BookmarkSimple },
-  { title: "Group chat", href: "/play/group-chat", description: "Prompts to get the conversation going.", icon: ChatsCircle },
+// Homepage tools: three on-device tools that work without any provider.
+const HOME_TOOLS = [
+  { href: "/tools/ai-speech-to-text", name: "Transcribe a lecture", line: "Turn recordings and voice notes into editable text.", action: "Transcribe", Icon: Microphone },
+  { href: "/tools/ai-image-to-text", name: "Extract text from an image", line: "Copy text from screenshots, slides and photos.", action: "Extract text", Icon: Scan },
+  { href: "/tools/ai-background-remover", name: "Remove an image background", line: "Create a transparent image for presentations and projects.", action: "Remove background", Icon: Scissors },
 ];
-
-const siteDate = () => new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kuala_Lumpur" });
+const FRESH_DAYS = 14;
+const TREND_CATEGORIES = new Set(["culture", "entertainment", "gaming"]);
 
 export default async function HomePage() {
-  const all = await getPublicDiscoverableArticles();
-  const ai = selectAiArticles(all);
+  const [articles, market, modelSnapshot] = await Promise.all([getPublicDiscoverableArticles(), getMarketSnapshot(), getLatestModelsByMaker()]);
+  const ai = selectAiArticles(articles);
+  const aiOn = isAiUtilitiesEnabled();
 
-  const slugs = ai.map((article) => article.slug);
-  const [engagementResult, curation] = await Promise.all([
-    getCachedHomepageEngagement(slugs),
-    getHomepageCurationData(["trending"]),
-  ]);
-  const engagement = engagementResult.status === "available" ? engagementResult.data : new Map();
-  const engagementScore = new Map(slugs.map((slug) => [slug, engagement.get(slug)?.engagementScore ?? 0]));
-  const curatedAll = resolveCuratedArticlesFromData("trending", all, curation);
-  const aiBySlug = new Map(ai.map((article) => [article.slug, article]));
-  const curated = curatedAll ? curatedAll.map((article) => aiBySlug.get(article.slug)).filter((article): article is AiArticle => Boolean(article)) : null;
+  // Shared selection: every article appears at most once on the page,
+  // keyed by its canonical path.
+  const used = new Set<string>();
+  const key = (article: (typeof ai)[number]) => `/${article.category}/${article.slug}`;
+  const take = (list: typeof ai, count: number) => {
+    const picked = list.filter((article) => !used.has(key(article))).slice(0, count);
+    picked.forEach((article) => used.add(key(article)));
+    return picked;
+  };
 
-  // Featured: an explicit homepage hero wins, otherwise the newest AI story.
-  const lead = ai.find((article) => article.homepageHero) ?? ai[0];
-  const supporting = ai.filter((article) => article.slug !== lead?.slug).slice(0, 2);
-  const featuredSlugs = new Set([lead?.slug, ...supporting.map((article) => article.slug)]);
-  const latest = ai.filter((article) => !featuredSlugs.has(article.slug)).slice(0, 8);
-  const trending = chooseTrending(ai, engagementScore, curated);
-  const reviews = ai.filter((article) => article.contentKind === "review" || article.contentKind === "comparison").slice(0, 4);
-  const guides = ai.filter((article) => article.contentKind === "guide" || article.contentKind === "explainer").slice(0, 3);
-  const activeTopics = AI_TOPICS.filter((topic) => ai.some((article) => article.aiTopic === topic.slug));
-  const newest = [...all].sort((a, b) => new Date(b.updated || b.date).getTime() - new Date(a.updated || a.date).getTime())[0];
+  // 1 — Featured article: editor's pick, else newest that can carry the hero.
+  const now = Date.now();
+  const validDate = (article: (typeof ai)[number]) => Number.isFinite(new Date(article.date).getTime()) && new Date(article.date).getTime() <= now;
+  const suitable = (article: (typeof ai)[number]) =>
+    Boolean(article.slug && article.category && article.title?.trim().length >= 10 && (article.description?.trim().length ?? 0) >= 40 && hasIndexableImage(article.image)) && validDate(article);
+  const lead = ai.find((article) => article.homepageHero && suitable(article)) ?? ai.find(suitable) ?? ai.find((article) => (article.description?.trim().length ?? 0) >= 40) ?? ai[0];
+  if (lead) used.add(key(lead));
+
+  // 2 — One editorial section: a secondary story with image + up to four
+  // text-led headlines, newest first across news, guides and explainers.
+  const secondary = take(ai.filter((article) => hasIndexableImage(article.image) && validDate(article)), 1)[0];
+  const headlines = take(ai.filter(validDate), 4);
+  const reporting = [secondary, ...headlines].filter(Boolean);
+  const fresh = reporting.some((article) => now - new Date(article.date).getTime() < FRESH_DAYS * 86_400_000);
+
+  // Culture & trends: newest non-AI pieces from the trend desks, as a compact
+  // headline list (no "viral" or "breaking" labels; real dates only).
+  const aiPaths = new Set(ai.map(key));
+  const trends = articles
+    .filter((article) => TREND_CATEGORIES.has(article.category) && !aiPaths.has(`/${article.category}/${article.slug}`))
+    .filter((article) => Number.isFinite(new Date(article.date).getTime()) && new Date(article.date).getTime() <= now)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 4)
+    .map((article) => ({ ...article, aiTopic: "everyday-ai", aiTopicName: "", contentKind: "news" }) as AiArticle);
+
+  // Real availability per tool: on-device tools always work; hosted-AI
+  // tools say "Setup required" until the provider is switched on.
+  const tools = HOME_TOOLS.flatMap((tool) => {
+    const entry = CATALOG_TOOLS.find((item) => item.href === tool.href);
+    return entry ? [{ ...tool, ready: toolAvailability(entry, aiOn) === "available" }] : [];
+  });
+  const [game, ...otherGames] = CATALOG_GAMES.filter((item) => item.featured);
+  const newest = ai[0];
 
   return (
-    <Container className="home">
+    <Container className="home home-editorial">
       <HomepageSignals />
       {newest ? <HomepageReturnSignal latestPublishedAt={newest.updated || newest.date} /> : null}
+      <h1 className="sr-only">TodayAI — AI news, tools, games and comparisons</h1>
 
-      {/* 1 — Featured AI news */}
-      <section aria-labelledby="featured-heading" data-homepage-impression="trending_impression" data-homepage-module="trending">
-        <div className="home-dateline">
-          <p><strong>TodayAI</strong> · {siteDate()}</p>
-          {activeTopics.length ? (
-            <nav aria-label="AI topics" className="home-dateline-topics">
-              {activeTopics.map((topic) => <Link key={topic.slug} href={`/news/${topic.slug}`} className="topic-chip">{topic.name}</Link>)}
-            </nav>
-          ) : null}
-        </div>
-        <h2 id="featured-heading" className="sr-only">Featured AI stories</h2>
-        {lead ? (
-          <div className="home-featured">
-            <LeadStory article={lead} priority />
-            {supporting.length ? (
-              <div className="home-featured-side">
-                {supporting.map((article) => <SideStory key={article.slug} article={article} />)}
-              </div>
+      {/* 1 — Featured article */}
+      {lead ? (
+        <section aria-label="Featured story" data-homepage-impression="trending_impression" data-homepage-module="featured">
+          <FeatureHero article={lead} />
+        </section>
+      ) : (
+        <div className="empty-state"><h2>No AI articles yet</h2><p>New AI coverage will appear here as soon as it is published.</p></div>
+      )}
+
+      {/* Compact market context between the hero and the editorial feed. */}
+      <aside className="home-markets" aria-label="AI market context">
+        {market ? <MarketStrip snapshot={market} /> : <TradingViewTickers />}
+      </aside>
+
+      {/* 2 — Recent reporting */}
+      {reporting.length ? (
+        <section className="home-section" aria-labelledby="reporting-heading" data-homepage-impression="fresh_impression" data-homepage-module="fresh">
+          <div className="home-section-head">
+            <h2 id="reporting-heading" className="home-section-title">{fresh ? "Recent reporting" : "From the Journal"}</h2>
+            <Link href="/news" className="home-section-link">All articles <ArrowRight size={13} aria-hidden="true" /></Link>
+          </div>
+          <div className={`home-news ${secondary && headlines.length ? "" : "home-news-single"}`}>
+            {secondary ? <div className="home-news-lead"><StoryCard article={secondary} /></div> : null}
+            {headlines.length ? <div className="compact-list home-news-list">{headlines.map((article) => <CompactStory key={article.slug} article={article} />)}</div> : null}
+          </div>
+        </section>
+      ) : null}
+
+      {/* 2b — Culture & trends (non-AI trend desks), compact */}
+      {trends.length ? (
+        <section className="home-section" aria-labelledby="trends-heading">
+          <div className="home-section-head">
+            <h2 id="trends-heading" className="home-section-title">Culture &amp; trends</h2>
+          </div>
+          <div className="compact-list home-trends">{trends.map((article) => <CompactStory key={article.slug} article={article} />)}</div>
+        </section>
+      ) : null}
+
+      {/* 3 — Useful AI tools */}
+      {tools.length ? (
+        <section className="home-section home-tools-section" aria-labelledby="tools-heading">
+          <div className="home-section-head">
+            <div className="home-tools-intro">
+              <h2 id="tools-heading" className="home-section-title">What are you working on?</h2>
+              <p>Simple tools for studying, creating and everyday tasks.</p>
+            </div>
+            <Link href="/tools" className="home-section-link">All tools <ArrowRight size={13} aria-hidden="true" /></Link>
+          </div>
+          <ul className="home-tools">
+            {tools.map(({ href, name, line, action, Icon, ready }) => (
+              <li key={href}>
+                <Link href={href} className={`home-tool ${ready ? "" : "is-setup"}`}>
+                  <span className="home-tool-icon" aria-hidden="true"><Icon size={24} weight="bold" /></span>
+                  <span className="home-tool-name">{name}</span>
+                  <span className="home-tool-line">{line}</span>
+                  <span className="home-tool-cta">{ready ? action : "Setup required"} <ArrowRight size={13} aria-hidden="true" /></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {/* 4 — Compact model / comparison preview */}
+      <ModelWatch snapshot={modelSnapshot} />
+
+      {/* 5 — Featured game */}
+      {game ? (
+        <section className="home-section" aria-labelledby="games-heading" data-homepage-impression="play_impression" data-homepage-module="play">
+          <div className="home-section-head">
+            <h2 id="games-heading" className="home-section-title">Play with AI</h2>
+            <Link href="/play" className="home-section-link">All games <ArrowRight size={13} aria-hidden="true" /></Link>
+          </div>
+          <div className="home-game">
+            <div className="home-game-main">
+              <h3 className="home-game-title"><Link href={game.href}>{game.title}</Link></h3>
+              <p className="home-game-line">{GAME_HOW[game.slug] ?? game.description}</p>
+              <Link href={game.href} className="ui-button ui-button-primary home-game-cta">Play now</Link>
+            </div>
+            {otherGames.length ? (
+              <ul className="home-game-side">
+                {otherGames.map((item) => (
+                  <li key={item.slug}><Link href={item.href} className="home-game-alt"><strong>{item.title}</strong><span>{GAME_HOW[item.slug] ?? item.description}</span></Link></li>
+                ))}
+              </ul>
             ) : null}
           </div>
-        ) : (
-          <div className="empty-state">
-            <h2>No AI stories are published yet</h2>
-            <p>New AI coverage will appear here as soon as it is published.</p>
-          </div>
-        )}
-      </section>
-
-      {/* 2 + 3 — Latest AI news with Trending alongside */}
-      {latest.length || trending ? (
-        <section className="home-latest" aria-label="Latest and trending AI news">
-          {latest.length ? (
-            <div data-homepage-impression="fresh_impression" data-homepage-module="fresh">
-              <SectionHeading id="latest-heading" kicker="Latest" title="Latest AI news" href="/news" linkLabel="All AI news" />
-              <div className="home-latest-feed">
-                {latest.map((article) => <TimelineStory key={article.slug} article={article} />)}
-              </div>
-            </div>
-          ) : <div />}
-          {trending ? (
-            <aside className="home-trending" aria-labelledby="trending-heading">
-              <p className="section-heading-kicker">Trending AI</p>
-              <h2 id="trending-heading" className="mt-1 text-xl font-extrabold tracking-tight">{trending.label}</h2>
-              <ol className="ranked-list mt-4">
-                {trending.articles.map((article, index) => <RankedStory key={article.slug} article={article} rank={index + 1} />)}
-              </ol>
-              <p className="home-trending-note">{trending.note}</p>
-            </aside>
-          ) : null}
         </section>
       ) : null}
 
       <AdSlot slot="homepage-boundary" />
 
-      {/* 4 — AI tools discovery */}
-      <section className="home-tools" aria-labelledby="tools-heading">
-        <SectionHeading id="tools-heading" kicker="Directory" title="Find the right AI tool" href="/ai-tools" linkLabel="Browse all AI tools" tone="dark" />
-        <p className="home-tools-intro">{AI_TOOLS.length} AI products sorted by what you want to get done. Listings are factual and unsponsored; we link to official sites only.</p>
-        <ul className="home-tools-grid">
-          {AI_TOOL_CATEGORIES.map((category) => {
-            const tools = AI_TOOLS.filter((tool) => tool.category === category.slug);
-            return (
-              <li key={category.slug}>
-                <Link href={`/ai-tools#${category.slug}`} className="tool-category-tile">
-                  <span className="tool-category-copy">
-                    <span className="tool-category-name block">{category.name}</span>
-                    <span className="tool-category-examples mt-1 block">{tools.length ? tools.map((tool) => tool.name).join(", ") : category.description}</span>
-                    <span className="tool-category-count mt-3 block">{tools.length} {tools.length === 1 ? "tool" : "tools"}</span>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-
-      {/* 5 — Reviews & comparisons (only real, declared reviews) */}
-      {reviews.length ? (
-        <section aria-labelledby="reviews-heading">
-          <SectionHeading id="reviews-heading" kicker="Tested" title="Reviews & comparisons" href="/reviews" linkLabel="All reviews" />
-          <div className="home-guides-grid">
-            {reviews.map((article) => <GuideCard key={article.slug} article={article} />)}
-          </div>
-        </section>
-      ) : null}
-
-      {/* 6 — Guides & tutorials */}
-      {guides.length ? (
-        <section aria-labelledby="guides-heading">
-          <SectionHeading id="guides-heading" kicker="Learn" title="Guides & explainers" href="/guides" linkLabel="All guides" />
-          <div className="home-guides-grid">
-            {guides.map((article) => <GuideCard key={article.slug} article={article} />)}
-          </div>
-        </section>
-      ) : null}
-
-      {/* 7 — Explore TodayAI (secondary discovery) */}
-      <section aria-labelledby="explore-heading" data-homepage-impression="play_impression" data-homepage-module="play">
-        <SectionHeading id="explore-heading" kicker="Beyond the news" title="Explore TodayAI" href="/explore" linkLabel="Everything on Explore" />
-        <ul className="explore-grid">
-          {EXPLORE.map(({ title, href, description, icon: Icon }) => (
-            <li key={href} className="contents">
-              <Link href={href} className="explore-tile">
-                <span className="explore-tile-icon"><Icon size={20} weight="bold" /></span>
-                <span className="explore-tile-title">{title}</span>
-                <span className="explore-tile-description">{description}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <nav aria-label="TodayAI archive" className="home-archive mt-6">
-          <span>From the archive:</span>
-          {TOPIC_LINKS.map((link) => <Link key={link.href} href={link.href} className="topic-chip">{link.label}</Link>)}
-        </nav>
-      </section>
-
-      {/* 8 — Newsletter (existing subscription backend) */}
+      {/* 6 — Newsletter */}
       <section className="home-newsletter" aria-label="Newsletter">
         <NewsletterSignup variant="homepage" />
-        <ul className="grid gap-3 text-sm text-muted">
-          <li><strong className="text-ink">The stories that mattered</strong> — the week&apos;s AI news, briefly explained.</li>
-          <li><strong className="text-ink">One practical guide</strong> — something you can actually use.</li>
-          <li><strong className="text-ink">Tools worth knowing</strong> — new additions to the AI tools directory.</li>
-        </ul>
       </section>
     </Container>
   );

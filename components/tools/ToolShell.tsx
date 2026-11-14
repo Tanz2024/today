@@ -1,10 +1,32 @@
+import { isAiUtilitiesEnabled } from "@/lib/ai-utilities";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import ToolAnalytics from "./ToolAnalytics";
-import CalculationTracker from "./CalculationTracker";
-import type { ToolName } from "@/lib/tools/analytics";
-import ToolGuide from "./ToolGuide";
-export default function ToolShell({ title, description, tool, trackCalculation = true, children }: { title: string; description: string; tool?: ToolName; trackCalculation?: boolean; children: React.ReactNode }) {
-  const resolvedTool: ToolName = tool ?? (title.startsWith("GPA") ? "cgpa" : title.startsWith("Trip") ? "trip-budget" : title.startsWith("Bill") ? "bill-splitter" : title.startsWith("Attendance") ? "attendance" : title.startsWith("Word") ? "word-counter" : title.startsWith("Date") ? "date-calculator" : title.startsWith("Percentage") ? "percentage-calculator" : "student-budget");
-  return <><ToolAnalytics tool={resolvedTool} />{trackCalculation && <CalculationTracker tool={resolvedTool} />}<Container className="py-9 sm:py-14"><div className="mx-auto max-w-4xl"><nav aria-label="Breadcrumb" className="mb-7 text-xs text-muted"><Link href="/tools" className="hover:text-electric">Tools</Link><span aria-hidden="true"> / </span><span>{title}</span></nav><header className="max-w-2xl"><h1 className="font-heading text-4xl font-semibold leading-none tracking-[-.04em] sm:text-6xl">{title}</h1><p className="mt-4 text-base leading-7 text-muted">{description}</p></header><div className="mt-9">{children}</div><ToolGuide tool={resolvedTool} /></div></Container></>;
+import { CatalogToolCard, toolAvailability } from "@/components/discovery/Cards";
+import { CATALOG_TOOLS, relatedTools } from "@/lib/site-catalog";
+
+/** Layout for on-device tools (currently the word counter). */
+export default function ToolShell({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
+  const entry = CATALOG_TOOLS.find((item) => item.title === title);
+  const related = entry ? relatedTools(entry.href, 3) : [];
+  return (
+    <>
+      <ToolAnalytics tool="word-counter" />
+      <Container className="detail-page">
+        <nav aria-label="Breadcrumb" className="breadcrumbs"><Link href="/">Home</Link><span aria-hidden="true">/</span><Link href="/tools">AI Tools</Link><span aria-hidden="true">/</span><span aria-current="page">{title}</span></nav>
+        <header className="detail-header">
+          <p className="eyebrow">Utility · Runs on your device</p>
+          <h1 className="detail-title">{title}</h1>
+          <p className="detail-dek">{description}</p>
+        </header>
+        <div className="detail-tool">{children}</div>
+        {related.length ? (
+          <section aria-labelledby="related-tools-heading" className="detail-related">
+            <h2 id="related-tools-heading" className="detail-section-title">Related tools</h2>
+            <ul className="card-grid card-grid-3">{related.map((item) => <li key={item.href}><CatalogToolCard tool={item} availability={toolAvailability(item, isAiUtilitiesEnabled())} /></li>)}</ul>
+          </section>
+        ) : null}
+      </Container>
+    </>
+  );
 }

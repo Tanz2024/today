@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import { IS_STAGING } from "./deployment.ts";
 
 export const SITE_NAME = "TodayAI";
-export const SITE_TAGLINE = "AI news, tools and guides";
-export const SITE_URL = "https://brisastory.live";
+export const SITE_TAGLINE = "AI news, tools, games and comparisons";
+import { SITE_URL } from "./site-url.ts";
 
+export { SITE_URL };
+
+/** Public origin from NEXT_PUBLIC_SITE_URL (see lib/site-url.ts). */
 export function getSiteUrl(): string {
   return SITE_URL;
 }

@@ -1,4 +1,4 @@
-import { getCategoryMeta, getPublicDeskSlug } from "./categories.ts";
+// Breadcrumb helpers (no category imports needed).
 
 export interface BreadcrumbItem {
   name: string;
@@ -7,11 +7,12 @@ export interface BreadcrumbItem {
 
 // Single source for an article's visible breadcrumb and its BreadcrumbList
 // schema, so the two always agree. Hidden desks resolve to their public desk.
-export function getArticleBreadcrumbs(category: string, slug: string, title: string): BreadcrumbItem[] {
-  const desk = getPublicDeskSlug(category);
+/** Home → AI Blog → AI topic → article. Legacy desk pages no longer exist. */
+export function getArticleBreadcrumbs(category: string, slug: string, title: string, topic?: { slug: string; name: string }): BreadcrumbItem[] {
   return [
     { name: "Home", path: "/" },
-    { name: getCategoryMeta(desk)?.name ?? desk, path: `/${desk}` },
+    { name: "AI Blog", path: "/news" },
+    ...(topic ? [{ name: topic.name, path: `/news/${topic.slug}` }] : []),
     { name: title, path: `/${category}/${slug}` },
   ];
 }
