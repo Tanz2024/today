@@ -1,36 +1,37 @@
 "use client";
 
-import { useId, useState, type CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
 import { useAccessFilter } from "@/components/compare/AccessFilter";
 import { formatValue, matchesAccess, niceTicks, type Access, type ChartRow, type ValueFormat } from "@/lib/model-rankings";
 
 export const ACCESS_LABEL: Record<Access, string> = { open: "Open", closed: "Closed", other: "Other" };
 
 /**
- * Ranked list chart. Every row is in the server-rendered HTML; the filter and
- * "show all" only toggle `hidden`, and rank numbers count within the current
- * filter so the top open model reads as rank 1 under "Open weights".
+ * Ranked list chart showing the top `limit` models (5 by default). Every row is
+ * in the server-rendered HTML; the access filter only toggles `hidden`, and rank
+ * numbers count within the current filter, so the top open model reads as
+ * rank 1 under "Open weights" and the top 5 are always taken after filtering.
  *
  * mode "interval": a dot for the score and a line for its confidence interval
  *   (index and arena scores have no meaningful zero, so no bars).
  * mode "bar": a bar from zero (percentages, prices, token counts).
  */
-export default function RankedChart({ label, rows, format, mode, initial = 20, intervalLabel = "90% confidence interval", fixedMax }: {
+export default function RankedChart({ label, rows, format, mode, limit = 5, intervalLabel = "90% confidence interval", fixedMax }: {
   label: string;
   rows: ChartRow[];
   format: ValueFormat;
   mode: "interval" | "bar";
-  initial?: number;
+  /** How many top models to show. */
+  limit?: number;
   intervalLabel?: string;
   /** Fix the bar scale's maximum (e.g. 1 for percentages) instead of fitting the visible rows. */
   fixedMax?: number;
 }) {
   const { filter } = useAccessFilter();
-  const [expanded, setExpanded] = useState(false);
   const listId = useId();
 
   const filtered = rows.filter((row) => matchesAccess(row.access, filter));
-  const shown = expanded ? filtered : filtered.slice(0, initial);
+  const shown = filtered.slice(0, limit);
   const rankOf = new Map(filtered.map((row, index) => [row.id, index + 1]));
   const overallRank = new Map(rows.map((row, index) => [row.id, index + 1]));
   const shownIds = new Set(shown.map((row) => row.id));
@@ -83,11 +84,6 @@ export default function RankedChart({ label, rows, format, mode, initial = 20, i
           );
         })}
       </ol>
-      {filtered.length > initial ? (
-        <button type="button" className="rank-more" aria-expanded={expanded} aria-controls={listId} onClick={() => setExpanded((value) => !value)}>
-          {expanded ? `Show top ${initial}` : `Show all ${filtered.length}`}
-        </button>
-      ) : null}
     </div>
   );
 }

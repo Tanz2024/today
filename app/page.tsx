@@ -6,6 +6,7 @@ import NewsletterSignup from "@/components/newsletter/NewsletterSignup";
 import HomepageSignals from "@/components/home/HomepageSignals";
 import HomepageReturnSignal from "@/components/home/HomepageReturnSignal";
 import ModelWatch from "@/components/home/ModelWatch";
+import ToolsCarousel from "@/components/home/ToolsCarousel";
 import SectionHeading from "@/components/editorial/SectionHeading";
 import { BandStory, EditionStory, GuideCard, LatestStory } from "@/components/editorial/Story";
 import { toolAvailability } from "@/components/discovery/Cards";
@@ -122,7 +123,7 @@ export default async function HomePage() {
         <section aria-labelledby="tools-heading">
           <SectionHeading id="tools-heading" title="AI tools" href="/tools" linkLabel="All AI tools" />
           <p className="home-tools-lede">Free tools for writing, studying, images and audio. Most run right in your browser.</p>
-          <ul className="home-tools-grid">
+          <ToolsCarousel label="AI tools" count={tools.length}>
             {tools.map(({ tool, ready }) => (
               <li key={tool.href}>
                 <Link href={tool.href} className="tool-category-tile">
@@ -132,7 +133,7 @@ export default async function HomePage() {
                 </Link>
               </li>
             ))}
-          </ul>
+          </ToolsCarousel>
         </section>
 
         {/* 5 — Guides, explainers and declared reviews */}
