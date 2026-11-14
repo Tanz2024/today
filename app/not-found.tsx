@@ -6,7 +6,7 @@ const SECTIONS = [
   { href: "/news", title: "AI Blog", text: "News, guides and explainers." },
   { href: "/tools", title: "AI Tools", text: "Summarize, improve prompts, explain code." },
   { href: "/play", title: "AI Games", text: "Word Detective and Quick Draw." },
-  { href: "/compare", title: "Compare", text: "AI software side by side." },
+  { href: "/compare", title: "Compare", text: "AI models ranked side by side." },
 ];
 
 // Also served for retired pages (old lifestyle desks, polls, community).

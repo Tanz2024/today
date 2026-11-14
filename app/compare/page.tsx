@@ -4,11 +4,9 @@ import JsonLd from "@/components/seo/JsonLd";
 import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
 import { selectAiArticles } from "@/lib/ai-content";
 import { buildMetadata, getSiteUrl } from "@/lib/seo";
-import { getLatestModelsByMaker } from "@/lib/model-data";
 import { modelBenchmarks } from "@/lib/model-benchmarks";
 import { getMostUsedModels } from "@/lib/model-usage";
 import { arenaChartRows, dayLabel, eciChartRows, priceChartRows, skillChartRows, valuePoints } from "@/lib/model-rankings";
-import ModelComparison from "@/components/compare/ModelComparison";
 import RankedChart from "@/components/compare/RankedChart";
 import SkillTabs from "@/components/compare/SkillTabs";
 import ValueScatter from "@/components/compare/ValueScatter";
@@ -31,9 +29,8 @@ const CC_BY = "https://creativecommons.org/licenses/by/4.0/";
 
 export default async function ComparePage() {
   const data = modelBenchmarks;
-  const [articles, modelSnapshot, usage] = await Promise.all([
+  const [articles, usage] = await Promise.all([
     getPublicDiscoverableArticles(),
-    getLatestModelsByMaker(),
     data ? getMostUsedModels(data.models) : Promise.resolve(null),
   ]);
   const ai = selectAiArticles(articles);
@@ -61,18 +58,17 @@ export default async function ComparePage() {
     { href: "#cheapest", label: "Cheapest", show: priceRows.length > 0 },
     { href: "#value", label: "Best value", show: points.length > 1 },
     { href: "#most-used", label: "Most used", show: Boolean(usage) },
-    { href: "#models", label: "Model features", show: true },
   ].filter((section) => section.show);
 
   return (
     <Container className="hub compare-page">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Compare AI models", url: new URL("/compare", getSiteUrl()).toString(), description: "Sourced, ranked comparisons of AI models — capability, votes, skills, API price and value." }} />
-      <header className="compare-intro" id="overview">
+      <header className="compare-intro">
         <p className="page-header-eyebrow">Research / Compare</p>
         <h1 className="page-header-title">Compare AI</h1>
         <p className="page-header-description">Which AI model is number one — at reasoning, at winning people’s votes, at coding, maths and science, on price and on value? Open-weight and closed models are ranked together and labelled. Every number comes from a named source with its date; nothing is estimated.</p>
       </header>
-      <nav aria-label="Compare sections" className="compare-tabs"><a href="#overview" aria-current="page">Overview</a>{sections.map((section) => <a key={section.href} href={section.href}>{section.label}</a>)}</nav>
+      {sections.length ? <nav aria-label="Compare sections" className="compare-tabs">{sections.map((section) => <a key={section.href} href={section.href}>{section.label}</a>)}</nav> : null}
 
       {hasRankings ? (
         <AccessFilterProvider>
@@ -148,11 +144,6 @@ export default async function ComparePage() {
         <p className="compare-empty">Model rankings are unavailable right now. See <a href="https://epoch.ai/benchmarks" target="_blank" rel="noopener noreferrer">Epoch AI’s benchmarking hub</a>.</p>
       )}
 
-      <section id="models" className="compare-section" aria-labelledby="models-heading">
-        <div className="compare-section-heading"><div><p className="section-heading-kicker">Model metadata</p><h2 id="models-heading">What each model supports</h2></div><span className="compare-section-meta">OpenRouter API · hourly cache</span></div>
-        {modelSnapshot ? <ModelComparison snapshot={modelSnapshot} /> : <p className="compare-empty">Model metadata is unavailable. <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">View OpenRouter models</a>.</p>}
-      </section>
-
       {comparisons.length ? <section className="compare-section" aria-labelledby="published-heading"><div className="compare-section-heading"><div><p className="section-heading-kicker">TodayAI editorial</p><h2 id="published-heading">Published comparisons</h2></div></div><div className="home-guides-grid">{comparisons.map((article) => <GuideCard key={article.slug} article={article} />)}</div></section> : null}
       <footer className="compare-methodology">
         <strong>Methodology and sources</strong>
@@ -160,7 +151,7 @@ export default async function ComparePage() {
         <ul className="rank-credits">
           {epoch ? <li>Epoch AI, ‘Capabilities &amp; benchmarking’. Published online at epoch.ai. Retrieved from ‘<a href="https://epoch.ai/benchmarks" target="_blank" rel="noopener noreferrer">https://epoch.ai/benchmarks</a>’ [online resource]. Capabilities Index and Epoch-run benchmarks (SWE-bench Verified, FrontierMath, GPQA Diamond), as of {dayLabel(epoch.asOf)}. <a href={CC_BY} target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</li> : null}
           {arena ? <li>Source: <a href={arena.url} target="_blank" rel="noopener noreferrer">LMArena leaderboard dataset</a>, CC BY 4.0. Text arena with style control, overall category, published {dayLabel(arena.asOf)}.</li> : null}
-          {prices ? <li>API prices: <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">OpenRouter models API</a>, as of {dayLabel(prices.asOf)}. “What each model supports” uses the same API live, cached hourly.</li> : null}
+          {prices ? <li>API prices: <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">OpenRouter models API</a>, as of {dayLabel(prices.asOf)}.</li> : null}
           {usage ? <li>Source: OpenRouter (<a href="https://openrouter.ai/rankings" target="_blank" rel="noopener noreferrer">openrouter.ai/rankings</a>), as of {dayLabel(usage.asOf.slice(0, 10))}. Licensed under CC BY 4.0.</li> : null}
         </ul>
       </footer>

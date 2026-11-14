@@ -23,7 +23,7 @@ const DESTINATIONS = [
   { href: "/news", title: "AI Blog", description: "Dated news, guides and explainers.", icon: Newspaper, cta: "Read" },
   { href: "/tools", title: "AI Tools", description: "Summarize, write emails, improve prompts, explain code.", icon: Wrench, cta: "Use a tool" },
   { href: "/play", title: "AI Games", description: "Word and drawing games powered by real models.", icon: GameController, cta: "Play" },
-  { href: "/compare", title: "Compare", description: "AI software side by side, by category.", icon: Scales, cta: "Compare" },
+  { href: "/compare", title: "Compare", description: "AI models ranked by capability, price and value.", icon: Scales, cta: "Compare" },
 ];
 
 export default async function AiHubPage() {

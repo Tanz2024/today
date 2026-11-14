@@ -42,7 +42,7 @@ export const PRIMARY_NAV: NavItem[] = [
     overview: { label: "All AI tools", href: "/tools" },
   },
   { label: "AI Games", href: "/play", description: "Word and drawing games powered by real AI models.", match: ["/play"] },
-  { label: "Compare", href: "/compare", description: "AI software side by side, by category.", match: ["/compare"] },
+  { label: "Compare", href: "/compare", description: "AI models ranked by capability, price and value.", match: ["/compare"] },
 ];
 
 /** True when `pathname` belongs to the nav item (used for active indicators). */

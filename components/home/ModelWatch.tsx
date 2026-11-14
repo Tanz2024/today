@@ -19,7 +19,7 @@ export default function ModelWatch({ snapshot, limit = 3 }: { snapshot: ModelSna
     <section className="home-section mw" aria-labelledby="model-watch-heading">
       <div className="home-section-head">
         <h2 id="model-watch-heading" className="home-section-title">AI model watch</h2>
-        <Link href="/compare" className="home-section-link">Compare AI models and software <ArrowRight size={13} aria-hidden="true" /></Link>
+        <Link href="/compare" className="home-section-link">Compare AI models <ArrowRight size={13} aria-hidden="true" /></Link>
       </div>
       <table className="mw-table">
         <caption className="sr-only">Most recently listed models on OpenRouter: provider, input and output price per million tokens, and context window</caption>
