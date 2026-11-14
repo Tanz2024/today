@@ -25,6 +25,7 @@ import { getTopicIndex } from "@/lib/topic-catalog";
 import { unwrapImageParagraphs } from "@/lib/mdx-blocks";
 
 import { extractToc } from "@/lib/toc";
+import { articleSpeechParagraphs } from "@/lib/article-speech";
 import { formatDate } from "@/lib/utils";
 import { getDiscoverableArticles } from "@/lib/article-catalog";
 import { selectAiArticles } from "@/lib/ai-content";
@@ -119,7 +120,7 @@ export default async function ArticleView({
   const breadcrumbLd = breadcrumbListJsonLd(breadcrumbs, siteUrl);
 
   return (
-    <div className={`mx-auto w-full max-w-[1180px] px-5 pb-28 pt-8 sm:px-7 sm:pb-24 sm:pt-12 lg:px-10 bg-background`}>
+    <div className={`mx-auto w-full max-w-[1180px] px-4 pb-28 pt-6 sm:px-7 sm:pb-24 sm:pt-12 lg:px-10 bg-background`}>
       <MobileReadingProgress />
       <RecentReadTracker slug={article.slug} />
       <ArticleEntryAttribution slug={article.slug} />
@@ -213,7 +214,7 @@ export default async function ArticleView({
 
           </div>
 
-          <ArticleIntroUtilities slug={article.slug} category={article.category} title={article.title} reads={(readStats?.sampleCount ?? 0) > 1 ? readStats?.sampleCount : undefined} />
+          <ArticleIntroUtilities slug={article.slug} category={article.category} title={article.title} reads={(readStats?.sampleCount ?? 0) > 1 ? readStats?.sampleCount : undefined} listen={articleSpeechParagraphs({ title: article.title, description: displayArticleDescription(article), content: article.content })} />
         </header>
 
         {/* =====================================================
@@ -242,7 +243,7 @@ export default async function ArticleView({
               style={{ objectPosition: article.homepageImagePosition ?? "center" }}
             />
           </div>
-          <figcaption className="mx-auto mt-3 max-w-[1100px] px-5 text-center text-[12px] leading-[1.5] text-muted sm:px-7 lg:px-10">
+          <figcaption className="mx-auto mt-3 max-w-[1100px] px-4 text-center text-[12px] leading-[1.5] text-muted sm:px-7 lg:px-10">
             <span>{heroAlt}</span>
             {article.imageCredit && (
               <span className="ml-2 text-[#9a9da3]">
@@ -305,7 +306,7 @@ export default async function ArticleView({
               NEWSLETTER
           ====================================================== */}
 
-          <div className="relative left-1/2 mt-14 sm:mt-16 w-screen -translate-x-1/2 rounded-none border-y border-line px-5 py-7 sm:px-8 sm:py-8 lg:px-12" style={{ backgroundColor: "#fafafa" }}>
+          <div className="relative left-1/2 mt-14 sm:mt-16 w-screen -translate-x-1/2 rounded-none border-y border-line px-4 py-7 sm:px-8 sm:py-8 lg:px-12" style={{ backgroundColor: "#fafafa" }}>
             <NewsletterSignup variant="article" deskName="AI" />
           </div>
 

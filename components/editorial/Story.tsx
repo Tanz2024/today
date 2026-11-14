@@ -39,13 +39,12 @@ export function EditionStory({ article, rank, thumbnail = false }: { article: Ai
   return (
     <li className={`edition-story ${lead ? "edition-story-lead" : ""} ${media && !lead ? "edition-story-has-media" : ""}`}>
       {lead ? media : null}
+      {/* Grid items (see .edition-story in editorial.css): the number sits
+          beside the headline; the summary and meta run underneath. */}
       <span className="edition-story-number" aria-hidden="true">{rank}</span>
-      <div className="edition-story-copy">
-        <StoryKicker article={article} />
-        <h3 className="edition-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
-        {lead ? <p className="edition-story-dek">{article.description}</p> : null}
-        {lead ? <StoryMeta article={article} /> : null}
-      </div>
+      <h3 className="edition-story-title"><Link href={articlePath(article)}>{title(article)}</Link></h3>
+      {article.description ? <p className="edition-story-dek">{article.description}</p> : null}
+      {lead ? <StoryMeta article={article} /> : null}
       {lead ? null : media}
     </li>
   );

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BookmarkSimple, Check, Eye, ShareNetwork } from "@phosphor-icons/react";
 import { buildShareCampaignUrl } from "@/lib/campaign";
 import { trackArticleShare } from "@/lib/homepage-analytics";
+import ListenToArticle from "@/components/article/ListenToArticle";
 
 // Quiet, inline Save / reads / Share row for the article intro — mobile only.
 // The sticky bottom reading bar (MobileReaderTools) repeats Save/reads
@@ -11,7 +12,7 @@ import { trackArticleShare } from "@/lib/homepage-analytics";
 // non-sticky set that belongs in the editorial header itself. Every item
 // here is either a real action (Save, Share) or a plain stat (reads) — no
 // control does two unrelated things at once.
-export default function ArticleIntroUtilities({ slug, category, title, reads }: { slug: string; category: string; title: string; reads?: number | null }) {
+export default function ArticleIntroUtilities({ slug, category, title, reads, listen }: { slug: string; category: string; title: string; reads?: number | null; /** Speakable paragraphs for browser text-to-speech. */ listen?: string[] }) {
   const [saved, setSaved] = useState(false);
   const [liveReads, setLiveReads] = useState(reads);
 
@@ -47,7 +48,9 @@ export default function ArticleIntroUtilities({ slug, category, title, reads }: 
   }
 
   return (
-    <div id="article-top-controls" className="mt-6 flex items-center gap-6 sm:gap-7">
+    <div id="article-top-controls" className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-1 sm:gap-x-7">
+      {listen?.length ? <ListenToArticle paragraphs={listen} /> : null}
+
       <button
         type="button"
         onClick={toggleSaved}

@@ -3,7 +3,6 @@ import Container from "@/components/ui/Container";
 import JsonLd from "@/components/seo/JsonLd";
 import { getPublicDiscoverableArticles } from "@/lib/article-catalog";
 import { selectAiArticles } from "@/lib/ai-content";
-import { AI_TOOLS, AI_TOOL_CATEGORIES } from "@/lib/ai-tools";
 import { buildMetadata, getSiteUrl } from "@/lib/seo";
 import { getLatestModelsByMaker } from "@/lib/model-data";
 import { modelBenchmarks } from "@/lib/model-benchmarks";
@@ -20,7 +19,7 @@ import { GuideCard } from "@/components/editorial/Story";
 export const revalidate = 3600;
 
 export const metadata = buildMetadata({
-  title: "Compare AI models and software",
+  title: "Compare AI models",
   description: "Ranked charts of AI models — capability, people's votes, coding, maths, science, API price and value — with open-weight and closed models side by side, every number sourced and dated.",
   path: "/compare",
 });
@@ -39,7 +38,6 @@ export default async function ComparePage() {
   ]);
   const ai = selectAiArticles(articles);
   const comparisons = ai.filter((article) => article.contentKind === "comparison");
-  const softwareGroups = AI_TOOL_CATEGORIES.map((category) => ({ category, tools: AI_TOOLS.filter((tool) => tool.category === category.slug) })).filter((group) => group.tools.length);
 
   const epoch = data?.sources.epoch;
   const arena = data?.sources.lmarena;
@@ -64,12 +62,11 @@ export default async function ComparePage() {
     { href: "#value", label: "Best value", show: points.length > 1 },
     { href: "#most-used", label: "Most used", show: Boolean(usage) },
     { href: "#models", label: "Model features", show: true },
-    { href: "#software", label: "Software", show: true },
   ].filter((section) => section.show);
 
   return (
     <Container className="hub compare-page">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Compare AI models and software", url: new URL("/compare", getSiteUrl()).toString(), description: "Sourced, ranked comparisons of AI models — capability, votes, skills, API price and value — plus AI software." }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Compare AI models", url: new URL("/compare", getSiteUrl()).toString(), description: "Sourced, ranked comparisons of AI models — capability, votes, skills, API price and value." }} />
       <header className="compare-intro" id="overview">
         <p className="page-header-eyebrow">Research / Compare</p>
         <h1 className="page-header-title">Compare AI</h1>
@@ -110,7 +107,7 @@ export default async function ComparePage() {
                 label: skill.label,
                 panel: (
                   <>
-                    <p className="skill-benchmark"><ExternalLink href={skill.benchmarkUrl}>{skill.benchmark}</ExternalLink> · {skill.entries.length} models</p>
+                    <p className="skill-benchmark"><ExternalLink href={skill.benchmarkUrl}>{skill.benchmark}</ExternalLink> · top 5 of {skill.entries.length} models</p>
                     <RankedChart label={`Models ranked by ${skill.benchmark}`} rows={skillChartRows(skill.entries)} format="percent" mode="bar" fixedMax={1} />
                   </>
                 ),
@@ -154,11 +151,6 @@ export default async function ComparePage() {
       <section id="models" className="compare-section" aria-labelledby="models-heading">
         <div className="compare-section-heading"><div><p className="section-heading-kicker">Model metadata</p><h2 id="models-heading">What each model supports</h2></div><span className="compare-section-meta">OpenRouter API · hourly cache</span></div>
         {modelSnapshot ? <ModelComparison snapshot={modelSnapshot} /> : <p className="compare-empty">Model metadata is unavailable. <a href="https://openrouter.ai/models" target="_blank" rel="noopener noreferrer">View OpenRouter models</a>.</p>}
-      </section>
-
-      <section id="software" className="compare-section" aria-labelledby="software-heading">
-        <div className="compare-section-heading"><div><p className="section-heading-kicker">Consumer products</p><h2 id="software-heading">AI software directory</h2></div><Link href="/ai-tools" className="ui-link-arrow">Full directory →</Link></div>
-        {softwareGroups.map(({ category, tools }) => <section key={category.slug} className="software-group" aria-labelledby={`software-${category.slug}`}><h3 id={`software-${category.slug}`}>{category.name.replace(/^AI /, "")}</h3><div className="software-table-wrap"><table className="software-table"><caption className="sr-only">{category.name} products</caption><thead><tr><th scope="col">Product</th><th scope="col">Company</th><th scope="col">Use case</th><th scope="col">Pricing</th><th scope="col"><span className="sr-only">Official site</span></th></tr></thead><tbody>{tools.map((tool) => <tr key={tool.slug}><th scope="row"><a href={tool.url} target="_blank" rel={tool.affiliate ? "sponsored noopener noreferrer" : "noopener noreferrer"}>{tool.name}</a></th><td data-label="Company">{tool.maker}</td><td data-label="Use case">{tool.description}</td><td data-label="Pricing">{tool.pricing ?? "Not verified"}</td><td data-label="Link"><a href={tool.url} target="_blank" rel="noopener noreferrer">Official site ↗</a></td></tr>)}</tbody></table></div></section>)}
       </section>
 
       {comparisons.length ? <section className="compare-section" aria-labelledby="published-heading"><div className="compare-section-heading"><div><p className="section-heading-kicker">TodayAI editorial</p><h2 id="published-heading">Published comparisons</h2></div></div><div className="home-guides-grid">{comparisons.map((article) => <GuideCard key={article.slug} article={article} />)}</div></section> : null}
